@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주소를 막는 집 · 전입신고 불가 매물 추적</title>
+<meta name="description" content="전국 부동산 플랫폼 매물 25만 건에서 전입신고를 막는 조건을 추적했습니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Nanum+Pen+Script&display=swap">
+<style>
+:root{
+  --paper:#F2EEE3; --sheet:#FFFDF8; --ink:#1B1A17; --ink2:#45423B; --mute:#7C776B; --rule:#CFC8B6; --rule2:#E2DCCB;
+  --red:#C5301F; --red2:#E9B8AE; --hl:#FFE873; --blue:#1F3F8F;
+  --serif:'Gowun Batang','Nanum Myeongjo',serif; --sans:'IBM Plex Sans KR',sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.85;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;
+  background-image:linear-gradient(var(--rule2) 1px,transparent 1px);background-size:100% 34px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1.25em;text-wrap:pretty}
+a{color:var(--blue)}
+::selection{background:var(--hl)}
+mark{background:linear-gradient(transparent 55%,var(--hl) 55%);color:inherit;padding:0 2px}
+.wide{max-width:980px;margin:0 auto;padding:0 22px}
+.col{max-width:656px}
+#top{position:sticky;top:0;z-index:50;background:var(--ink);color:var(--paper);font-size:12.5px;display:flex;align-items:center;gap:14px;padding:9px 18px}
+#top b{font-family:var(--serif);font-size:14px;white-space:nowrap}
+#top #now{color:#B9B3A3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#top button{margin-left:auto;font:inherit;font-size:12px;background:transparent;color:#B9B3A3;border:1px solid #55524A;border-radius:3px;padding:3px 10px;cursor:pointer;white-space:nowrap}
+#bar{position:absolute;left:0;bottom:-3px;height:3px;width:0;background:var(--red)}
+.hero{min-height:92vh;display:flex;align-items:center;padding:70px 0 50px;position:relative;overflow:hidden}
+.docno{font-family:var(--mono);font-size:12.5px;color:var(--mute);letter-spacing:.06em;margin-bottom:26px}
+.hero h1{font-size:clamp(46px,9vw,112px);line-height:1.08;letter-spacing:-.03em}
+.hero h1 s{text-decoration-color:var(--red);text-decoration-thickness:.09em}
+.hero .sub{font-family:var(--serif);font-size:clamp(17px,2.1vw,23px);margin-top:28px;max-width:26em;color:var(--ink2);line-height:1.7}
+.hero .by{margin-top:44px;font-size:13px;color:var(--mute);border-top:1px solid var(--ink);padding-top:12px;display:flex;gap:18px;flex-wrap:wrap;max-width:560px}
+.stamp{position:absolute;right:max(4vw,20px);top:16vh;width:clamp(120px,19vw,210px);aspect-ratio:1;border:5px solid var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;transform:rotate(-14deg);color:var(--red);font-family:var(--serif);font-weight:700;font-size:clamp(22px,3.6vw,40px);line-height:1.15;text-align:center;opacity:.82;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 5px var(--red)}
+@media(max-width:640px){.stamp{top:auto;bottom:6vh;opacity:.5}}
+section{padding:84px 0 30px}
+.art{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:30px}
+.art span{font-family:var(--mono);font-size:13px;color:var(--red);font-weight:600;white-space:nowrap}
+.art em{font-style:normal;font-size:13px;color:var(--mute);margin-left:auto;white-space:nowrap}
+h2{font-size:clamp(28px,4.2vw,44px);line-height:1.28;margin-bottom:26px;text-wrap:balance}
+h3{font-size:22px;margin:46px 0 12px;line-height:1.4}
+.body p{color:var(--ink2)}
+.body strong{color:var(--ink);font-weight:700}
+.pull{font-family:var(--serif);font-weight:700;font-size:clamp(22px,3vw,30px);line-height:1.5;margin:36px 0;padding:22px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);max-width:760px}
+.small{font-size:13.5px;color:var(--mute);line-height:1.7}
+.memo{font-family:'Nanum Pen Script',cursive;font-size:21px;line-height:1.35;color:#3A3418;background:#FFF3A6;padding:14px 18px;margin:10px 0 26px;transform:rotate(-.5deg);box-shadow:2px 4px 10px rgba(0,0,0,.13);max-width:656px}
+.memo:before{content:"취재 메모";display:block;font-family:var(--mono);font-size:11px;color:#8A7A1E;letter-spacing:.08em;margin-bottom:4px}
+body.hide-memo .memo{display:none}
+/* contracts */
+.contracts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:30px 0 12px}
+@media(max-width:720px){.contracts{grid-template-columns:1fr}}
+.sheet{position:relative;font:inherit;text-align:left;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:26px 24px 34px;cursor:pointer;box-shadow:3px 5px 0 rgba(27,26,23,.12);transition:transform .2s,box-shadow .2s,opacity .3s}
+.sheet:hover{transform:translate(-2px,-3px);box-shadow:6px 9px 0 rgba(27,26,23,.16)}
+.sheet.dim{opacity:.4}
+.sheet .hd{font-family:var(--serif);font-weight:700;font-size:21px;text-align:center;letter-spacing:.5em;padding-left:.5em;border-bottom:3px double var(--ink);padding-bottom:12px;margin-bottom:16px}
+.sheet table{width:100%;border-collapse:collapse;font-size:15px}
+.sheet td{border:1px solid var(--ink);padding:8px 10px}
+.sheet td:first-child{background:#EFEAE0;width:34%;font-size:13.5px;text-align:center}
+.sheet td:last-child{font-weight:700;font-family:var(--mono)}
+.sheet .sp{font-size:14px;line-height:1.65;margin:14px 0 0;color:var(--ink2)}
+.sheet .sp b{color:var(--ink)}
+.sheet .sign{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:13px;color:var(--mute)}
+.sheet .sign i{font-style:normal;border-bottom:1px solid var(--ink);padding:0 22px 2px 4px}
+.sheet .go{font-size:13px;color:var(--red);font-weight:700}
+.sheet .seal{position:absolute;right:14px;bottom:8px;width:66px;height:66px;border:3px solid var(--red);border-radius:50%;color:var(--red);font-family:var(--serif);font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;transform:rotate(-12deg) scale(2);opacity:0;transition:transform .25s cubic-bezier(.3,1.6,.5,1),opacity .15s}
+.sheet.sel .seal{opacity:.85;transform:rotate(-12deg) scale(1)}
+.sheet.sel .go{visibility:hidden}
+.depctl{display:flex;align-items:center;gap:14px;justify-content:center;font-size:14px;color:var(--mute);flex-wrap:wrap;margin-top:6px}
+.depctl input{accent-color:var(--red);width:min(260px,60vw)}
+.depctl b{font-family:var(--mono);color:var(--ink)}
+#reveal{display:none;margin-top:34px;background:var(--sheet);border:2px solid var(--ink);padding:28px 26px 22px}
+#reveal.on{display:block;animation:up .45s ease}
+@keyframes up{from{opacity:0;transform:translateY(12px)}}
+#reveal h3{margin:4px 0 18px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:6px;padding:13px 0;border-top:1px solid var(--rule);font-size:15.5px;color:var(--ink2);line-height:1.7}
+.steps li:before{content:counter(s);font-family:var(--mono);font-weight:600;color:var(--red)}
+.steps b{display:block;color:var(--ink)}
+.ledger{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink);margin:18px 0 14px}
+.ledger>div{padding:14px 16px;font-size:13.5px;color:var(--mute)}
+.ledger>div+div{border-left:1px solid var(--ink)}
+.ledger b{display:block;font-family:var(--mono);font-size:28px;color:var(--ink);line-height:1.3}
+.ledger .r b{color:var(--red)}
+/* formula + compare */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:28px 0;align-items:start}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.formula{border:1px solid var(--ink);background:var(--sheet)}
+.formula div{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 18px;font-family:var(--serif);font-weight:700;font-size:18px}
+.formula div+div{border-top:1px solid var(--ink)}
+.formula i{font-style:normal;font-family:var(--mono);color:var(--mute)}
+.formula u{text-decoration:none;color:var(--red)}
+table.cmp{width:100%;border-collapse:collapse;background:var(--sheet);font-size:14.5px}
+table.cmp th,table.cmp td{border:1px solid var(--ink);padding:10px 12px;text-align:center;line-height:1.5}
+table.cmp th{background:var(--ink);color:var(--paper);font-weight:600;font-size:13.5px}
+table.cmp td:first-child{text-align:left;background:#EFEAE0;font-size:13.5px}
+table.cmp .o{font-weight:700}.table.cmp .x{}
+table.cmp .x{color:var(--red);font-weight:700}
+/* charts */
+.chart{margin:26px 0 30px}
+.chart .r{display:grid;grid-template-columns:200px 1fr 120px;gap:14px;align-items:center;padding:9px 0;border-bottom:1px solid var(--rule);font-size:14.5px}
+@media(max-width:620px){.chart .r{grid-template-columns:1fr auto}.chart .t{grid-column:1/-1;order:3}}
+.chart .t{height:14px;background:repeating-linear-gradient(90deg,var(--rule) 0 1px,transparent 1px 10%)}
+.chart .f{height:100%;background:var(--ink);width:0;transition:width 1s cubic-bezier(.22,.85,.3,1)}
+.chart .f.gray{background:#A9A393}.chart .f.red{background:var(--red)}
+.chart .v{text-align:right;font-family:var(--mono);font-weight:600;font-size:14.5px}
+.chart .v small{display:block;font-size:11.5px;color:var(--mute);font-weight:500}
+.cap{font-family:var(--mono);font-size:12px;color:var(--mute);letter-spacing:.03em;margin-bottom:6px}
+.nums{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin:36px 0}
+@media(max-width:620px){.nums{grid-template-columns:1fr}.nums>div+div{border-left:0!important;padding-left:4px!important;border-top:1px solid var(--ink)}}
+.nums>div{padding:22px 4px 20px}
+.nums>div+div{border-left:1px solid var(--ink);padding-left:24px}
+.nums b{display:block;font-family:var(--serif);font-size:clamp(50px,8vw,84px);line-height:1;letter-spacing:-.03em}
+.nums .r b{color:var(--red)}
+.nums p{font-size:14px;color:var(--ink2);margin:10px 0 0;line-height:1.6}
+/* strip (띠그래프) */
+.strip{display:flex;height:46px;border:1px solid var(--ink);margin:6px 0 10px;background:var(--sheet)}
+.strip div{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:600;color:#fff;overflow:hidden;white-space:nowrap;border-right:1px solid var(--paper)}
+.strip div:last-child{border-right:0}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13.5px;color:var(--ink2);margin-bottom:22px}
+.key i{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:-1px;border:1px solid var(--ink)}
+/* grouped bars */
+.grp{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;height:230px;border-bottom:1px solid var(--ink);margin-top:10px}
+.grp .g{display:flex;gap:4px;align-items:flex-end;justify-content:center;height:100%}
+.grp .b{width:42%;max-width:34px;background:var(--ink);position:relative;height:0;transition:height .9s cubic-bezier(.22,.85,.3,1)}
+.grp .b.red{background:var(--red)}
+.grp .b span{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;white-space:nowrap}
+.grpx{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;font-size:12px;color:var(--ink2);text-align:center;margin-top:6px;line-height:1.35}
+/* map */
+.mapbox{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:28px;align-items:start;margin:22px 0 10px}
+@media(max-width:860px){.mapbox{grid-template-columns:1fr}}
+.tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--ink)}
+.tabs button{font:inherit;font-size:14px;padding:7px 18px;background:transparent;border:0;cursor:pointer;color:var(--mute)}
+.tabs button.on{background:var(--ink);color:var(--paper);font-weight:600}
+.mapwrap{position:relative;background:var(--sheet);border:1px solid var(--ink);border-top:0}
+#map{display:block;width:100%;height:min(74vh,640px)}
+#map path.a{cursor:pointer;vector-effect:non-scaling-stroke;transition:fill .35s}
+#map path.o{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:none}
+#hov{pointer-events:none;vector-effect:non-scaling-stroke;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round;transform-box:fill-box;transform-origin:center;transform:scale(1);opacity:0;transition:transform .22s cubic-bezier(.3,1.5,.5,1),opacity .15s}
+#hov.on{opacity:1}
+@media(prefers-reduced-motion:reduce){#hov{transition:none}}
+#map text{font-family:var(--sans);font-weight:600;fill:var(--ink);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(255,253,248,.85);stroke-linejoin:round}
+#back{position:absolute;left:10px;top:10px;font:inherit;font-size:13px;background:var(--ink);color:var(--paper);border:0;padding:6px 12px;cursor:pointer;display:none}
+#tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font-size:12.5px;padding:5px 10px;white-space:nowrap;transform:translate(-50%,-135%);opacity:0;transition:opacity .1s;z-index:5}
+#tip b{font-family:var(--mono);color:#FFB7A8;margin-left:6px}
+.maphint{position:absolute;right:10px;top:10px;font-size:12px;color:var(--mute)}
+.panel{background:var(--sheet);border:1px solid var(--ink);padding:20px}
+.panel h3{margin:0;font-size:26px}
+.panel .s{font-size:12.5px;color:var(--mute);margin:0 0 12px}
+.panel .row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-top:1px solid var(--rule);font-size:14px;color:var(--ink2)}
+.panel .row b{font-family:var(--mono);color:var(--ink)}.panel .row b.hi{color:var(--red);font-size:22px}
+.panel .rk{margin-top:14px;border-top:2px solid var(--ink);padding-top:10px}
+.panel .rk div{display:grid;grid-template-columns:86px 1fr 54px;gap:8px;align-items:center;font-size:13px;padding:3px 0;cursor:pointer}
+.panel .rk div:hover{background:#F3EEE2}
+.panel .rk i{height:9px;background:var(--red);display:block}
+.panel .rk span:last-child{font-family:var(--mono);text-align:right}
+.legend{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:12px;color:var(--mute);flex-wrap:wrap}
+.legend i{width:150px;height:8px;border:1px solid var(--ink);background:linear-gradient(90deg,#FFFDF8,#E9B8AE,#C5301F)}
+.legend u{text-decoration:none;display:inline-block;width:12px;height:12px;border:1px solid var(--ink);background:repeating-linear-gradient(45deg,#E2DCCB 0 2px,#FFFDF8 2px 5px);vertical-align:-2px;margin-right:4px}
+/* clippings */
+.clips{columns:2;column-gap:16px;margin:26px 0}
+@media(max-width:640px){.clips{columns:1}}
+.clip{break-inside:avoid;background:var(--sheet);border:1px solid var(--rule);padding:16px 18px;margin:0 0 16px;box-shadow:2px 3px 0 rgba(27,26,23,.1)}
+.clip:nth-child(odd){transform:rotate(-.6deg)}.clip:nth-child(even){transform:rotate(.5deg)}
+.clip q{display:block;quotes:none;font-family:var(--serif);font-weight:700;font-size:19px;line-height:1.5}
+.clip q:before{content:"“"}.clip q:after{content:"”"}
+.clip span{display:block;font-family:var(--mono);font-size:11.5px;color:var(--mute);margin-top:8px}
+.clip i{font-style:normal;color:var(--red);font-weight:600}
+.box{background:var(--sheet);border:1px solid var(--ink);padding:18px 22px;margin:24px 0;max-width:760px}
+.box h4{margin:0 0 6px;font-family:var(--serif);font-size:18px}
+.box p{font-size:15px;line-height:1.75;margin:0}
+.blank{border:1px dashed var(--mute);padding:26px;text-align:center;color:var(--mute);font-size:14px;margin:0 0 22px}
+/* duty table */
+table.duty{width:100%;border-collapse:collapse;background:var(--sheet);font-size:15px;margin:8px 0 12px}
+table.duty th{background:var(--ink);color:var(--paper);font-size:13px;font-weight:600;padding:9px 12px;text-align:left}
+table.duty td{border-bottom:1px solid var(--rule);padding:11px 12px;line-height:1.5;vertical-align:middle}
+table.duty td:first-child{font-weight:600;white-space:nowrap}
+table.duty td small{display:block;color:var(--mute);font-size:12px}
+.tag{display:inline-block;font-size:12.5px;font-weight:700;padding:3px 10px;white-space:nowrap}
+.tag.must{background:var(--ink);color:var(--paper)}
+.tag.may{border:2px solid var(--red);color:var(--red);padding:1px 8px}
+.tag.none{border:2px dashed var(--mute);color:var(--mute);padding:1px 8px}
+@media(max-width:620px){table.duty td:first-child{white-space:normal}}
+/* flow */
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:stretch;margin:14px 0 8px}
+@media(max-width:760px){.flow{grid-template-columns:1fr}.flow .ar{transform:rotate(90deg);justify-self:center}}
+.flow .n{background:var(--sheet);border:1px solid var(--ink);padding:14px 16px;font-size:14px;line-height:1.6;color:var(--ink2)}
+.flow .n b{display:block;font-family:var(--serif);font-size:17px;color:var(--ink)}
+.flow .n .tag{margin-top:8px}
+.flow .ar{align-self:center;font-family:var(--mono);color:var(--mute);font-size:20px}
+/* actors */
+.who{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--ink);margin:26px 0 0}
+@media(max-width:640px){.who{grid-template-columns:repeat(2,1fr)}}
+.who button{font:inherit;text-align:left;cursor:pointer;background:var(--sheet);border:0;border-right:1px solid var(--ink);padding:14px 16px;color:var(--ink)}
+.who button:last-child{border-right:0}
+.who button b{display:block;font-family:var(--serif);font-size:19px}
+.who button span{font-size:12.5px;color:var(--mute)}
+.who button.on{background:var(--ink);color:var(--paper)}.who button.on span{color:#B9B3A3}
+#whobox{border:1px solid var(--ink);border-top:0;background:var(--sheet);padding:24px 24px 10px}
+#whobox .say{font-family:var(--serif);font-weight:700;font-size:21px;line-height:1.5;margin:0 0 14px}
+#whobox ol{margin:0 0 16px;padding-left:22px;font-size:15.5px;color:var(--ink2)}
+footer{margin-top:60px;padding:28px 0 110px;border-top:2px solid var(--ink);font-size:14px;color:var(--ink2)}
+footer h3{font-size:17px;margin:0 0 10px}
+footer li{margin-bottom:6px}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div id="top"><b>주소를 막는 집</b><span id="now"></span><button id="memobtn" type="button">취재 메모 숨기기</button><div id="bar"></div></div>
+
+<header class="hero">
+  <div class="wide">
+    <div class="docno">문서번호 2026-전입-001 · 전국 매물 <span data-num="total.n"></span>건 대조</div>
+    <h1>주소를<br><s>막는</s> 집</h1>
+    <p class="sub">"전입신고는 안 되는 매물이세요." 이 한 줄은 누가 쓰고, 누가 퍼뜨리고, 누가 내버려 뒀을까요.</p>
+    <div class="by"><span>전입신고 불가 매물 추적</span><span>다방 · 직방 · 피터팬 · 당근</span><span>2026년 11월</span></div>
+  </div>
+  <div class="stamp" aria-hidden="true">전입<br>불가</div>
+</header>
+
+<!-- ===== 선택 ===== -->
+<section id="choice" data-t="계약서 두 장">
+  <div class="wide">
+    <div class="art"><span>별지</span><em>먼저 하나 골라 주세요</em></div>
+    <h2>계약서가 두 장 있습니다.<br>어디에 도장을 찍으시겠어요?</h2>
+    <div class="body col"><p>같은 방이고, 보증금도 같아요. 다른 건 <mark>전입신고</mark> 하나입니다.</p></div>
+    <div class="contracts">
+      <button class="sheet" data-pick="a" type="button">
+        <div class="hd">월세계약서 A</div>
+        <table><tr><td>보증금</td><td class="dep">500만원</td></tr><tr><td>월세</td><td>70만원</td></tr><tr><td>전입신고</td><td>가능</td></tr></table>
+        <p class="sp"><b>특약.</b> 임차인은 전입신고를 하고 확정일자를 받을 수 있다.</p>
+        <div class="sign"><span>임차인 <i>&nbsp;</i> (인)</span><span class="go">여기에 도장 찍기</span></div>
+        <div class="seal">계약</div>
+      </button>
+      <button class="sheet" data-pick="b" type="button">
+        <div class="hd">월세계약서 B</div>
+        <table><tr><td>보증금</td><td class="dep">500만원</td></tr><tr><td>월세</td><td>60만원</td></tr><tr><td>전입신고</td><td style="color:var(--red)">하지 않음</td></tr></table>
+        <p class="sp"><b>특약.</b> 임차인은 계약 기간 동안 전입신고를 하지 않는다. 대신 월세를 10만원 깎는다.</p>
+        <div class="sign"><span>임차인 <i>&nbsp;</i> (인)</span><span class="go">여기에 도장 찍기</span></div>
+        <div class="seal">계약</div>
+      </button>
+    </div>
+    <div class="depctl"><span>보증금을 바꿔 보세요</span><input id="dep" type="range" min="100" max="3000" step="100" value="500" aria-label="보증금"><b id="depv">500만원</b></div>
+    <p class="small" style="text-align:center;margin-top:10px">금액은 이해를 돕기 위한 예시예요. 실제 광고에는 "전입신고 가능(2만원추가)", "전입신고시 월세 10% 추가" 같은 문구가 있었습니다.</p>
+    <div id="reveal" aria-live="polite">
+      <div class="cap" id="rv-cap"></div>
+      <h3 id="rv-h"></h3>
+      <ol class="steps">
+        <li><div><b>이사하는 날</b><span id="rv-1"></span></div></li>
+        <li><div><b>1년 뒤, 집주인이 바뀌거나 집이 경매에 넘어갑니다</b><span id="rv-2"></span></div></li>
+        <li><div><b>그래서 이 계약은</b><span id="rv-3"></span></div></li>
+      </ol>
+      <div class="ledger">
+        <div>2년 동안 월세 차이<b id="sv1"></b></div>
+        <div class="r">걸려 있는 보증금<b id="sv2"></b></div>
+      </div>
+      <p class="small">전입신고를 안 했다고 보증금을 돌려 달라고 할 권리까지 없어지는 건 아니에요. 실제 권리는 계약 내용과 건물에 따라 달라집니다.</p>
+      <p style="margin:14px 0 0"><a href="#lose">전입신고가 왜 이렇게 중요할까요 ↓</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1 ===== -->
+<section id="lose" data-t="제1조 잃는 것">
+  <div class="wide rv">
+    <div class="art"><span>제1조</span><em>임차인이 잃는 것</em></div>
+    <h2>전입신고를 못 하면<br>무엇을 잃을까요</h2>
+    <div class="body col">
+      <p>전입신고는 세 들어 산다는 사실을 다른 사람에게 주장하고 보증금을 지키는 첫걸음입니다. 그런데 매물 광고에는 전입신고를 하지 말라는 조건, 하려면 월세를 더 내라는 조건이 붙어 있어요.</p>
+    </div>
+    <div class="two">
+      <div>
+        <div class="cap">그림 1. 보증금을 지키는 두 단계</div>
+        <div class="formula">
+          <div>이사 <i>+</i> 전입신고 <i>=</i> <u>대항력</u></div>
+          <div>대항력 <i>+</i> 확정일자 <i>=</i> <u>우선변제권</u></div>
+        </div>
+        <p class="small" style="margin-top:10px">근거: 주택임대차보호법 제3조 등. 일정한 요건 아래 인정됩니다.</p>
+      </div>
+      <div>
+        <div class="cap">표 1. 전입신고를 했을 때와 안 했을 때</div>
+        <table class="cmp">
+          <tr><th></th><th>전입신고 함</th><th>전입신고 안 함</th></tr>
+          <tr><td>새 집주인에게 계약 주장<br>(대항력)</td><td class="o">가능</td><td class="x">어려움</td></tr>
+          <tr><td>경매 때 먼저 돌려받기<br>(우선변제권)</td><td class="o">확정일자 받으면 가능</td><td class="x">어려움</td></tr>
+          <tr><td>보증금 반환 청구</td><td class="o">가능</td><td class="o">가능</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="pull">전입신고는 선택지처럼 제시됩니다. 하지만 그 결과는 세입자 혼자 떠안습니다.</div>
+    <div class="body col">
+      <p>취재팀은 전국 부동산 플랫폼의 매물을 모아 전입신고 불가 조건을 추적하고, <strong>임대인·중개업자·플랫폼·정부</strong>가 각자 어떤 책임을 지는지 확인했습니다.</p>
+    </div>
+    <div class="memo">실제 임차인 사례 확보: 거부당한 경위, 추가 월세 요구, 보증보험·세액공제·주거지원에서 겪은 제한. 피해가 확인 안 되면 피해가 난 것처럼 쓰지 말 것.</div>
+  </div>
+</section>
+
+<!-- ===== 2 ===== -->
+<section id="data" data-t="제2조 전국 매물">
+  <div class="wide rv">
+    <div class="art"><span>제2조</span><em>데이터</em></div>
+    <h2>전국 매물 51만 건을<br>뒤졌습니다</h2>
+    <div class="body col">
+      <p>2026년 11월, 다방·직방·피터팬·당근마켓의 월세·전세 매물을 모았습니다. 광고 본문에 전입신고가 안 된다고 적은 매물은 <mark><span data-num="total.ban"></span>건</mark>이었어요. 아파트는 <span data-num="아파트.rate"></span>%뿐이라 분석에서 뺐고, 오피스텔은 제3조에서 따로 봅니다.</p>
+    </div>
+    <div class="chart"><div class="cap">그림 2. 수집부터 전입 불가까지</div><div id="funnel"></div></div>
+    <div class="nums">
+      <div><b data-num="본분석.rate" data-suf="%"></b><p><strong>주거 매물.</strong> 아파트·오피스텔을 뺀 <span data-num="본분석.n"></span>건 중 <span data-num="본분석.ban"></span>건</p></div>
+      <div class="r"><b data-num="오피스텔.rate" data-suf="%"></b><p><strong>오피스텔.</strong> <span data-num="오피스텔.n"></span>건 중 <span data-num="오피스텔.ban"></span>건</p></div>
+    </div>
+
+    <h3>우리 동네는 어떨까요</h3>
+    <div class="body col"><p>시·도를 누르면 시·군·구까지 들어갑니다.</p></div>
+    <div class="mapbox">
+      <div>
+        <div class="tabs" id="tabs"><button class="on" data-s="본분석" type="button">주거 매물</button><button data-s="오피스텔" type="button">오피스텔</button></div>
+        <div class="mapwrap" id="mapwrap">
+          <svg id="map" preserveAspectRatio="xMidYMid meet" role="img" aria-label="지역별 전입 불가 비율 지도"></svg>
+          <button id="back" type="button">← 전국 지도</button>
+          <span class="maphint" id="maphint">지역을 눌러 보세요</span>
+          <div id="tip"></div>
+        </div>
+        <div class="legend"><span>낮음</span><i></i><span id="lgmax">높음</span><span><u></u>매물 30건 미만</span><span style="margin-left:auto">색: 전입 불가 비율</span></div>
+      </div>
+      <div class="panel" id="panel"></div>
+    </div>
+    <p class="small">경계는 2026년 10월 행정구역 기준입니다. 구가 있는 시(수원·성남 등)는 시 단위로 묶었어요. 매물이 30건에 못 미치는 시·군·구는 비율을 색으로 표시하지 않았습니다.</p>
+
+    <h3>플랫폼마다 달랐을까요</h3>
+    <div class="chart"><div class="cap">그림 4. 플랫폼별 전입 불가 비율</div><div id="plat"></div></div>
+
+    <h3>광고에는 이렇게 적혀 있었습니다</h3>
+    <div class="chart"><div class="cap">그림 5. 전입 불가 판정에 가장 많이 걸린 문구 (아파트 제외 <span data-num="phrases_total"></span>건 중)</div><div id="phrases"></div></div>
+    <div class="memo">게시글 원문·화면 캡처 확보. 지금도 올라와 있는지 구분. 중개업소 식별정보 공개는 개인정보 침해 가능성 검토.</div>
+    <div class="box"><h4>이 숫자가 말하지 못하는 것</h4><p>전국 임대차 시장 전체를 대표하는 통계가 아닙니다. 조사 기간에 네 플랫폼에 공개된 매물의 현황이에요. 온라인에 없는 매물, 계약 자리에서 말로만 전한 조건은 잡히지 않습니다.</p></div>
+  </div>
+</section>
+
+<!-- ===== 3 ===== -->
+<section id="officetel" data-t="제3조 오피스텔">
+  <div class="wide rv">
+    <div class="art"><span>제3조</span><em>건물의 용도</em></div>
+    <h2>집이 아닌 건물이<br>집으로 올라옵니다</h2>
+    <div class="body col">
+      <p>전입이 안 된다는 주거 매물 <span data-num="본분석.ban"></span>건을 건축물대장과 맞춰 봤습니다. 열 건 중 일곱 건은 대장상 집이 아닌 건물이었어요.</p>
+    </div>
+    <div class="cap">그림 0. 전입 불가 주거 매물 <span data-num="본분석.ban"></span>건의 건축물대장상 용도</div>
+    <div class="strip" id="banuse"></div><div class="key" id="banusekey"></div>
+    <div class="chart"><div class="cap">그림 0. 건물 용도별 전입 불가 비율 (주거 매물)</div><div id="userate"></div></div>
+    <div class="body col">
+      <p>대장상 주택에 올라온 매물은 <span data-num="ext.use_rate.주택(단독·공동).rate"></span>%만 전입을 막았습니다. 그래도 건수로는 <mark><span data-num="ext.use_rate.주택(단독·공동).ban"></span>건</mark>이에요. 집으로 지은 건물에서 전입을 막은 매물입니다.</p>
+    </div>
+
+    <h3>'원룸'으로 올라온 공장</h3>
+    <div class="body col">
+      <p>가장 많은 건 대장에 <strong>공장</strong>으로 올라 있는 건물, 곧 지식산업센터였습니다. 플랫폼에는 '원룸', '복층 원룸'으로 등록돼 있었어요. 이런 건물의 매물은 두 건 중 한 건이 전입 불가입니다.</p>
+    </div>
+    <div class="nums">
+      <div class="r"><b data-num="ext.factory.rate" data-suf="%"></b><p><strong>공장 건물의 '주거 매물'.</strong> <span data-num="ext.factory.n"></span>건 중 <span data-num="ext.factory.ban"></span>건이 전입 불가</p></div>
+      <div><b data-num="ext.factory.buildings" data-suf="곳"></b><p><strong>건물 수.</strong> 중개사무소 <span data-num="ext.factory.offices"></span>곳이 올렸고, 제목에 '풀옵션'을 쓴 매물이 <span data-num="ext.factory.kw_fulloption"></span>건</p></div>
+    </div>
+    <div class="chart"><div class="cap">그림 0. 전입 불가 '공장' 매물이 몰린 곳</div><div id="factop"></div></div>
+    <div class="body col">
+      <p>지도에서 하남과 구리가 유독 진한 이유가 이것입니다. 다만 제목에 '기숙사'라고 밝힌 매물도 <span data-num="ext.factory.kw_dorm"></span>건 있어요. 지식산업센터 기숙사는 법적 성격이 달라 따로 확인이 필요합니다.</p>
+    </div>
+
+    <h3>오피스텔: 사는 집처럼 광고하고, 전입은 안 된다고 합니다</h3>
+    <div class="body col">
+      <p>오피스텔 카테고리의 전입 불가 비율은 <span data-num="오피스텔.rate"></span>%로 주거 매물의 <span data-num="ratio"></span>배 수준입니다. 그런데 광고는 사람이 사는 집처럼 썼어요.</p>
+    </div>
+    <div class="chart"><div class="cap">그림 6. 전입 불가 오피스텔 광고 <span data-num="오피스텔.ban"></span>건에 함께 적힌 표현</div><div id="hints"></div></div>
+    <div class="chart"><div class="cap">그림 7. 건물 유형별 전입 불가 비율 (건축물대장 기준)</div><div id="bldtype"></div></div>
+    <div class="body col"><p>전입 불가는 개별 매물보다 <strong>건물 용도의 문제</strong>에 가깝습니다.</p></div>
+
+    <h3>'오피스텔'이라고 올렸지만 숙박시설이었습니다</h3>
+    <div class="cap">그림 8. 전입 불가 '오피스텔' <span data-num="오피스텔.ban"></span>건의 건축물대장상 용도</div>
+    <div class="strip" id="comp"></div><div class="key" id="compkey"></div>
+    <div class="body col">
+      <p>플랫폼의 '오피스텔' 카테고리는 중개사가 고릅니다. 그래서 <mark><span data-num="extra.comp.숙박시설(생숙)"></span>건</mark>은 대장상 숙박시설, 곧 생활숙박시설(생숙)이었어요. 생숙은 2021년부터 주거용으로 쓸 수 없습니다. 이행강제금을 2027년 말까지 미뤄 줬을 뿐 주거를 허용한 건 아니에요. 다만 숙박업으로 신고해 운영하면 합법입니다.</p>
+    </div>
+    <div class="memo">[미확정] 오피스텔엔 '위법' 대신 "효력 없는 조건을 내건 광고"로. 변호사 확인. 생숙 <span data-num="extra.comp.숙박시설(생숙)"></span>건을 임대차형·숙박형으로 나눌지 결정. 지산 기숙사 전입 가능 여부, 임대인의 세금상 이유(부가세 환급 등)는 변호사·세무사 인터뷰.</div>
+  </div>
+</section>
+
+<!-- ===== 4 ===== -->
+<section id="price" data-t="제4조 전입의 값">
+  <div class="wide rv">
+    <div class="art"><span>제4조</span><em>전입의 값</em></div>
+    <h2>전입신고에<br>가격표가 붙었습니다</h2>
+    <div class="body col"><p>맨 앞의 계약서 두 장은 지어낸 이야기가 아닙니다. 전입신고에 값을 매긴 광고가 <strong>75건</strong> 있었어요.</p></div>
+    <div class="cap">그림 9. 전입신고에 조건을 붙인 광고 75건</div>
+    <div class="strip" id="quid"></div><div class="key" id="quidkey"></div>
+    <div class="clips">
+      <div class="clip"><q>전입신고 가능(2만원추가)</q><span><i>더 내세요</i> · 다방 · 경기 의정부</span></div>
+      <div class="clip"><q>전입신고 불가 조건으로 주변 시세 대비 보증금 0원, 저렴한 월세</q><span><i>깎아 드려요</i> · 다방 · 광주</span></div>
+      <div class="clip"><q>전입시 55,000원추가</q><span><i>더 내세요</i> · 다방 · 부산 기장</span></div>
+      <div class="clip"><q>전입신고시 월세 10% 추가</q><span><i>더 내세요</i> · 다방 · 부산 기장</span></div>
+      <div class="clip"><q>부가세 10% 발급시 전입가능</q><span><i>더 내세요</i> · 직방 · 대전</span></div>
+      <div class="clip"><q>전입신고 안하는 조건으로 시세 …</q><span><i>깎아 드려요</i> · 직방 · 경기 군포</span></div>
+    </div>
+    <div class="memo">인용 전에 중개사무소 전화 확인 필수. '따로 얘기해요' 31건은 대가가 적혀 있지 않음 → 대가성으로 쓸지 결정.</div>
+
+    <h3>어떤 방에 붙어 있을까요</h3>
+    <div class="cap">그림 10. 보증금 구간별 매물 비중 (주거 매물 중 월세)</div>
+    <div class="grp" id="depdist"></div><div class="grpx" id="depx"></div>
+    <div class="key" style="margin-top:12px"><span><i style="background:var(--red)"></i>전입 불가 매물 <span data-num="price.ban.n"></span>건</span><span><i style="background:var(--ink)"></i>그 밖의 매물 <span data-num="price.ok.n"></span>건</span></div>
+    <div class="body col">
+      <p>전입 불가 매물의 <span data-num="price.ban.dep_le_1000"></span>%가 보증금 1,000만원 이하입니다.</p>
+    </div>
+
+    <h3>전입을 포기하면 정말 쌀까요</h3>
+    <div class="body col">
+      <p>맨 앞의 계약서 B는 월세가 10만원 쌌습니다. 실제 매물도 그런지, 같은 시·군·구에서 면적이 비슷한 매물끼리 월세를 비교했어요. 결과는 반대였습니다.</p>
+    </div>
+    <div class="nums">
+      <div class="r"><b>+<span data-num="ext.rent.0.diff_med"></span>만원</b><p><strong>월세 차이(중간값).</strong> 전입 불가 매물 <span data-num="ext.rent.0.ban_n"></span>건을 같은 동네·비슷한 면적 매물의 중간 월세와 비교</p></div>
+      <div><b data-num="ext.rent.0.above" data-suf="%"></b><p><strong>더 비싼 매물의 비중.</strong> 더 싼 매물은 <span data-num="ext.rent.0.below"></span>%</p></div>
+    </div>
+    <div class="cap">그림 0. 전입 불가 매물의 월세는 같은 동네 비슷한 매물보다 얼마나 비싼가</div>
+    <div class="grp" id="rentdiff" style="grid-template-columns:repeat(7,1fr)"></div><div class="grpx" id="rentx" style="grid-template-columns:repeat(7,1fr)"></div>
+    <div class="body col" style="margin-top:18px">
+      <p>대장상 주택만 따로 봐도 월세가 <span data-num="ext.rent.1.diff_med"></span>만원 높았습니다(<span data-num="ext.rent.1.ban_n"></span>건). <strong>전입을 포기한 대가로 싸게 사는 구조가 아니었어요.</strong> 깎아 준다고 밝힌 광고는 19건뿐입니다.</p>
+      <p class="small">같은 시·군·구, 같은 면적대(20㎡ 미만, 20~30, 30~40, 40~60, 60㎡ 이상)에서 일반 매물이 20건 이상인 경우만 비교했습니다. 건물의 연식, 옵션, 단기 임대 여부는 맞추지 못했어요. 전입 불가 매물에 신축·풀옵션이 많다면 그 영향이 섞여 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5 ===== -->
+<section id="follow" data-t="제5조 건물 하나">
+  <div class="wide rv">
+    <div class="art"><span>제5조</span><em>현장</em></div>
+    <h2>건물 하나를<br>뜯어봤습니다</h2>
+    <div class="body col">
+      <p>전입 불가 주거 매물이 가장 많이 몰린 주소는 <strong><span data-num="ext.building.addr"></span></strong>, '<span data-num="ext.building.name"></span>'였습니다. 이 한 건물에 올라온 매물을 전부 모았어요.</p>
+    </div>
+    <div class="two">
+      <div>
+        <div class="cap">표 0. 건축물대장에 적힌 것</div>
+        <table class="cmp">
+          <tr><td>주용도</td><td class="x"><span data-num="ext.building.use"></span></td></tr>
+          <tr><td>기타용도</td><td><span data-num="ext.building.use_etc"></span></td></tr>
+          <tr><td>사용승인</td><td id="bapp"></td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="cap">표 0. 플랫폼에 올라온 것</div>
+        <table class="cmp">
+          <tr><td>매물 종류</td><td class="o" id="blab"></td></tr>
+          <tr><td>올린 중개사무소</td><td><span data-num="ext.building.offices"></span>곳</td></tr>
+          <tr><td>보증금 / 월세 (중간값)</td><td><span data-num="ext.building.dep_med"></span>만원 / <span data-num="ext.building.rent_med"></span>만원</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="cap">그림 0. 이 건물 매물 <span data-num="ext.building.n"></span>건의 전입신고 안내</div>
+    <div class="strip" id="bstrip"></div><div class="key" id="bstripkey"></div>
+    <div class="two">
+      <div class="chart" style="margin:0"><div class="cap">그림 0. 매물 제목에 쓰인 말 (<span data-num="ext.building.n"></span>건 중)</div><div id="bkw"></div></div>
+      <div class="chart" style="margin:0"><div class="cap">그림 0. 본문에 적힌 전입 안내</div><div id="bph"></div></div>
+    </div>
+    <div class="pull">대장에는 공장, 플랫폼에는 원룸. 제목에는 풀옵션과 스타일러, 본문에는 "전입신고는 안되요".</div>
+    <div class="body col">
+      <p>건축물대장과 광고 문구만으로는 각 호실이 위법인지 확정할 수 없습니다. 대장 표제부는 건물 단위라, 호실마다의 용도는 따로 확인해야 해요.</p>
+    </div>
+    <div class="memo">이 건물 현장 확인, 관할 시청에 주거 사용·전입 가능 여부 질의, 올린 중개사무소에 전화. 답이 오면 이 조항에 덧붙이기.</div>
+  </div>
+</section>
+
+<!-- ===== 6 반복 게시자 ===== -->
+<section id="agents" data-t="제6조 반복 게시">
+  <div class="wide rv">
+    <div class="art"><span>제6조</span><em>올린 사람들</em></div>
+    <h2>같은 사무소가<br>반복해서 올립니다</h2>
+    <div class="body col">
+      <p>전입 불가 매물(아파트 제외 <span data-num="ext.agents.ban_total"></span>건)을 올린 중개사무소를 세어 봤습니다. 매물을 올린 사무소 <span data-num="ext.agents.offices_all"></span>곳 가운데 <strong><span data-num="ext.agents.offices_ban"></span>곳</strong>이 한 건 이상 올렸어요. 그런데 일부에 크게 몰려 있습니다.</p>
+    </div>
+    <div class="nums">
+      <div class="r"><b data-num="ext.agents.ge10" data-suf="곳"></b><p><strong>10건 이상 올린 사무소.</strong> 이들이 올린 전입 불가 매물이 <span data-num="ext.agents.ban_by_ge10"></span>건(<span id="ge10share"></span>%)</p></div>
+      <div><b data-num="ext.agents.half_ban_offices" data-suf="곳"></b><p><strong>매물의 절반 이상이 전입 불가인 사무소.</strong> 매물을 10건 이상 올린 곳 기준</p></div>
+    </div>
+    <div class="chart"><div class="cap">그림 0. 전입 불가 매물을 몇 건 올렸나 (중개사무소 수)</div><div id="ahist"></div></div>
+    <div class="cap">표 0. 전입 불가 매물을 가장 많이 올린 중개사무소 10곳</div>
+    <table class="duty" id="atop"></table>
+    <p class="small">사무소 이름은 밝히지 않았습니다. 같은 사무소인지는 중개사무소 등록번호(없으면 상호)로 판단했어요. 같은 집을 조건만 바꿔 다시 올린 경우가 일부 섞여 있을 수 있습니다. 많이 올렸다는 사실만으로 위법이라는 뜻은 아닙니다.</p>
+    <div class="body col">
+      <p>상위 10곳 중 여섯 곳이 경기 안산시에 있습니다. 그중 다섯 곳은 올린 매물 열 건 중 아홉 건 이상이 전입 불가였어요. 우연히 한두 건 섞인 것이 아니라, 전입 불가 매물을 주로 다루는 사무소가 있다는 뜻입니다.</p>
+    </div>
+    <div class="memo">상위 사무소 실명은 agents_top_private.csv에 있음(외부 공개 금지). 안산 사무소들이 다루는 건물 종류 확인. 전화 취재 대상.</div>
+  </div>
+</section>
+
+<!-- ===== 6 ===== -->
+<section id="law" data-t="제7조 법의 빈칸">
+  <div class="wide rv">
+    <div class="art"><span>제7조</span><em>법의 빈칸</em></div>
+    <h2>누구에게는 의무이고,<br>누구에게는 아닙니다</h2>
+    <div class="body col"><p>전입신고를 둘러싼 법 조항을 주체별로 늘어놓으면 빈칸이 보입니다.</p></div>
+    <div class="cap">표 2. 전입신고 불가 매물과 관련된 법 규정</div>
+    <table class="duty">
+      <tr><th>누가</th><th>무엇을</th><th>강제력</th></tr>
+      <tr><td>세입자</td><td>이사한 뒤 14일 안에 전입신고<small>주민등록법</small></td><td><span class="tag must">해야 한다</span></td></tr>
+      <tr><td>임대인·세입자</td><td>임대차 계약 30일 안에 신고<small>전입신고를 안 해도 남는 의무</small></td><td><span class="tag must">해야 한다</span></td></tr>
+      <tr><td>중개업자</td><td>물건의 용도·권리관계·이용 제한을 확인하고 설명<small>공인중개사법</small></td><td><span class="tag must">해야 한다</span></td></tr>
+      <tr><td>중개업자</td><td>거짓·과장 광고 금지<small>사실대로 쓴 "전입 불가"는 해당하지 않음</small></td><td><span class="tag must">해야 한다</span></td></tr>
+      <tr><td>플랫폼</td><td>정부의 자료 제출·조치 요구에 응하기</td><td><span class="tag must">해야 한다</span></td></tr>
+      <tr><td>국토교통부</td><td>인터넷 매물 광고 모니터링<small>공인중개사법 제18조의3</small></td><td><span class="tag may">할 수 있다</span></td></tr>
+      <tr><td>국토부·지자체</td><td>중개사무소 조사<small>공인중개사법 제37조</small></td><td><span class="tag may">할 수 있다</span></td></tr>
+      <tr><td>플랫폼</td><td>전입 불가 매물을 스스로 찾아 걸러내기</td><td><span class="tag none">규정 없음</span></td></tr>
+      <tr><td>임대인</td><td>전입신고를 막거나 값을 붙이는 행위의 금지</td><td><span class="tag none">뚜렷한 규정 없음</span></td></tr>
+    </table>
+    <p class="small">취재팀이 지금까지 확인한 법령 기준입니다. 규정이 없다는 것이 그 행위가 합법이라는 뜻은 아니에요.</p>
+    <div class="pull">숨기면 처벌받고, 대놓고 쓰면 처벌받지 않습니다.</div>
+    <div class="body col">
+      <p>"전입신고 불가"라고 <mark>사실대로 적은 광고는 거짓 광고가 아닙니다.</mark> 광고와 실제 계약 조건이 같다면 지금의 부당광고 규정으로는 제재하기 어려워요. 그래서 중개업자가 조건을 옮기기만 했는지가 아니라, 이유를 확인하고 위험을 설명했는지를 따져야 합니다.</p>
+    </div>
+    <div class="memo">행안부·지자체에 전입신고 방해 민원 처리 절차·처분 사례 질의. 확인·설명 의무 범위는 중개사 단체·법률 전문가에게(조문 번호 확인). 국토부·국세청에 임대차 신고 자료와 과세 자료 연계 여부 질의.</div>
+  </div>
+</section>
+
+<!-- ===== 7 ===== -->
+<section id="gov" data-t="제8조 정부">
+  <div class="wide rv">
+    <div class="art"><span>제8조</span><em>정부</em></div>
+    <h2>정부에는 권한이 있습니다.<br>의무는 없습니다</h2>
+    <div class="body col"><p>정부는 온라인 매물 광고를 점검할 수 있습니다. 단계마다 법이 쓴 말을 보세요.</p></div>
+    <div class="cap">그림 11. 온라인 매물 광고 점검이 흘러가는 길</div>
+    <div class="flow">
+      <div class="n"><b>국토교통부</b>인터넷 매물 광고가 법을 지키는지 모니터링. 실제 조사는 위탁기관이 맡습니다.<br><span class="tag may">할 수 있다</span></div>
+      <div class="ar">→</div>
+      <div class="n"><b>플랫폼</b>자료 제출, 위반 의심 광고의 확인·수정·삭제 요구를 받으면 따릅니다.<br><span class="tag must">해야 한다</span></div>
+      <div class="ar">→</div>
+      <div class="n"><b>지자체</b>통보받은 중개사무소에 자료를 요구하고 장부를 조사합니다.<br><span class="tag may">할 수 있다</span></div>
+    </div>
+    <p class="small">기본 모니터링은 분기마다, 수시 모니터링은 위반이 의심될 때 합니다. 다만 법령은 조사 대상과 물량, 지역별 최소 규모를 정하지 않았어요.</p>
+    <div class="pull">법이 '할 수 있다'고만 하면, 단속은 예산과 의지의 문제가 됩니다.</div>
+    <div class="body col">
+      <p>출발점이 '할 수 있다'이니, 점검이 시작되지 않으면 뒤의 의무도 움직이지 않습니다. 처음부터 "전입신고 불가"라고 적은 매물이 점검 항목에 들어 있는지는 따로 확인해야 해요.</p>
+      <p>정부가 "허위광고가 아니라서 단속하기 어렵다"고 답한다면 질문은 이어집니다. 세입자의 권리에 큰 영향을 주는 조건에 별도 표시를 요구할 수는 없을까요. <strong>법 적용이 어렵다는 답은 책임을 끝내는 설명이 아니라, 무엇을 바꿔야 하는지 묻는 출발점입니다.</strong></p>
+    </div>
+    <div class="memo">국토부에 실제 전입 불가 광고를 보여 주고 모니터링 대상인지, 적용 조항이 무엇인지 공식 질의. 신고·점검·통보·과태료 건수 요청. 조문 번호·표현 최종 확인.</div>
+  </div>
+</section>
+
+<!-- ===== 8 ===== -->
+<section id="chain" data-t="제9조 책임의 단절">
+  <div class="wide rv">
+    <div class="art"><span>제9조</span><em>책임의 단절</em></div>
+    <h2>책임은 어디에서<br>끊길까요</h2>
+    <div class="body col"><p>네 주체를 차례로 눌러 보세요. 각자 내놓을 법한 답과, 그 답으로는 풀리지 않는 질문입니다.</p></div>
+    <div class="who" id="who"></div>
+    <div id="whobox"></div>
+    <div class="body col" style="margin-top:30px">
+      <p>플랫폼이 문제를 알고도 반복 노출을 허용했는지 확인되기 전에는 '방조'라고 단정할 수 없습니다. 이 취재는 누가 '나쁜 쪽'인지 먼저 정해 두지 않았어요. 규정이 없는 문제인지, 있는 권한을 쓰지 않은 문제인지, 기관 사이에서 책임이 끊긴 문제인지 나눠서 봅니다.</p>
+    </div>
+    <div class="memo">네 주체의 답변을 받아 나란히 싣기. 플랫폼에는 약관·등록 정책·신고 처리·제재 건수 질의. 답을 못 받으면 질의 일자와 회신 여부 밝히기. 보도 전 반론 기회 제공.</div>
+  </div>
+</section>
+
+<!-- ===== 맺음 ===== -->
+<section id="close" data-t="맺으며">
+  <div class="wide rv">
+    <div class="art"><span>부칙</span><em>맺으며</em></div>
+    <h2>전세사기의 고통을<br>월세에서 다시 겪을 수는 없습니다</h2>
+    <div class="body col">
+      <p>전세사기는 보증금을 돌려받지 못한 뒤에야 위험을 알아차린 세입자들의 삶을 무너뜨렸습니다. 이제 월세 시장에도 전입신고를 막는 조건이 매물로 올라와요. 같은 범죄라고 단정할 수는 없지만, 위험은 계약하는 순간부터 세입자가 집니다.</p>
+    </div>
+    <div class="pull">이 취재가 묻는 것은 전입신고 불가 매물이 몇 건이냐가 아닙니다. 같은 고통을 되풀이하지 않으려면 지금 누가, 무엇을 해야 하느냐입니다.</div>
+    <footer>
+      <h3>이렇게 조사했습니다</h3>
+      <ul>
+        <li>다방·직방·피터팬·당근마켓의 월세·전세 매물 <span data-num="extra.raw_total"></span>건을 2026년 11월에 수집했습니다. 확실한 중복(같은 ID, 재등록, 공동중개, 그리고 플랫폼 사이에서 건물·층·면적·보증금·월세가 모두 같은 매물)을 뺀 <span data-num="total.n"></span>건을 분석했어요.</li>
+        <li>건축HUB 건축물대장 표제부(2026년 9월분)와 지번을 기준으로 대조했습니다. 매칭률은 다방 <span data-num="extra.match_all.dabang" data-suf="%"></span>, 직방 <span data-num="extra.match_all.zigbang" data-suf="%"></span>, 피터팬 <span data-num="extra.match_all.peterpan" data-suf="%"></span>, 당근 <span data-num="extra.match_all.daangn" data-suf="%"></span>입니다.</li>
+        <li>전입 가능 여부는 광고 본문을 기준으로 가능·보류·불가능으로 판정했습니다. 표현이 확정적이지 않은 보류 <span data-num="total.hold"></span>건은 불가에 넣지 않았어요.</li>
+        <li>당근마켓 매물에는 중개사무소 정보가 없어, 제6조의 사무소별 집계에는 다방·직방·피터팬 매물만 반영했습니다.</li>
+        <li>지도 경계는 행정동 경계 자료(vuski/admdongkor, 2026년 10월 1일 기준)를 시·군·구로 합쳐 그렸습니다.</li>
+        <li>건축물대장 대조와 광고 문구 판정만으로는 개별 매물의 위법 여부를 확정할 수 없습니다.</li>
+      </ul>
+    </footer>
+  </div>
+</section>
+
+<script id="numbers" type="application/json">__DATA__</script>
+<script id="geo" type="application/json">__GEO__</script>
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById('numbers').textContent);
+  var G = JSON.parse(document.getElementById('geo').textContent);
+  D.rawTotal = D.extra.raw_total; D.ratio = Math.round(D.오피스텔.rate / D.본분석.rate);
+  var fmt = function(v){ return typeof v === 'number' ? v.toLocaleString('ko-KR') : v; };
+  var get = function(p){ return p.split('.').reduce(function(o,k){ return o && o[k]; }, D); };
+  var $ = function(id){ return document.getElementById(id); };
+
+  document.querySelectorAll('[data-num]').forEach(function(el){
+    el.textContent = fmt(get(el.dataset.num)) + (el.dataset.suf || '');
+  });
+
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section[data-t]'));
+  function onScroll(){
+    var h = document.documentElement;
+    $('bar').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    var cur = null, y = window.innerHeight * .4;
+    secs.forEach(function(s){ if (s.getBoundingClientRect().top < y) cur = s; });
+    $('now').textContent = cur ? cur.dataset.t : '';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.03});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  $('memobtn').addEventListener('click', function(){
+    var h = document.body.classList.toggle('hide-memo');
+    this.textContent = h ? '취재 메모 보기' : '취재 메모 숨기기';
+  });
+
+  /* ===== 계약서 ===== */
+  var dep = $('dep'), picked = null;
+  function won(m){ return m.toLocaleString('ko-KR') + '만원'; }
+  function renderChoice(){
+    var d = +dep.value; $('depv').textContent = won(d);
+    document.querySelectorAll('.dep').forEach(function(e){ e.textContent = won(d); });
+    $('sv2').textContent = won(d);
+    if (!picked) return;
+    var R = {
+      a:{cap:'A에 도장을 찍었습니다', h:'매달 10만원을 더 내고, 보증금을 지킬 장치를 얻었어요', sv:'+240만원',
+         s1:'14일 안에 전입신고를 하고 확정일자를 받습니다. 월세는 매달 10만원 더 나가요.',
+         s2:'일정한 요건 아래 새 집주인에게 계약을 주장하고, 경매에서 먼저 돌려받을 순서를 가질 수 있습니다.',
+         s3:'2년 동안 240만원을 더 내고 보증금 '+won(d)+'의 보호 장치를 산 셈이에요. 광고에 보이는 "전입 시 월세 추가"가 바로 이 거래입니다.'},
+      b:{cap:'B에 도장을 찍었습니다', h:'2년에 240만원을 아꼈지만, 보증금을 지킬 장치를 내려놓았어요', sv:'-240만원',
+         s1:'전입신고 없이 삽니다. 월세는 매달 10만원 덜 나가요.',
+         s2:'대항력도, 우선변제권도 갖추지 못했습니다. 보증금 '+won(d)+'을 돌려받는 순서에서 밀릴 수 있어요.',
+         s3:'아낀 돈 240만원과 걸려 있는 보증금 '+won(d)+'을 맞바꾼 계약입니다. 이런 특약이 법적으로 효력이 있는지도 따져 봐야 해요.'}
+    }[picked];
+    $('rv-cap').textContent = R.cap; $('rv-h').textContent = R.h; $('sv1').textContent = R.sv;
+    $('rv-1').textContent = R.s1; $('rv-2').textContent = R.s2; $('rv-3').textContent = R.s3;
+  }
+  dep.addEventListener('input', renderChoice);
+  document.querySelectorAll('.sheet').forEach(function(p){
+    p.addEventListener('click', function(){
+      picked = p.dataset.pick;
+      document.querySelectorAll('.sheet').forEach(function(q){ q.classList.toggle('sel', q === p); q.classList.toggle('dim', q !== p); });
+      $('reveal').classList.add('on'); renderChoice();
+      setTimeout(function(){ $('reveal').scrollIntoView({behavior:'smooth', block:'center'}); }, 350);
+    });
+  });
+  renderChoice();
+
+  /* ===== 그래프 도우미 ===== */
+  function whenSeen(el, fn){
+    var o = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ fn(); o.disconnect(); } }); }, {threshold:.2});
+    o.observe(el);
+  }
+  function bars(id, rows){
+    var max = Math.max.apply(null, rows.map(function(r){ return r.pct; }));
+    var el = $(id);
+    el.innerHTML = rows.map(function(r){
+      return '<div class="r"><div>'+r.name+'</div><div class="t"><div class="f '+(r.cls||'')+'" data-w="'+(r.pct/max*100)+'"></div></div><div class="v">'+r.val+(r.sub?'<small>'+r.sub+'</small>':'')+'</div></div>';
+    }).join('');
+    whenSeen(el, function(){ el.querySelectorAll('.f').forEach(function(f){ f.style.width = f.dataset.w + '%'; }); });
+  }
+  function strip(id, parts, unit){
+    var tot = parts.reduce(function(a,p){ return a + p.v; }, 0);
+    $(id).innerHTML = parts.map(function(p){ return '<div style="flex:'+p.v+';background:'+p.c+'" title="'+p.n+' '+fmt(p.v)+unit+'">'+(p.v/tot > .07 ? fmt(p.v) : '')+'</div>'; }).join('');
+    $(id+'key').innerHTML = parts.map(function(p){ return '<span><i style="background:'+p.c+'"></i>'+p.n+' <b>'+fmt(p.v)+unit+'</b> ('+(p.v/tot*100).toFixed(1)+'%)</span>'; }).join('');
+  }
+  var nm = {dabang:'다방', zigbang:'직방', peterpan:'피터팬', daangn:'당근'};
+
+  bars('funnel', [
+    {name:'모은 매물', pct:100, cls:'gray', val:fmt(D.rawTotal)+'건'},
+    {name:'중복을 뺀 매물', pct:D.total.n/D.rawTotal*100, cls:'gray', val:fmt(D.total.n)+'건'},
+    {name:'주거 매물', pct:D.본분석.n/D.rawTotal*100, val:fmt(D.본분석.n)+'건'},
+    {name:'　그중 전입 불가', pct:Math.max(D.본분석.ban/D.rawTotal*100,.8), cls:'red', val:fmt(D.본분석.ban)+'건', sub:D.본분석.rate+'%'},
+    {name:'오피스텔', pct:D.오피스텔.n/D.rawTotal*100, val:fmt(D.오피스텔.n)+'건'},
+    {name:'　그중 전입 불가', pct:D.오피스텔.ban/D.rawTotal*100, cls:'red', val:fmt(D.오피스텔.ban)+'건', sub:D.오피스텔.rate+'%'}
+  ]);
+  var prow = [];
+  ['dabang','zigbang','peterpan','daangn'].forEach(function(p){ var v = D.platform.본분석[p];
+    prow.push({name:nm[p]+' · 주거 매물', pct:v.rate, val:v.rate+'%', sub:fmt(v.ban)+' / '+fmt(v.n)}); });
+  ['dabang','zigbang','peterpan','daangn'].forEach(function(p){ var v = D.platform.오피스텔[p];
+    prow.push({name:nm[p]+' · 오피스텔', pct:v.rate, cls:'red', val:v.rate+'%', sub:fmt(v.ban)+' / '+fmt(v.n)}); });
+  bars('plat', prow);
+
+  var pm = {};
+  D.phrases.forEach(function(p){ var k = p[0].replace(/x/g,'X'); pm[k] = (pm[k]||0) + p[1]; });
+  bars('phrases', Object.keys(pm).sort(function(a,b){ return pm[b]-pm[a]; }).slice(0,6).map(function(k){
+    return {name:'"'+k+'"', pct:pm[k], val:fmt(pm[k])+'건'}; }));
+
+  (function(){ var H = D.extra.hints, BT = D.extra.bldtype;
+    bars('hints', [
+      {name:'주거를 내비치는 표현 (합계)', pct:H.live, cls:'red', val:H.live+'%'},
+      {name:'　가전·가구 포함', pct:H.appliance, val:H.appliance+'%'},
+      {name:'　반려동물 가능', pct:H.pet, val:H.pet+'%'},
+      {name:'사무용 문구만 있음', pct:H.office_only/H.n*100, cls:'gray', val:H.office_only+'건', sub:(H.office_only/H.n*100).toFixed(1)+'%'}
+    ]);
+    bars('bldtype', [
+      {name:'주거용 건물', pct:BT['주거용'], val:BT['주거용']+'%'},
+      {name:'기타 비주거', pct:BT['기타 비주거'], val:BT['기타 비주거']+'%'},
+      {name:'오피스텔', pct:BT['오피스텔(업무시설)'], val:BT['오피스텔(업무시설)']+'%'},
+      {name:'생활숙박시설', pct:BT['생숙'], cls:'red', val:BT['생숙']+'%'},
+      {name:'지식산업센터', pct:BT['지산'], cls:'red', val:BT['지산']+'%'}
+    ]);
+    var C = D.extra.comp;
+    strip('comp', [
+      {n:'업무시설(오피스텔 등)', v:C['업무시설(오피스텔 등)'], c:'#1B1A17'},
+      {n:'숙박시설(생숙)', v:C['숙박시설(생숙)'], c:'#C5301F'},
+      {n:'대장 없음', v:C['대장 없음'], c:'#A9A393'},
+      {n:'공동주택', v:C['공동주택'], c:'#6F6A5E'},
+      {n:'기타', v:C['기타'], c:'#C9C2B0'}
+    ], '건');
+  })();
+  strip('quid', [
+    {n:'전입하려면 더 내세요', v:25, c:'#C5301F'},
+    {n:'전입 안 하면 깎아 드려요', v:19, c:'#1B1A17'},
+    {n:'전입은 따로 얘기해요 (대가 미표시)', v:31, c:'#A9A393'}
+  ], '건');
+
+  (function(){
+    var dd = D.deposit_dist, max = Math.max.apply(null, dd.ban.concat(dd.ok));
+    $('depdist').innerHTML = dd.labels.map(function(_, i){
+      return '<div class="g"><div class="b red" data-h="'+(dd.ban[i]/max*88)+'"><span>'+dd.ban[i]+'%</span></div><div class="b" data-h="'+(dd.ok[i]/max*88)+'"><span>'+dd.ok[i]+'%</span></div></div>';
+    }).join('');
+    $('depx').innerHTML = dd.labels.map(function(l){ return '<div>'+l+'</div>'; }).join('');
+    whenSeen($('depdist'), function(){ $('depdist').querySelectorAll('.b').forEach(function(b){ b.style.height = b.dataset.h + '%'; }); });
+  })();
+
+  /* ===== 추가 분석 그래프 ===== */
+  (function(){
+    var E = D.ext, UC = {'공장(지식산업센터 등)':'#C5301F','주택(단독·공동)':'#1B1A17','숙박시설':'#8E3B2F','업무시설':'#6F6A5E','근린생활시설':'#A9A393','대장 없음':'#D8D2C2','기타':'#C9C2B0'};
+    strip('banuse', E.ban_use.map(function(x){ return {n:x[0], v:x[1], c:UC[x[0]] || '#C9C2B0'}; }), '건');
+    bars('userate', E.ban_use.filter(function(x){ return x[0] !== '대장 없음' && x[0] !== '기타'; }).map(function(x){ var v = E.use_rate[x[0]];
+      return {name:x[0], pct:v.rate, cls:x[0].indexOf('공장') === 0 ? 'red' : '', val:v.rate+'%', sub:fmt(v.ban)+' / '+fmt(v.n)}; }).sort(function(a,b){ return b.pct-a.pct; }));
+    bars('factop', E.factory.top.map(function(x){ return {name:x[0]+' '+x[1], pct:x[2], cls:'red', val:fmt(x[2])+'건'}; }));
+
+    var rd = E.rent[0].hist, rl = ['20만원 넘게 쌈','10~20만원 쌈','10만원 이내 쌈','같음','10만원 이내 비쌈','10~20만원 비쌈','20만원 넘게 비쌈'], rmax = Math.max.apply(null, rd);
+    $('rentdiff').innerHTML = rd.map(function(v, i){ return '<div class="g"><div class="b '+(i > 3 ? 'red' : '')+'" data-h="'+(v/rmax*88)+'" style="width:70%;max-width:54px'+(i === 3 ? ';background:#A9A393' : '')+'"><span>'+fmt(v)+'건</span></div></div>'; }).join('');
+    $('rentx').innerHTML = rl.map(function(x){ return '<div>'+x+'</div>'; }).join('');
+    whenSeen($('rentdiff'), function(){ $('rentdiff').querySelectorAll('.b').forEach(function(b){ b.style.height = b.dataset.h + '%'; }); });
+
+    var B = E.building, ap = B.approved;
+    $('bapp').textContent = ap ? ap.slice(0,4)+'년 '+(+ap.slice(4,6))+'월' : '확인 안 됨';
+    $('blab').textContent = B.labels.map(function(x){ return x[0]+' '+x[1]+'건'; }).join(', ');
+    strip('bstrip', [{n:'전입 불가라고 적음', v:B.ban, c:'#C5301F'}, {n:'전입 언급 없음', v:B.ok, c:'#A9A393'}].concat(B.hold ? [{n:'보류', v:B.hold, c:'#6F6A5E'}] : []), '건');
+    bars('bkw', ['풀옵션','복층','스타일러','발코니','사업자'].map(function(k){ return {name:k, pct:B.kw[k], val:B.kw[k]+'건'}; }));
+    bars('bph', B.phrases.slice(0,5).map(function(x){ return {name:'"'+x[0].replace(/^[-\s]+/, '')+'"', pct:x[1], cls:'red', val:x[1]+'건'}; }));
+
+    var A2 = E.agents;
+    $('ge10share').textContent = (A2.ban_by_ge10/A2.ban_total*100).toFixed(1);
+    bars('ahist', ['1건','2~4건','5~9건','10~19건','20건 이상'].map(function(k, i){ return {name:k, pct:A2.hist[i], cls:i >= 3 ? 'red' : '', val:fmt(A2.hist[i])+'곳'}; }));
+    $('atop').innerHTML = '<tr><th>사무소</th><th>소재지</th><th>전입 불가</th><th>올린 매물</th><th>비중</th><th>건물 수</th></tr>' + A2.top.map(function(x){
+      return '<tr><td>'+x.id+'</td><td>'+x.where+'</td><td><b style="color:var(--red);font-family:var(--mono)">'+x.ban+'건</b></td><td style="font-family:var(--mono)">'+x.n+'건</td><td style="font-family:var(--mono)">'+x.share+'%</td><td style="font-family:var(--mono)">'+x.bld+'곳</td></tr>'; }).join('');
+
+    /* 그림·표 번호 자동 매기기 */
+    var nf = 0, nt = 0;
+    document.querySelectorAll('.cap').forEach(function(c){
+      var t = c.firstChild; if (!t || t.nodeType !== 3) return;
+      if (/^그림 \d+\./.test(t.nodeValue)) t.nodeValue = t.nodeValue.replace(/^그림 \d+\./, '그림 ' + (++nf) + '.');
+      else if (/^표 \d+\./.test(t.nodeValue)) t.nodeValue = t.nodeValue.replace(/^표 \d+\./, '표 ' + (++nt) + '.');
+    });
+  })();
+
+  /* ===== 지도 ===== */
+  (function(){
+    var NS = 'http://www.w3.org/2000/svg', MINN = 30;
+    var svg = $('map'), tip = $('tip'), wrap = $('mapwrap');
+    var scope = '본분석', cur = null, selSgg = null, vb = null;
+    var HATCH = 'url(#hatch)';
+    svg.innerHTML = '<defs><pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#FFFDF8"/><rect width="2" height="5" fill="#E2DCCB"/></pattern></defs><g id="ga"></g><g id="go"></g><path id="hov"/><g id="gl"></g>';
+    var hov = svg.querySelector('#hov'), hovKey = null;
+    function lift(key, d, fill, k){
+      if (key === hovKey) return;
+      hovKey = key;
+      if (!key){ hov.classList.remove('on'); hov.style.transform = 'scale(1)'; return; }
+      hov.style.transition = 'none'; hov.style.transform = 'scale(1)';
+      hov.setAttribute('d', d); hov.style.fill = fill;
+      hov.style.filter = 'drop-shadow(0 ' + (vb[2]/260) + 'px ' + (vb[2]/170) + 'px rgba(27,26,23,.35))';
+      hov.getBoundingClientRect(); hov.style.transition = '';
+      hov.classList.add('on'); hov.style.transform = 'scale(' + k + ')';
+    }
+    var ga = svg.querySelector('#ga'), go = svg.querySelector('#go'), gl = svg.querySelector('#gl');
+    var els = G.sgg.map(function(x, i){
+      var p = document.createElementNS(NS, 'path'); p.setAttribute('d', x.d); p.setAttribute('class', 'a'); p.dataset.i = i; ga.appendChild(p); return p;
+    });
+    var outl = {};
+    Object.keys(G.sido).forEach(function(s){
+      var p = document.createElementNS(NS, 'path'); p.setAttribute('d', G.sido[s].d); p.setAttribute('class', 'o'); go.appendChild(p); outl[s] = p;
+    });
+    function shade(t){
+      t = Math.sqrt(Math.max(0, Math.min(t, 1)));
+      var a=[255,253,248], b=[233,184,174], c=[197,48,31];
+      var f = t < .5 ? [a,b,t*2] : [b,c,(t-.5)*2];
+      return 'rgb(' + [0,1,2].map(function(i){ return Math.round(f[0][i]+(f[1][i]-f[0][i])*f[2]); }).join(',') + ')';
+    }
+    function sggv(s, n){ var r = D.sgg[scope][s]; return (r && r[n]) || [0,0,0]; }
+    function pad(bb, k){ var w = bb[2]-bb[0], h = bb[3]-bb[1], m = Math.max(w,h)*k; return [bb[0]-m, bb[1]-m, w+2*m, h+2*m]; }
+    function zoomTo(t){
+      if (!vb){ vb = t; svg.setAttribute('viewBox', t.join(' ')); return; }
+      var f = vb.slice(), t0 = performance.now();
+      (function step(now){
+        var k = Math.min((now - t0)/550, 1); k = k < .5 ? 2*k*k : 1 - Math.pow(-2*k+2, 2)/2;
+        vb = f.map(function(v, i){ return v + (t[i]-v)*k; });
+        svg.setAttribute('viewBox', vb.join(' '));
+        if (k < 1) requestAnimationFrame(step); else labels();
+      })(t0);
+    }
+    function labels(){
+      gl.innerHTML = '';
+      if (!vb) return;
+      function put(c, s, fs){
+        var t = document.createElementNS(NS, 'text');
+        t.setAttribute('x', c[0]); t.setAttribute('y', c[1] + fs*.35);
+        t.setAttribute('font-size', fs); t.setAttribute('stroke-width', fs*.28); t.textContent = s; gl.appendChild(t);
+      }
+      if (!cur){
+        var SMALL = {'서울':1,'부산':1,'대구':1,'인천':1,'대전':1,'울산':1,'세종':1};
+        Object.keys(G.sido).forEach(function(s){ put(G.sido[s].c, s, vb[2]/(SMALL[s] ? 52 : 38)); });
+        return;
+      }
+      /* 넓은 곳부터 이름을 놓고, 이미 놓인 이름과 겹치면 생략한다(생략된 곳은 마우스를 올리면 이름이 나온다) */
+      var fs = vb[2]/40, placed = [];
+      G.sgg.filter(function(x){ return x.s === cur; })
+        .sort(function(a, b){ return (b.mb[2]-b.mb[0])*(b.mb[3]-b.mb[1]) - (a.mb[2]-a.mb[0])*(a.mb[3]-a.mb[1]); })
+        .forEach(function(x){
+          var nm = x.n.length > 2 ? x.n.replace(/[시군구]$/, '') : x.n;
+          var w = fs*nm.length*1.05, h = fs*1.25, b = [x.c[0]-w/2, x.c[1]-h/2, x.c[0]+w/2, x.c[1]+h/2];
+          if (placed.some(function(p){ return b[0] < p[2] && b[2] > p[0] && b[1] < p[3] && b[3] > p[1]; })) return;
+          placed.push(b); put(x.c, nm, fs);
+        });
+    }
+    function sidoBB(s){
+      /* 매물이 있는 시·군·구의 본토 범위로 확대한다(먼 섬 때문에 본토가 작아지지 않게) */
+      var all = G.sgg.filter(function(x){ return x.s === s; });
+      var xs = all.filter(function(x){ return ((D.sgg['본분석'][s]||{})[x.n] || (D.sgg['오피스텔'][s]||{})[x.n]); });
+      if (!xs.length) xs = all;
+      return [Math.min.apply(null, xs.map(function(x){return x.mb[0];})), Math.min.apply(null, xs.map(function(x){return x.mb[1];})),
+              Math.max.apply(null, xs.map(function(x){return x.mb[2];})), Math.max.apply(null, xs.map(function(x){return x.mb[3];}))];
+    }
+    function render(){
+      var R = D.region[scope], max;
+      if (!cur){
+        max = Math.max.apply(null, Object.keys(G.sido).map(function(s){ return R[s] ? R[s].rate : 0; }));
+        G.sgg.forEach(function(x, i){ var c = shade((R[x.s] ? R[x.s].rate : 0)/max); els[i].style.fill = c; els[i].style.stroke = c; els[i].style.strokeWidth = .6; els[i].style.opacity = 1; });
+        Object.keys(outl).forEach(function(s){ outl[s].style.opacity = 1; outl[s].style.strokeWidth = 1; });
+      } else {
+        var vals = G.sgg.filter(function(x){ return x.s === cur; }).map(function(x){ var v = sggv(cur, x.n); return v[0] >= MINN ? v[2] : 0; });
+        max = Math.max.apply(null, vals) || 1;
+        G.sgg.forEach(function(x, i){
+          var e = els[i];
+          if (x.s !== cur){ e.style.fill = '#EFEAE0'; e.style.stroke = '#EFEAE0'; e.style.opacity = .55; return; }
+          var v = sggv(cur, x.n);
+          e.style.fill = v[0] >= MINN ? shade(v[2]/max) : HATCH;
+          e.style.stroke = '#1B1A17'; e.style.strokeWidth = x.n === selSgg ? 3 : .7; e.style.opacity = 1;
+        });
+        Object.keys(outl).forEach(function(s){ outl[s].style.opacity = s === cur ? 1 : .25; outl[s].style.strokeWidth = s === cur ? 1.6 : 1; });
+      }
+      $('lgmax').textContent = '높음 (' + max + '%)';
+      $('back').style.display = cur ? 'block' : 'none';
+      $('maphint').style.display = cur ? 'none' : 'block';
+      panel();
+    }
+    function panel(){
+      var R = D.region[scope], lab = scope === '본분석' ? '주거 매물 (아파트·오피스텔 제외)' : '오피스텔 카테고리', h;
+      function rows(n, ban, rate){ return '<div class="row"><span>모은 매물</span><b>'+fmt(n)+'건</b></div><div class="row"><span>전입 불가</span><b>'+fmt(ban)+'건</b></div><div class="row"><span>비율</span><b class="hi">'+rate+'%</b></div>'; }
+      if (!cur){
+        var all = Object.keys(G.sido).sort(function(a,b){ return (R[b]?R[b].rate:0) - (R[a]?R[a].rate:0); });
+        var mx = R[all[0]].rate;
+        h = '<h3>전국</h3><p class="s">'+lab+'</p>' + rows(D[scope].n, D[scope].ban, D[scope].rate) +
+          '<div class="rk"><div class="cap">시·도별 비율 (눌러서 들어가기)</div>' + all.map(function(s){ var v = R[s] || {rate:0};
+            return '<div data-s="'+s+'"><span>'+s+'</span><i style="width:'+(v.rate/mx*100)+'%"></i><span>'+v.rate+'%</span></div>'; }).join('') + '</div>';
+      } else {
+        var v = R[cur] || {n:0, ban:0, rate:0}, S = D.sgg[scope][cur] || {};
+        var list = Object.keys(S).filter(function(k){ return S[k][0] >= MINN; }).sort(function(a,b){ return S[b][2]-S[a][2]; });
+        var mx2 = list.length ? (S[list[0]][2] || 1) : 1;
+        var head = selSgg ? '<h3>'+selSgg+'</h3><p class="s">'+cur+' · '+lab+'</p>' + rows(sggv(cur,selSgg)[0], sggv(cur,selSgg)[1], sggv(cur,selSgg)[2]) + (sggv(cur,selSgg)[0] < MINN ? '<p class="small" style="margin:8px 0 0">매물이 30건에 못 미쳐 비율을 해석하기 어렵습니다.</p>' : '')
+                          : '<h3>'+cur+'</h3><p class="s">'+lab+'</p>' + rows(v.n, v.ban, v.rate);
+        h = head + '<div class="rk"><div class="cap">'+cur+' 시·군·구 (매물 30건 이상)</div>' + list.slice(0, 12).map(function(k){
+            return '<div data-g="'+k+'"><span>'+k+'</span><i style="width:'+(S[k][2]/mx2*100)+'%"></i><span>'+S[k][2]+'%</span></div>'; }).join('') +
+            (list.length > 12 ? '<p class="small" style="margin:6px 0 0">상위 12곳만 표시</p>' : '') + '</div>';
+      }
+      $('panel').innerHTML = h;
+      $('panel').querySelectorAll('[data-s]').forEach(function(e){ e.addEventListener('click', function(){ enter(e.dataset.s); }); });
+      $('panel').querySelectorAll('[data-g]').forEach(function(e){ e.addEventListener('click', function(){ selSgg = e.dataset.g; render(); }); });
+    }
+    function enter(s){ lift(null); cur = s; selSgg = null; gl.innerHTML = ''; render(); zoomTo(pad(sidoBB(s), .06)); }
+    function home(){ lift(null); cur = null; selSgg = null; gl.innerHTML = ''; render(); zoomTo(pad(G.bb, .02)); }
+    ga.addEventListener('click', function(e){
+      var i = e.target.dataset.i; if (i == null) return; var x = G.sgg[i];
+      if (!cur || x.s !== cur) enter(x.s); else { selSgg = x.n; render(); }
+    });
+    ga.addEventListener('mousemove', function(e){
+      var i = e.target.dataset.i; if (i == null) return; var x = G.sgg[i], r = wrap.getBoundingClientRect(), name, rate;
+      if (!cur || x.s !== cur){ name = x.s; rate = (D.region[scope][x.s] || {rate:0}).rate + '%'; lift('s:' + x.s, G.sido[x.s].d, cur ? '#E2DCCB' : e.target.style.fill, cur ? 1.02 : 1.04); }
+      else { var v = sggv(cur, x.n); name = x.n; rate = v[0] >= MINN ? v[2] + '%' : '매물 ' + v[0] + '건'; lift('g:' + x.n, x.d, e.target.style.fill, 1.07); }
+      tip.innerHTML = name + '<b>' + rate + '</b>'; tip.style.left = (e.clientX - r.left) + 'px'; tip.style.top = (e.clientY - r.top) + 'px'; tip.style.opacity = 1;
+    });
+    ga.addEventListener('mouseleave', function(){ tip.style.opacity = 0; lift(null); });
+    $('back').addEventListener('click', home);
+    document.querySelectorAll('#tabs button').forEach(function(b){
+      b.addEventListener('click', function(){
+        scope = b.dataset.s;
+        document.querySelectorAll('#tabs button').forEach(function(x){ x.classList.toggle('on', x === b); });
+        render();
+      });
+    });
+    zoomTo(pad(G.bb, .02)); render(); labels();
+  })();
+
+  /* ===== 책임 주체 ===== */
+  var A = [
+    {n:'임대인', s:'조건을 만든 쪽', say:'"건물 용도나 계약 조건 때문에 어쩔 수 없어요."', q:['왜 전입신고를 막았나요','추가 월세나 할인은 무엇을 근거로 정했나요','임대차 신고 의무는 지켰나요']},
+    {n:'중개업자', s:'광고하고 중개한 쪽', say:'"임대인의 요구를 전달했을 뿐이에요."', q:['전입을 막는 이유를 확인했나요','보증금 보호의 위험을 세입자에게 설명했나요','광고와 계약서 내용이 같은가요']},
+    {n:'플랫폼', s:'계속 보여 준 쪽', say:'"매물 정보는 이용자가 등록합니다."', q:['전입 제한 문구를 어떤 기준으로 관리하나요','신고가 들어오면 어떤 조치를 하나요','같은 게시자의 반복 등록을 막나요']},
+    {n:'정부·지자체', s:'점검할 권한이 있는 쪽', say:'"사실대로 알린 광고는 허위광고로 제재하기 어렵습니다."', q:['전입 불가 광고가 점검 항목에 들어 있나요','권한이 있는데 쓰지 않은 건 아닌가요','제도 개선을 검토한 적이 있나요']}
+  ];
+  function showWho(i){
+    $('who').innerHTML = A.map(function(a, j){ return '<button type="button" class="'+(j===i?'on':'')+'" data-i="'+j+'"><b>'+a.n+'</b><span>'+a.s+'</span></button>'; }).join('');
+    $('who').querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ showWho(+b.dataset.i); }); });
+    var a = A[i];
+    $('whobox').innerHTML = '<div class="cap">돌아올 법한 답</div><p class="say">'+a.say+'</p><div class="cap">그 답으로 풀리지 않는 질문</div><ol>'+a.q.map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>';
+  }
+  showWho(0);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# 대용량·세부 데이터 (팀 공유 드라이브로 별도 공유)
+realty_analysis_dataset.csv
+jeonip_labels.csv
+jeonip_review*.csv
+cross_dup_labels.csv
+jeonip_case_summary_v4.csv
+jeonip_quid_pro_quo*.csv
+jeonip_quid_pro_quo*.pdf
+
+# 중개사 관련 데이터
+agents_top_private*.csv
+
+# 지도 원본 (35MB, map_paths.json만 사용)
+geo/HangJeongDong_*.geojson
+
+# 로그·임시
+*.log
+__pycache__/
+*.pyc
+~$*
+.DS_Store
+초고_ver1_법률검토.md
