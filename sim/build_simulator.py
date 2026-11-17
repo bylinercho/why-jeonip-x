@@ -245,5 +245,29 @@ rep("</style>\n</head>", theme + "</style>\n</head>")
 rep("<style>\n  :root {", '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">\n<style>\n  :root {')
 rep('    <header class="top">\n      <div>\n        <h1>', '    <a class="back" href="./">← 전입신고 불가 매물 추적기로 돌아가기</a>\n    <header class="top">\n      <div>\n        <div class="chip">SIMULATOR</div>\n        <h1>')
 
+# ---------- 컴팩트 레이아웃: 입력(왼쪽) + 결과(오른쪽, 따라다님) ----------
+rep("    <!-- STEP 0: 기초 데이터 -->", '    <div class="layout"><div class="inputs">\n    <!-- STEP 0: 기초 데이터 -->')
+rep("    <!-- RESULTS -->\n    <section class=\"card\">", '    </div>\n    <aside class="resultcol">\n    <!-- RESULTS -->\n    <section class="card">')
+rep("    </section>\n\n    <footer class=\"assump\">", "    </section>\n    </aside></div>\n\n    <footer class=\"assump\">")
+
+# 맨 위 경고문을 짧게
+d0 = s.index('<div class="disclaimer">')
+d1 = s.index("</div>", d0) + len("</div>")
+s = s[:d0] + ('<div class="disclaimer"><b>세금 계산기가 아닙니다.</b> 임대인 정보가 없는 매물 데이터에 가정값을 넣어 보는 시뮬레이션이며, '
+              '기본 가정값은 근거가 확인된 통계가 아닌 예시입니다. 이 모델의 한계는 맨 아래에 있습니다.</div>') + s[d1:]
+
+# 0단계 안내 문구를 한 줄로
+rep("처음에는 전국 전체로 계산합니다. 지역을 좁히려면 「시·도별로 고르기」를 누르세요. 대상은 광고에 전입신고 불가를 적은 월세 매물이며 아파트와 판정 보류 매물은 뺐습니다.",
+    "전입 불가 월세 매물(아파트·보류 제외)입니다. 기본은 전국 전체이며, 좁히려면 「시·도별로 고르기」를 누르세요.")
+
+# 하단 한계 안내는 접어 두기
+rep('<footer class="assump">\n      <b>이 모델이 반영하지 못하는 것</b><br>',
+    '<footer class="assump"><details class="fold"><summary>이 모델이 반영하지 못하는 것</summary><div style="padding-top:2px">')
+rep("    </footer>", "    </div></details></footer>")
+
+# 좁은 화면용 하단 고정 요약 막대
+rep('<div id="tooltip"></div>', '<div id="tooltip"></div>\n<div class="minibar" id="miniBar"><span>최종 잠재세수</span><b id="miniVal">-</b></div>')
+rep("  function render(v){", "  function render(v){\n    var mv = el('miniVal'); if (mv) mv.textContent = fmtKorean(v.finalTax);")
+
 (ROOT / "simulator.html").write_text(s, encoding="utf-8", newline="")
 print("written", len(s))

@@ -70,3 +70,49 @@ details.fold>summary::-webkit-details-marker{display:none}
 details.fold>summary::after{content:' ▾';color:var(--text-muted)}
 details.fold[open]>summary::after{content:' ▴'}
 details.fold[open]{padding-bottom:16px}
+/* ===== 컴팩트: 입력(왼쪽) + 결과(오른쪽, 따라다님) ===== */
+.wrap{max-width:1180px;padding:20px 20px 80px}
+a.back{margin-bottom:12px}
+h1{font-size:clamp(22px,3vw,30px);margin-bottom:8px}
+.sub{font-size:14.5px;line-height:1.7}
+.disclaimer{margin-top:10px;padding:10px 14px;font-size:12.5px;line-height:1.65}
+.layout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:16px;align-items:start;margin-top:4px}
+.resultcol{position:sticky;top:12px;align-self:start;max-height:calc(100vh - 24px);overflow-y:auto;padding-right:2px}
+.resultcol::-webkit-scrollbar{width:6px}.resultcol::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:3px}
+.inputs section.card,.resultcol section.card{padding:14px 16px;margin-top:12px;border-radius:14px}
+.resultcol section.card{margin-top:12px}
+section.card h2{font-size:16px;margin-bottom:4px}
+section.card p.hint{font-size:12.5px;line-height:1.6;margin-bottom:10px}
+.split-slider{height:34px}
+.split-numbers{margin-top:8px;gap:8px}
+.split-numbers label.field{flex:1 1 90px}
+label.field{font-size:12px;gap:4px}
+label.field input[type="number"],label.field select{padding:6px 8px;font-size:13px;border-radius:8px}
+.opt-row{margin-top:10px;padding:8px 10px;font-size:12px;line-height:1.5}
+.resultcol .stat-grid{grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 0}
+.resultcol .stat-tile{padding:8px 10px}
+.resultcol .stat-tile .st-label{font-size:11px}
+.resultcol .stat-tile .st-value{font-size:16px;margin-top:2px}
+.resultcol .stat-tile .st-sub{font-size:10.5px}
+.resultcol .chart-block{margin-top:12px}
+.resultcol .chart-block h3{font-size:12.5px}
+.resultcol .chart-block p.chart-hint{display:none}
+.gauge-track{margin:26px 6px 6px}
+.resultcol details.fold{margin-top:12px!important}
+.impact-section{margin-top:12px;padding:12px 14px;border-radius:14px}
+.impact-section h3{font-size:16px;margin-bottom:2px}
+.impact-section p.chart-hint{display:none}
+.impact-grid{grid-template-columns:1fr;gap:8px}
+.impact-card{padding:9px 12px;gap:3px;border-radius:10px}
+.impact-card .im-label{font-size:12px}
+.impact-card .im-value{font-size:19px}
+.impact-card .im-assump{font-size:11px}
+.impact-card .im-note{display:none}
+.minibar{display:none}
+@media(max-width:940px){
+  .layout{grid-template-columns:1fr}
+  .resultcol{position:static;max-height:none;overflow:visible}
+  .minibar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;justify-content:space-between;align-items:center;padding:10px 18px;background:rgba(23,35,67,.97);border-top:1px solid rgba(217,160,91,.5);font-size:13px;color:#b8b1a4}
+  .minibar b{color:#D9A05B;font:500 18px/1.2 var(--serif)}
+  body{padding-bottom:58px}
+}
