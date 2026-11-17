@@ -287,7 +287,7 @@ s = s[:o0] + ('<label class="opt-row" title="소득세법상 국내 1주택 소�
               '<input type="checkbox" id="excl1" checked /><span>1주택 소유자 월세는 비과세로 제외</span></label>') + s[o1:]
 # 지역 합계 문구를 짧게
 rep("'선택한 ' + regionCount + '개 시·군·구 · 매물 ' + listingSum.toLocaleString('ko-KR') + '개 · 월세 총합 ' + rentSum.toLocaleString('ko-KR') + '만원이 자동으로 계산되었습니다.'",
-    "regionCount + '개 시·군·구 · 매물 ' + listingSum.toLocaleString('ko-KR') + '개 · 월 월세 ' + rentSum.toLocaleString('ko-KR') + '만원'")
+    "regionCount + '개 시·군·구 · 매물 ' + listingSum.toLocaleString('ko-KR') + '개 · 월세 합계(월) ' + rentSum.toLocaleString('ko-KR') + '만원'")
 rep("'지역을 선택하면 매물 개수와 월세 총합이 자동으로 계산됩니다.'", "'지역을 선택하세요'")
 # 계산 중 안내 배너 숨김
 s = s.replace("</style>\n</head>", ".note-banner{display:none!important}\n.opt-row{cursor:help}\n</style>\n</head>", 1)

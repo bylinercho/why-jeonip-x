@@ -726,7 +726,7 @@ label.field input[type="number"],label.field select{padding:6px 8px;font-size:13
       if (it.cb.checked){ rentSum += it.value; listingSum += it.count; regionCount++; }
     });
     el('regionSumHint').textContent = regionCount
-      ? (regionCount + '개 시·군·구 · 매물 ' + listingSum.toLocaleString('ko-KR') + '개 · 월 월세 ' + rentSum.toLocaleString('ko-KR') + '만원')
+      ? (regionCount + '개 시·군·구 · 매물 ' + listingSum.toLocaleString('ko-KR') + '개 · 월세 합계(월) ' + rentSum.toLocaleString('ko-KR') + '만원')
       : '지역을 선택하세요';
     rentUnitEl.value = '10000';
     totalRentEl.value = rentSum;
