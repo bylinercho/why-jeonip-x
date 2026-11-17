@@ -292,5 +292,25 @@ rep("'지역을 선택하면 매물 개수와 월세 총합이 자동으로 계�
 # 계산 중 안내 배너 숨김
 s = s.replace("</style>\n</head>", ".note-banner{display:none!important}\n.opt-row{cursor:help}\n</style>\n</head>", 1)
 
+# ---------- 기사에 박스로 넣을 때(?embed=1): 머리말 숨기고 높이를 부모 창에 알림 ----------
+embed_js = """<script>
+(function(){
+  if(!/[?&]embed=1/.test(location.search)) return;
+  document.documentElement.classList.add('embed');
+  var last = 0;
+  function send(){
+    var w = document.querySelector('.wrap'); if(!w) return;
+    var h = Math.ceil(w.getBoundingClientRect().height);
+    if(h === last) return; last = h;
+    try{ parent.postMessage({type:'sim-h', h:h}, '*'); }catch(e){}
+  }
+  if(window.ResizeObserver) new ResizeObserver(send).observe(document.querySelector('.wrap'));
+  window.addEventListener('load', send); window.addEventListener('resize', send);
+  setTimeout(send, 300); setTimeout(send, 1200);
+})();
+</script>
+"""
+rep("</body>", embed_js + "</body>")
+
 (ROOT / "simulator.html").write_text(s, encoding="utf-8", newline="")
 print("written", len(s))

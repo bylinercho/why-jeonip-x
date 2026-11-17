@@ -199,6 +199,8 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .lawcmp .box{margin:0}.lawcmp .box p{margin:0 0 12px}.lawcmp .box p:last-child{margin:0}
 .lawcmp .box b{display:inline-block;color:#ece7de;margin-right:6px}
 @media(max-width:760px){.lawcmp{grid-template-columns:1fr}}
+.simbox{max-width:1040px;margin:26px auto 8px;border:1px solid rgba(217,160,91,.3);border-radius:18px;overflow:hidden;background:#172343}
+.simbox iframe{display:block;width:100%;height:820px;border:0;background:#172343}
 .taxbtn{display:inline-block;border:1.5px solid #D9A05B;color:#D9A05B;border-radius:999px;padding:12px 26px;font:600 16px/1.2 var(--sans);text-decoration:none;transition:background .15s,color .15s}
 .taxbtn:hover{background:#D9A05B;color:#172343}
 .foldx{max-width:860px;margin:36px auto 0;border:1px solid var(--rule);border-radius:14px;background:rgba(255,255,255,.03);padding:0 20px;text-align:left}
@@ -1134,8 +1136,11 @@ svg:hover .arc:not(:hover){opacity:.4}
     </div>
     <div class="pull">전입을 막은 월세가 모두 과세된다면, 얼마가 걷힐까.</div>
     <div class="body col">
-      <p>전입 불가를 밝힌 월세 매물 8,924건(아파트 제외)의 월세를 합치면 한 달에 약 80억원, 1년이면 약 960억원이다. 이 가운데 임대인이 몇 채를 가졌는지, 사업자로 등록했는지에 따라 걷히는 세금은 크게 달라진다. 가정을 직접 바꿔 볼 수 있게 계산기를 만들었다. 기본 가정으로는 약 37억원 안팎이 나온다.</p>
-      <p style="text-align:center;margin-top:24px"><a class="taxbtn" href="simulator.html" target="_blank" rel="noopener">잠재세수 계산기 열어 보기 →</a></p>
+      <p>전입 불가를 밝힌 월세 매물 8,924건(아파트 제외)의 월세를 합치면 한 달에 약 80억원, 1년이면 약 960억원이다. 이 가운데 임대인이 몇 채를 가졌는지, 사업자로 등록했는지에 따라 걷히는 세금은 크게 달라진다. 아래 계산기에서 가정을 직접 바꿔 볼 수 있다.</p>
+    </div>
+    <div class="simbox"><iframe id="simframe" src="simulator.html?embed=1" title="전입신고 불가 월세 매물 잠재세수 계산기" loading="lazy"></iframe></div>
+    <p class="small" style="text-align:center"><a href="simulator.html" target="_blank" rel="noopener">새 창에서 크게 보기</a></p>
+    <div class="body col">
       <p class="small">계산기는 실제 탈루 세액을 계산하지 않는다. 임대인 정보가 없는 매물 데이터에 가정값을 넣어 보는 시뮬레이션이라 실제와 다를 수 있다. 출처: 서울신문 2025. 4. 14. 보도(이호병 교수), 뉴시스 2020. 11. 11. 보도(국토부·국세청 설명), 부가가치세법 제26조, 소득세법 제12조(국가법령정보센터 현행 본문)</p>
     </div>
   </div>
@@ -1167,6 +1172,10 @@ svg:hover .arc:not(:hover){opacity:.4}
 </section>
 
 <script>
+window.addEventListener('message',function(e){
+  var d=e.data; if(!d||d.type!=='sim-h') return;
+  var f=document.getElementById('simframe'); if(f&&e.source===f.contentWindow) f.style.height=Math.ceil(d.h)+'px';
+});
 window.__startCount=function(){
   var D=JSON.parse(document.getElementById('numbers').textContent);
   document.querySelectorAll('[data-count]').forEach(function(el){
