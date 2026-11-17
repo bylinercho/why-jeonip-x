@@ -203,6 +203,44 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .simbox iframe{display:block;width:100%;height:820px;border:0;background:#172343}
 .taxbtn{display:inline-block;border:1.5px solid #D9A05B;color:#D9A05B;border-radius:999px;padding:12px 26px;font:600 16px/1.2 var(--sans);text-decoration:none;transition:background .15s,color .15s}
 .taxbtn:hover{background:#D9A05B;color:#172343}
+/* ===== CH.4 디자인 ===== */
+#price .clip{position:relative;background:#f4efe6;color:#172343;border:0;box-shadow:0 10px 26px rgba(0,0,0,.28);-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:6px 16px 16px 6px;padding:16px 20px 16px 50px;transform:rotate(-.6deg)}
+#price .clip:nth-child(even){transform:rotate(.7deg)}
+#price .clip:before{content:"";position:absolute;left:16px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:#172343;box-shadow:inset 0 0 0 2px rgba(217,160,91,.7)}
+#price .clip q{font:500 20px/1.5 'Paperlogy',sans-serif;color:#172343}
+#price .clip q mark{background:rgba(217,160,91,.45);color:#172343;padding:0 .15em;border-radius:3px;font-weight:600}
+#price .clip span{color:#6b6459}#price .clip i{color:#b4691a}
+.s91{max-width:640px;margin:34px auto -22px;text-align:center}
+.s91 b{display:block;font:600 clamp(44px,5vw,64px)/1 'Paperlogy',sans-serif;color:#D9A05B}
+.s91 span{display:block;margin-top:8px;font-size:16px;line-height:1.7;color:#b8b1a4}
+.dv{max-width:860px;margin:26px auto 12px;text-align:left}
+.dv-row{display:grid;grid-template-columns:230px 1fr;gap:22px;align-items:center;margin-bottom:18px}
+.dv-lab b{display:block;font:500 18px/1.4 'Paperlogy',sans-serif;color:#ece7de}
+.dv-lab small{display:block;font-size:13px;line-height:1.55;color:#9a9285;margin-top:3px}
+.dv-track{position:relative;height:62px}
+.dv-zero{position:absolute;left:50%;top:-6px;bottom:-6px;width:2px;background:rgba(255,255,255,.35);z-index:2}
+.dv-bar{position:absolute;top:0;bottom:0;width:var(--w);display:flex;align-items:center;justify-content:center;transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.8,.2,1) .25s}
+.dv-bar.dn{right:50%;transform-origin:right center;background:#6c80b5;border-radius:12px 0 0 12px}
+.dv-bar.up{left:50%;transform-origin:left center;background:#D9A05B;border-radius:0 12px 12px 0}
+.dv-bar span{font:600 clamp(20px,2.4vw,30px)/1 'Paperlogy',sans-serif;color:#fff;white-space:nowrap}
+.dv-bar.up span{color:#172343}
+.rv.in .dv-bar{transform:scaleX(1)}
+.dv-ax{display:grid;grid-template-columns:230px 1fr;gap:22px}
+.dv-ax span{grid-column:2;display:none}
+.dv-ax{grid-template-columns:230px 1fr 1fr 1fr;gap:0;font-size:12px;color:#9a9285}
+.dv-ax span{display:block;grid-column:auto}
+.dv-ax span:nth-child(1){grid-column:2;text-align:left;padding-left:22px}
+.dv-ax span:nth-child(2){text-align:center}
+.dv-ax span:nth-child(3){text-align:right}
+.pic{max-width:860px;margin:30px auto 8px;text-align:center}
+.pic-row{display:flex;justify-content:center;gap:clamp(6px,1.4vw,14px)}
+.pic-row svg{width:clamp(28px,5vw,48px);height:auto;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s}
+.pic-row svg.up{fill:#D9A05B}.pic-row svg.dn{fill:#6c80b5}.pic-row svg.eq{fill:none;stroke:#9a9285;stroke-width:1.6}
+.rv.in .pic-row svg{opacity:1;transform:none}
+.pic-row svg:nth-child(1){transition-delay:.1s}.pic-row svg:nth-child(2){transition-delay:.18s}.pic-row svg:nth-child(3){transition-delay:.26s}.pic-row svg:nth-child(4){transition-delay:.34s}.pic-row svg:nth-child(5){transition-delay:.42s}.pic-row svg:nth-child(6){transition-delay:.5s}.pic-row svg:nth-child(7){transition-delay:.58s}.pic-row svg:nth-child(8){transition-delay:.66s}.pic-row svg:nth-child(9){transition-delay:.74s}.pic-row svg:nth-child(10){transition-delay:.82s}
+.pic p{margin:16px 0 0;font-size:17px;line-height:1.7;color:#b8b1a4}
+.pic p b{color:#ece7de}.pic p b.hi{color:#D9A05B}
+@media(max-width:760px){.dv-row{grid-template-columns:1fr;gap:8px}.dv-ax{grid-template-columns:1fr 1fr 1fr}.dv-ax span:nth-child(1){grid-column:auto;padding-left:0}}
 .foldx{max-width:860px;margin:36px auto 0;border:1px solid var(--rule);border-radius:14px;background:rgba(255,255,255,.03);padding:0 20px;text-align:left}
 .foldx>summary{cursor:pointer;list-style:none;padding:15px 0;font:600 15px/1.5 var(--sans);color:#D9A05B;text-align:center}
 .foldx>summary::-webkit-details-marker{display:none}
@@ -919,21 +957,35 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="cap">그림 7. 전입신고에 조건을 붙인 광고 75건</div>
     <div class="strip" id="quid"></div><div class="key" id="quidkey"></div>
     <div class="clips">
-      <div class="clip"><q>전입신고 가능(2만원추가)</q><span><i>추가 부담</i> · 다방 · 경기 의정부</span></div>
-      <div class="clip"><q>전입시 55,000원추가</q><span><i>추가 부담</i> · 다방 · 부산 기장</span></div>
-      <div class="clip"><q>전입신고시 월세 10% 추가</q><span><i>추가 부담</i> · 다방 · 부산 기장</span></div>
-      <div class="clip"><q>부가세 10% 발급시 전입가능</q><span><i>추가 부담</i> · 직방 · 대전</span></div>
-      <div class="clip"><q>전입신고 불가 조건으로 주변 시세 대비 보증금 0원, 저렴한 월세</q><span><i>할인 제시</i> · 다방 · 광주</span></div>
+      <div class="clip"><q>전입신고 가능(<mark>2만원추가</mark>)</q><span><i>추가 부담</i> · 다방 · 경기 의정부</span></div>
+      <div class="clip"><q>전입시 <mark>55,000원추가</mark></q><span><i>추가 부담</i> · 다방 · 부산 기장</span></div>
+      <div class="clip"><q>전입신고시 <mark>월세 10% 추가</mark></q><span><i>추가 부담</i> · 다방 · 부산 기장</span></div>
+      <div class="clip"><q><mark>부가세 10%</mark> 발급시 전입가능</q><span><i>추가 부담</i> · 직방 · 대전</span></div>
+      <div class="clip"><q>전입신고 불가 조건으로 주변 시세 대비 <mark>보증금 0원, 저렴한 월세</mark></q><span><i>할인 제시</i> · 다방 · 광주</span></div>
     </div>
 
-    <p style="max-width:640px;margin:20px auto -30px;text-align:center;font-size:18px;line-height:1.6;color:#ece7de">전입 불가 매물의 91.4%가 보증금 1,000만원 이하다.</p>
+    <div class="s91"><b>91.4%</b><span>전입 불가 매물이 보증금 1,000만원 이하다.<br>보증금이 적은 세입자일수록 이 조건을 만나기 쉽다</span></div>
 
     <h3>전입을 포기하면 정말 저렴할까</h3>
     <div class="body col">
       <p>앞서 본 이서준 씨는 전입신고를 포기하는 대가로 월세를 한 달 5만원 깎았다. 실제 매물도 그런지, 같은 시·군·구에서 면적이 비슷한 매물끼리 월세를 비교했다. 결과는 반대였다.</p>
     </div>
-    <div class="nums" style="margin:20px auto 12px;justify-content:center;text-align:center">
-      <div class="r" style="flex:none;max-width:420px;padding:0"><b>+<span data-num="ext.rent.0.diff_med"></span>만원</b><p><strong>월세 차이(중간값).</strong> 전입 불가 매물 <span data-num="ext.rent.0.ban_n"></span>건을 같은 동네·비슷한 면적 매물의 중간 월세와 비교</p></div>
+    <div class="dv">
+      <div class="dv-row">
+        <div class="dv-lab"><b>이서준 씨가 들은 조건</b><small>전입신고를 포기하면 월세를 깎아 준다</small></div>
+        <div class="dv-track"><i class="dv-zero"></i><div class="dv-bar dn" style="--w:25%"><span>−5만원</span></div></div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-lab"><b>실제 전입 불가 매물</b><small>같은 동네·비슷한 면적 일반 매물과 월세 차이(중간값), <span data-num="ext.rent.0.ban_n"></span>건</small></div>
+        <div class="dv-track"><i class="dv-zero"></i><div class="dv-bar up" style="--w:50%"><span>+<span data-num="ext.rent.0.diff_med"></span>만원</span></div></div>
+      </div>
+      <div class="dv-ax"><span>더 싸다</span><span>같다</span><span>더 비싸다</span></div>
+    </div>
+    <div class="pic">
+      <div class="pic-row" role="img" aria-label="전입 불가 매물 10건 중 7건은 같은 동네 비슷한 매물보다 월세가 더 비쌌다">
+        <svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="dn" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="dn" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="eq" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg>
+      </div>
+      <p><b>10건 중 7건</b>은 같은 동네 비슷한 매물보다 월세가 <b class="hi">더 비쌌다</b>(<span data-num="ext.rent.0.above"></span>%). 더 싼 건 2건(<span data-num="ext.rent.0.below"></span>%)이었다.</p>
     </div>
     <div class="cap">그림 8. 전입 불가 매물의 월세는 같은 동네 비슷한 매물보다 얼마나 비싼가</div>
     <div class="grp" id="rentdiff" style="grid-template-columns:repeat(7,1fr)"></div><div class="grpx" id="rentx" style="grid-template-columns:repeat(7,1fr)"></div>
