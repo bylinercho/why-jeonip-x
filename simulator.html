@@ -356,6 +356,17 @@ table.detail tr.total td{border-top-color:rgba(255,255,255,.3)}
 footer.assump{color:var(--text-muted);border-top:1px solid var(--border);padding-top:18px;font-size:12.5px}
 footer.assump b{color:var(--text-secondary)}
 @media(max-width:560px){.wrap{padding:22px 14px 70px}section.card{padding:18px 16px}}
+/* ===== 길이 줄이기: 접이식 영역 ===== */
+.region-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px}
+.region-top .region-select-all{margin-bottom:0}
+#regionGroups{display:none;margin-top:12px}
+#regionGroups.open{display:block}
+details.fold{border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.03);padding:0 16px}
+details.fold>summary{cursor:pointer;list-style:none;padding:13px 0;font-size:14px;font-weight:600;color:var(--accent)}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::after{content:' ▾';color:var(--text-muted)}
+details.fold[open]>summary::after{content:' ▴'}
+details.fold[open]{padding-bottom:16px}
 </style>
 </head>
 <body>
@@ -379,12 +390,15 @@ footer.assump b{color:var(--text-secondary)}
     <!-- STEP 0: 기초 데이터 -->
     <section class="card">
       <h2><span class="step-badge">0</span>기초 데이터</h2>
-      <p class="hint">전국 시·도별로 체크하면 해당 지역 매물 개수와 월세 총합(월간)이 합산됩니다. 「시·군·구 보기」를 누르면 시·군·구 단위로 고를 수 있습니다. 대상은 광고에 전입신고 불가를 적은 월세 매물(월세가 있는 보증부 월세 포함)이며 아파트는 제외했습니다. 판정 보류 매물은 넣지 않았습니다.</p>
+      <p class="hint">처음에는 전국 전체로 계산합니다. 지역을 좁히려면 「시·도별로 고르기」를 누르세요. 대상은 광고에 전입신고 불가를 적은 월세 매물이며 아파트와 판정 보류 매물은 뺐습니다.</p>
 
-      <label class="region-check-item region-select-all" id="regionSelectAllWrap">
-        <input type="checkbox" id="regionSelectAll" />
-        <span id="regionSelectAllText">전국 전체 선택</span>
-      </label>
+      <div class="region-top">
+        <label class="region-check-item region-select-all" id="regionSelectAllWrap">
+          <input type="checkbox" id="regionSelectAll" />
+          <span id="regionSelectAllText">전국 전체 선택</span>
+        </label>
+        <button type="button" class="rg-toggle" id="regionOpen">시·도별로 고르기 ▾</button>
+      </div>
       <div id="regionGroups"></div>
       <p class="split-hint" id="regionSumHint">지역을 선택하면 매물 개수와 월세 총합이 자동으로 계산됩니다.</p>
 
@@ -409,7 +423,7 @@ footer.assump b{color:var(--text-secondary)}
     <!-- STEP 1: 임대인 구조 추정 -->
     <section class="card">
       <h2><span class="step-badge">1</span>임대인 구조 추정</h2>
-      <p class="hint">전체 매물 중 몇 %가 몇 주택자의 매물인지 입력하세요. 추정 임대인 수 = N1/1 + N2/2 + N3/3 + N4/4. 경계선을 드래그하거나 숫자를 입력하면 비율이 바뀌고, 합계는 항상 100%로 유지됩니다.</p>
+      <p class="hint">전체 매물 중 몇 %가 몇 주택 소유자의 매물인지 정합니다. 경계선을 드래그하거나 숫자를 입력하세요(합계는 항상 100%).</p>
       <div class="split-slider" id="houseSplitTrack"></div>
       <div class="grid cols-4 split-numbers">
         <label class="field">1주택자 매물 비율 (%)
@@ -431,7 +445,7 @@ footer.assump b{color:var(--text-secondary)}
     <!-- STEP 2: 임대사업자 유형 -->
     <section class="card">
       <h2><span class="step-badge">2</span>임대사업자 유형</h2>
-      <p class="hint">등록/미등록 임대사업자 비율에 따라 필요경비율(등록 60%, 미등록 50%)과 기본공제액(등록 400만원, 미등록 200만원)이 다르게 적용됩니다. 경계선을 드래그하거나 숫자를 입력하세요.</p>
+      <p class="hint">등록 여부에 따라 필요경비율(등록 60%, 미등록 50%)과 기본공제(등록 400만원, 미등록 200만원)가 달라집니다.</p>
       <div class="split-slider" id="bizSplitTrack"></div>
       <div class="split-numbers">
         <label class="field">등록 임대사업자 비율 (%)
@@ -446,7 +460,7 @@ footer.assump b{color:var(--text-secondary)}
     <!-- STEP 3: 과세 방식 비율 -->
     <section class="card">
       <h2><span class="step-badge">3</span>과세 방식 비율</h2>
-      <p class="hint">임대인마다 과세 방식이 다를 수 있으므로, 1주택~4주택 비율처럼 분리과세/종합과세 비율과 종합과세 안의 소득 구간별 비율을 입력합니다. 경계선을 드래그하거나 숫자를 입력하세요 (모두 과세표준 기준, 합계는 항상 100%).</p>
+      <p class="hint">분리과세와 종합과세 비율을 정합니다. 경계선을 드래그하거나 숫자를 입력하세요(합계는 항상 100%).</p>
       <div class="split-slider" id="methodSplitTrack"></div>
       <div class="split-numbers">
         <label class="field">분리과세 비율 (%)
@@ -458,9 +472,12 @@ footer.assump b{color:var(--text-secondary)}
       </div>
 
       <div id="bracketWrap">
-        <p class="hint" style="margin-top: 18px;">종합과세 비율 중 소득 구간별 분포입니다. 막대의 경계선을 드래그하면 8개 구간 비율이 조정됩니다 (종합과세 비율 안에서 합계 항상 100%).</p>
+        <details class="fold" style="margin-top: 16px;">
+        <summary>종합과세 소득 구간별 비율 설정 (8개 구간, 필요하면 열어서 조정)</summary>
+        <p class="hint" style="margin-top: 12px;">종합과세 비율 중 소득 구간별 분포입니다. 막대의 경계선을 드래그하면 8개 구간 비율이 조정됩니다 (종합과세 비율 안에서 합계 항상 100%).</p>
         <div class="split-slider dense" id="bracketSplitTrack"></div>
         <div class="grid cols-4" id="bracketGrid" style="margin-top: 14px;"></div>
+        </details>
       </div>
     </section>
 
@@ -484,6 +501,8 @@ footer.assump b{color:var(--text-secondary)}
         </div>
       </div>
 
+      <details class="fold" id="calcDetails" style="margin-top: 18px;">
+      <summary>계산 과정과 그래프 자세히 보기</summary>
       <div class="table-scroll">
         <table class="detail" id="detailTable">
           <thead><tr><th>항목</th><th style="text-align:right;">값</th></tr></thead>
@@ -516,6 +535,8 @@ footer.assump b{color:var(--text-secondary)}
           <tbody id="methodDetailBody"></tbody>
         </table>
       </div>
+
+      </details>
 
       <div class="impact-section" id="impactBlock">
         <h3>이 정도 세수라면?</h3>
@@ -630,6 +651,10 @@ footer.assump b{color:var(--text-secondary)}
     body.appendChild(grid); box.appendChild(head); box.appendChild(body); regionGroups.appendChild(box);
     gcb.addEventListener('change', function(){ g.items.forEach(function(it){ it.cb.checked = gcb.checked; }); gcb.indeterminate = false; syncSelectAll(); updateRegionSum(); });
     groups.push(g);
+  });
+  el('regionOpen').addEventListener('click', function(){
+    var o = regionGroups.classList.toggle('open');
+    this.textContent = o ? '시·도 목록 접기 ▴' : '시·도별로 고르기 ▾';
   });
   function syncGroup(g){
     var n = g.items.filter(function(it){ return it.cb.checked; }).length;

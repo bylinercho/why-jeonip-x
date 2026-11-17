@@ -59,3 +59,14 @@ table.detail tr.total td{border-top-color:rgba(255,255,255,.3)}
 footer.assump{color:var(--text-muted);border-top:1px solid var(--border);padding-top:18px;font-size:12.5px}
 footer.assump b{color:var(--text-secondary)}
 @media(max-width:560px){.wrap{padding:22px 14px 70px}section.card{padding:18px 16px}}
+/* ===== 길이 줄이기: 접이식 영역 ===== */
+.region-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px}
+.region-top .region-select-all{margin-bottom:0}
+#regionGroups{display:none;margin-top:12px}
+#regionGroups.open{display:block}
+details.fold{border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.03);padding:0 16px}
+details.fold>summary{cursor:pointer;list-style:none;padding:13px 0;font-size:14px;font-weight:600;color:var(--accent)}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::after{content:' ▾';color:var(--text-muted)}
+details.fold[open]>summary::after{content:' ▴'}
+details.fold[open]{padding-bottom:16px}

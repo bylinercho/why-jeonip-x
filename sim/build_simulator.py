@@ -192,6 +192,53 @@ rep("""      </div>
 </div>""")
 
 
+# ---------- 길이 줄이기: 기본으로 접어 두기 ----------
+# (a) 시·도 17줄 목록은 접어 두고, 전국 전체 선택 한 줄만 보이게
+rep("""      <label class="region-check-item region-select-all" id="regionSelectAllWrap">
+        <input type="checkbox" id="regionSelectAll" />
+        <span id="regionSelectAllText">전국 전체 선택</span>
+      </label>""", """      <div class="region-top">
+        <label class="region-check-item region-select-all" id="regionSelectAllWrap">
+          <input type="checkbox" id="regionSelectAll" />
+          <span id="regionSelectAllText">전국 전체 선택</span>
+        </label>
+        <button type="button" class="rg-toggle" id="regionOpen">시·도별로 고르기 ▾</button>
+      </div>""")
+rep("  function syncGroup(g){", """  el('regionOpen').addEventListener('click', function(){
+    var o = regionGroups.classList.toggle('open');
+    this.textContent = o ? '시·도 목록 접기 ▴' : '시·도별로 고르기 ▾';
+  });
+  function syncGroup(g){""")
+# (b) 소득 구간 8개 입력은 접기
+rep("""        <div class="grid cols-4" id="bracketGrid" style="margin-top: 14px;"></div>
+      </div>""", """        <div class="grid cols-4" id="bracketGrid" style="margin-top: 14px;"></div>
+        </details>
+      </div>""")
+rep("""      <div id="bracketWrap">
+        <p class="hint" style="margin-top: 18px;">종합과세 비율 중 소득 구간별 분포입니다. 막대의 경계선을 드래그하면 8개 구간 비율이 조정됩니다 (종합과세 비율 안에서 합계 항상 100%).</p>""",
+"""      <div id="bracketWrap">
+        <details class="fold" style="margin-top: 16px;">
+        <summary>종합과세 소득 구간별 비율 설정 (8개 구간, 필요하면 열어서 조정)</summary>
+        <p class="hint" style="margin-top: 12px;">종합과세 비율 중 소득 구간별 분포입니다. 막대의 경계선을 드래그하면 8개 구간 비율이 조정됩니다 (종합과세 비율 안에서 합계 항상 100%).</p>""")
+# (c) 계산 과정 표·그래프는 접기 (핵심 지표·게이지·환산은 그대로 보임)
+rep("""      <div class="table-scroll">
+        <table class="detail" id="detailTable">""", """      <details class="fold" id="calcDetails" style="margin-top: 18px;">
+      <summary>계산 과정과 그래프 자세히 보기</summary>
+      <div class="table-scroll">
+        <table class="detail" id="detailTable">""")
+rep("""      <div class="impact-section" id="impactBlock">""", """      </details>
+
+      <div class="impact-section" id="impactBlock">""")
+# (d) 안내 문구 줄이기
+rep("""임대인마다 과세 방식이 다를 수 있으므로, 1주택~4주택 비율처럼 분리과세/종합과세 비율과 종합과세 안의 소득 구간별 비율을 입력합니다. 경계선을 드래그하거나 숫자를 입력하세요 (모두 과세표준 기준, 합계는 항상 100%).""",
+    """분리과세와 종합과세 비율을 정합니다. 경계선을 드래그하거나 숫자를 입력하세요(합계는 항상 100%).""")
+rep("""전체 매물 중 몇 %가 몇 주택자의 매물인지 입력하세요. 추정 임대인 수 = N1/1 + N2/2 + N3/3 + N4/4. 경계선을 드래그하거나 숫자를 입력하면 비율이 바뀌고, 합계는 항상 100%로 유지됩니다.""",
+    """전체 매물 중 몇 %가 몇 주택 소유자의 매물인지 정합니다. 경계선을 드래그하거나 숫자를 입력하세요(합계는 항상 100%).""")
+rep("""등록/미등록 임대사업자 비율에 따라 필요경비율(등록 60%, 미등록 50%)과 기본공제액(등록 400만원, 미등록 200만원)이 다르게 적용됩니다. 경계선을 드래그하거나 숫자를 입력하세요.""",
+    """등록 여부에 따라 필요경비율(등록 60%, 미등록 50%)과 기본공제(등록 400만원, 미등록 200만원)가 달라집니다.""")
+rep("""전국 시·도별로 체크하면 해당 지역 매물 개수와 월세 총합(월간)이 합산됩니다. 「시·군·구 보기」를 누르면 시·군·구 단위로 고를 수 있습니다. 대상은 광고에 전입신고 불가를 적은 월세 매물(월세가 있는 보증부 월세 포함)이며 아파트는 제외했습니다. 판정 보류 매물은 넣지 않았습니다.""",
+    """처음에는 전국 전체로 계산합니다. 지역을 좁히려면 「시·도별로 고르기」를 누르세요. 대상은 광고에 전입신고 불가를 적은 월세 매물이며 아파트와 판정 보류 매물은 뺐습니다.""")
+
 # ---------- 기사 컨셉 테마 ----------
 theme = (ROOT / "sim" / "theme_patch.txt").read_text(encoding="utf-8")
 rep("</style>\n</head>", theme + "</style>\n</head>")
