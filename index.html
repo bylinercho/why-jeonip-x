@@ -199,6 +199,8 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .lawcmp .box{margin:0}.lawcmp .box p{margin:0 0 12px}.lawcmp .box p:last-child{margin:0}
 .lawcmp .box b{display:inline-block;color:#ece7de;margin-right:6px}
 @media(max-width:760px){.lawcmp{grid-template-columns:1fr}}
+.taxbtn{display:inline-block;border:1.5px solid #D9A05B;color:#D9A05B;border-radius:999px;padding:12px 26px;font:600 16px/1.2 var(--sans);text-decoration:none;transition:background .15s,color .15s}
+.taxbtn:hover{background:#D9A05B;color:#172343}
 .foldx{max-width:860px;margin:36px auto 0;border:1px solid var(--rule);border-radius:14px;background:rgba(255,255,255,.03);padding:0 20px;text-align:left}
 .foldx>summary{cursor:pointer;list-style:none;padding:15px 0;font:600 15px/1.5 var(--sans);color:#D9A05B;text-align:center}
 .foldx>summary::-webkit-details-marker{display:none}
@@ -1106,6 +1108,35 @@ svg:hover .arc:not(:hover){opacity:.4}
       <p class="small">조례 본문에 관련 표현이 없다는 의미다. 지원센터 상담이나 내부 지침, 데이터베이스에 등록되지 않은 규정에서 해당 문제를 다루는지는 확인하지 못했다. 이행강제금 횟수·가중 규정은 조례 본문을 자동으로 읽어 추출했으며, 확인하지 못한 4곳은 분석에서 제외했다</p>
       <p>전입신고를 막는 매물은 광고에 사실대로 조건을 적으면 허위광고로 제재하기 어렵고, 건축물대장과 실제 용도가 다른 매물은 지자체의 점검이 시작돼야 행정 제재로 이어질 수 있다. 두 유형의 매물은 서로 다른 법의 적용을 받지만, 공통적으로 정부가 먼저 찾아내 관리하는 체계가 충분한지 의문이 남는다.</p>
       <p>정부가 "허위광고가 아니라서 단속하기 어렵다"고 답한다면 질문은 이어진다. 전입신고를 막는 조건을 별도로 표시하도록 하거나, 건축물대장상 용도와 실제 사용이 다른 임대 매물을 선제적으로 점검할 수는 없을까. 두 유형의 매물이 제도 사이에 남아 있는 한, 세입자가 계약 전에 위험을 알아서 걸러내야 하는 상황은 계속될 수밖에 없다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 9 ===== -->
+<section id="tax" data-t="CH.9 새는 세금">
+  <div class="wide rv">
+    <div class="art" data-n="09"><span>CH.9</span><em>세금</em></div>
+    <h2>전입을 막은 집에서<br>세금도 새고 있을까</h2>
+    <div class="body col">
+      <p>임대인이 전입신고를 막는 이유로 '세금'이 거론된다. 이호병 단국대 부동산학과 교수는 서울신문 인터뷰에서 임대인들이 오피스텔을 실제로는 주거용으로 쓰면서, 세금은 업무용으로 내려는 것이라고 설명했다.</p>
+      <p>구조는 이렇다. 주택 임대는 부가가치세가 면세다(부가가치세법 제26조 제1항 제12호). 반면 업무용으로 사업자등록을 한 오피스텔은 부가세를 환급받을 수 있고, 임대인의 보유 주택 수에도 잡히지 않는다는 것이 이 교수의 설명이다. 서울신문은 이렇게 아끼는 세금이 많게는 수천만원이라고 전했다. 그런데 세입자가 전입신고를 하면 그 집이 '사람이 사는 주택'으로 드러난다. 전입을 막는 것이 이 구조를 지키는 방법이라는 설명이다.</p>
+      <p>취재팀은 이 설명을 데이터로 직접 검증할 수 없다. 다만 광고 문구에 흔적은 남아 있었다.</p>
+    </div>
+    <div class="nums" style="margin:30px auto 12px;justify-content:center;text-align:center">
+      <div class="r" style="flex:1;max-width:340px;padding:0"><b>10.0%</b><p><strong>전입 불가 오피스텔 광고.</strong> 6,081건 중 611건의 제목에 '부가세' 또는 '사업자'가 있음</p></div>
+      <div class="r" style="flex:1;max-width:340px;padding:0"><b>1.4%</b><p><strong>전입 가능 오피스텔 광고.</strong> 39,984건 중 571건의 제목에 같은 말이 있음</p></div>
+    </div>
+    <p class="small" style="text-align:center">전입 불가 광고에서 약 7배 많았다. 제목만 본 값이라 본문까지 보면 더 많을 수 있다</p>
+    <div class="body col">
+      <p>'부가세 별도', '일반사업자', '전입X' 같은 말이 한 제목에 나란히 붙은 광고가 있었다. 부가세를 따로 받는다는 것은 사업용 임대를 전제한 표현이다. 그런데 광고는 풀옵션 원룸처럼 사람이 사는 집을 내놓고 있었다.</p>
+      <p>임대소득세도 같은 문제와 이어진다. 월세 임대소득은 기준시가 12억원 이하 주택 한 채만 가진 사람이 아니라면 과세 대상이다(소득세법 제12조 제2호 나목). 그런데 국토교통부가 2020년 6월 기준으로 임대료를 파악한 주택은 731만 가구 중 207만 가구(28.3%)에 그쳤다. 국세청은 종합소득세 신고 내역과 주민등록 자료, 주택 시세를 맞춰 보며 탈루를 가려내는데, 신고를 하지 않은 임대인은 납부 세액의 20%를 가산세로 낸다. 전입신고를 막으면 이 교차 검증에 쓰이는 자료 하나가 약해질 수 있다.</p>
+      <p>다만 전입을 막았다고 곧 탈세는 아니다. 세금을 정상적으로 내는 임대인도 있을 수 있고, 전입신고와 세금 신고는 별개의 의무다. 취재팀이 확인한 것은 전입을 막는 광고와 세금을 말하는 광고가 겹친다는 사실까지다.</p>
+    </div>
+    <div class="pull">전입을 막은 월세가 모두 과세된다면, 얼마가 걷힐까.</div>
+    <div class="body col">
+      <p>전입 불가를 밝힌 월세 매물 8,924건(아파트 제외)의 월세를 합치면 한 달에 약 80억원, 1년이면 약 960억원이다. 이 가운데 임대인이 몇 채를 가졌는지, 사업자로 등록했는지에 따라 걷히는 세금은 크게 달라진다. 가정을 직접 바꿔 볼 수 있게 계산기를 만들었다. 기본 가정으로는 약 37억원 안팎이 나온다.</p>
+      <p style="text-align:center;margin-top:24px"><a class="taxbtn" href="simulator.html" target="_blank" rel="noopener">잠재세수 계산기 열어 보기 →</a></p>
+      <p class="small">계산기는 실제 탈루 세액을 계산하지 않는다. 임대인 정보가 없는 매물 데이터에 가정값을 넣어 보는 시뮬레이션이라 실제와 다를 수 있다. 출처: 서울신문 2025. 4. 14. 보도(이호병 교수), 뉴시스 2020. 11. 11. 보도(국토부·국세청 설명), 부가가치세법 제26조, 소득세법 제12조(국가법령정보센터 현행 본문)</p>
     </div>
   </div>
 </section>
