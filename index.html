@@ -216,6 +216,7 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .dv{max-width:860px;margin:26px auto 12px;text-align:left}
 .dv-row{display:grid;grid-template-columns:230px 1fr;gap:22px;align-items:center;margin-bottom:18px}
 .dv-lab b{display:block;font:500 18px/1.4 'Paperlogy',sans-serif;color:#ece7de}
+.dv-lab small u{text-decoration:none;color:#ece7de;font-weight:700}
 .dv-lab small{display:block;font-size:13px;line-height:1.55;color:#9a9285;margin-top:3px}
 .dv-track{position:relative;height:62px}
 .dv-zero{position:absolute;left:50%;top:-6px;bottom:-6px;width:2px;background:rgba(255,255,255,.35);z-index:2}
@@ -976,7 +977,7 @@ svg:hover .arc:not(:hover){opacity:.4}
         <div class="dv-track"><i class="dv-zero"></i><div class="dv-bar dn" style="--w:25%"><span>−5만원</span></div></div>
       </div>
       <div class="dv-row">
-        <div class="dv-lab"><b>실제 전입 불가 매물</b><small>같은 동네·비슷한 면적 일반 매물과 월세 차이(중간값), <span data-num="ext.rent.0.ban_n"></span>건</small></div>
+        <div class="dv-lab"><b>실제 전입 불가 매물</b><small>같은 동네·비슷한 면적의 <u>전입 가능</u> 매물보다 월세가 이만큼 <u>더 비쌈</u>(중간값), <span data-num="ext.rent.0.ban_n"></span>건</small></div>
         <div class="dv-track"><i class="dv-zero"></i><div class="dv-bar up" style="--w:50%"><span>+<span data-num="ext.rent.0.diff_med"></span>만원</span></div></div>
       </div>
       <div class="dv-ax"><span>더 싸다</span><span>같다</span><span>더 비싸다</span></div>
