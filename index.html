@@ -242,6 +242,15 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .pic p{margin:16px 0 0;font-size:17px;line-height:1.7;color:#b8b1a4}
 .pic p b{color:#ece7de}.pic p b.hi{color:#D9A05B}
 @media(max-width:760px){.dv-row{grid-template-columns:1fr;gap:8px}.dv-ax{grid-template-columns:1fr 1fr 1fr}.dv-ax span:nth-child(1){grid-column:auto;padding-left:0}}
+.adp{max-width:780px;margin:14px auto 0;text-align:left}
+.adp-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr);gap:18px;align-items:center;margin-bottom:12px}
+.adp-q{font:500 16px/1.45 'Paperlogy',sans-serif;color:#ece7de}
+.adp-q small{display:block;font:400 12px/1.5 var(--sans);color:#9a9285;margin-top:2px}
+.adp-bar{height:40px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.adp-fill{height:100%;width:var(--w);background:#D9A05B;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s;display:flex;align-items:center;justify-content:flex-end;padding-right:12px;border-radius:10px 0 0 10px}
+.adp-fill span{font:600 16px/1 'Paperlogy',sans-serif;color:#172343;white-space:nowrap}
+.rv.in .adp-fill{transform:scaleX(1)}
+@media(max-width:760px){.adp-row{grid-template-columns:1fr;gap:6px}}
 .foldx{max-width:860px;margin:36px auto 0;border:1px solid var(--rule);border-radius:14px;background:rgba(255,255,255,.03);padding:0 20px;text-align:left}
 .foldx>summary{cursor:pointer;list-style:none;padding:15px 0;font:600 15px/1.5 var(--sans);color:#D9A05B;text-align:center}
 .foldx>summary::-webkit-details-marker{display:none}
@@ -969,30 +978,20 @@ svg:hover .arc:not(:hover){opacity:.4}
 
     <h3>전입을 포기하면 정말 저렴할까</h3>
     <div class="body col">
-      <p>앞서 본 이서준 씨는 전입신고를 포기하는 대가로 월세를 한 달 5만원 깎았다. 실제 매물도 그런지, 같은 시·군·구에서 면적이 비슷한 매물끼리 월세를 비교했다. 결과는 반대였다.</p>
+      <p>앞서 본 이서준 씨는 전입신고를 포기하는 대가로 월세를 한 달 5만원 깎았다. 광고 문구를 하나씩 읽어 보면 같은 값이 거꾸로 적혀 있다. 전입신고를 하려면 월세를 더 내라는 것이다.</p>
     </div>
-    <div class="dv">
-      <div class="dv-row">
-        <div class="dv-lab"><b>이서준 씨가 들은 조건</b><small>전입신고를 포기하면 월세를 깎아 준다</small></div>
-        <div class="dv-track"><i class="dv-zero"></i><div class="dv-bar dn" style="--w:25%"><span>−5만원</span></div></div>
-      </div>
-      <div class="dv-row">
-        <div class="dv-lab"><b>실제 전입 불가 매물</b><small>같은 동네·비슷한 면적의 <u>전입 가능</u> 매물보다 월세가 이만큼 <u>더 비쌈</u>(중간값), <span data-num="ext.rent.0.ban_n"></span>건</small></div>
-        <div class="dv-track"><i class="dv-zero"></i><div class="dv-bar up" style="--w:50%"><span>+<span data-num="ext.rent.0.diff_med"></span>만원</span></div></div>
-      </div>
-      <div class="dv-ax"><span>더 싸다</span><span>같다</span><span>더 비싸다</span></div>
+    <div class="cap">그림 8. 광고에 적힌 '전입하려면 더 내는 돈' (한 달 월세)</div>
+    <div class="adp">
+      <div class="adp-row"><div class="adp-q">“전입신고 가능(2만원추가)”<small>3건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:20%"><span>+2만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입시 55,000원추가”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:55%"><span>+5.5만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고시 월세 10% 추가”<small>1건 · 월세 65만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:65%"><span>+6.5만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고 시 월세 7만원 상향”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:70%"><span>+7만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고시 월세 5%인상”<small>1건 · 월세 160만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:80%"><span>+8만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입시 10만원추가비용”<small>8건 · 같은 매물이 반복 게시됨</small></div><div class="adp-bar"><div class="adp-fill" style="--w:100%"><span>+10만원</span></div></div></div>
     </div>
-    <div class="pic">
-      <div class="pic-row" role="img" aria-label="전입 불가 매물 10건 중 7건은 같은 동네 비슷한 매물보다 월세가 더 비쌌다">
-        <svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="up" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="dn" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="dn" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg><svg class="eq" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg>
-      </div>
-      <p><b>10건 중 7건</b>은 같은 동네 비슷한 매물보다 월세가 <b class="hi">더 비쌌다</b>(<span data-num="ext.rent.0.above"></span>%). 더 싼 건 2건(<span data-num="ext.rent.0.below"></span>%)이었다.</p>
-    </div>
-    <div class="cap">그림 8. 전입 불가 매물의 월세는 같은 동네 비슷한 매물보다 얼마나 비싼가</div>
-    <div class="grp" id="rentdiff" style="grid-template-columns:repeat(7,1fr)"></div><div class="grpx" id="rentx" style="grid-template-columns:repeat(7,1fr)"></div>
-    <div class="body col" style="margin-top:18px">
-      <p>대장상 주택만 따로 봐도 월세가 8만원 높았다(878건). <strong>전입을 포기한 대가로 싸게 사는 구조가 아니었다.</strong> 깎아 준다고 밝힌 광고는 19건뿐이다.</p>
-      <p class="small">비교 기준: 같은 시·군·구, 같은 면적대(20㎡ 미만, 20~30, 30~40, 40~60, 60㎡ 이상)에서 일반 매물이 20건 이상인 경우만 비교함. 건물 연식, 옵션, 단기 임대 여부는 맞추지 못함. 전입 불가 매물에 신축·풀옵션이 많다면 그 영향이 섞여 있음</p>
+    <div class="body col" style="margin-top:22px">
+      <p>전입을 하려면 한 달에 <mark>2만원에서 10만원</mark>을 더 내라는 광고가 25건이었고, 그중 15건이 금액을 적었다. 반대로 전입을 포기하면 깎아 준다는 광고는 19건이지만 <strong>월세를 얼마나 깎는지 적은 광고는 한 건도 없었다.</strong> 이 중 18건은 "주변 시세 대비 보증금 0원, 저렴한 월세"라는 같은 문구를 반복한 광고였다. 전입을 포기해서 아끼는 돈은 한 달에 몇만원이고, 그 대가로 보증금을 지킬 근거를 내놓는 셈이다.</p>
+      <p class="small">광고 건수는 매물 수 기준이며 같은 문구가 여러 매물에 반복된 경우를 포함한다. 전체 매물의 월세를 단순 비교하면 전입 불가 쪽 중간값이 오히려 더 높았지만(전입 불가 60만원, 전입 가능 35만원), 건물 유형과 옵션, 신축 여부를 맞추지 못해 이 기사의 근거로 쓰지 않았다</p>
     </div>
   </div>
 </section>
@@ -1601,7 +1600,7 @@ function fig6Render(el, o){
     })();
 
     (function(){
-      var el = $('rentdiff'), rx = $('rentx'); if(rx) rx.style.display = 'none';
+      var el = $('rentdiff'), rx = $('rentx'); if(!el) return; if(rx) rx.style.display = 'none';
       var V = [121,162,297,255,665,512,814], X = ['−20 이상','−10~20','−10 이내','같음','+10 이내','+10~20','+20 이상'], MX = 814, H = 130;
       var pp = function(a,b){ var s = V.reduce(function(x,y){ return x+y; },0); return (V.slice(a,b).reduce(function(x,y){ return x+y; },0)/s*100).toFixed(1); };
       var rgb = function(i){ return i<3 ? '141,151,184' : i===3 ? '154,146,133' : '217,160,91'; };
