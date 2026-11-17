@@ -191,5 +191,12 @@ rep("""      </div>
   </div>
 </div>""")
 
+
+# ---------- 기사 컨셉 테마 ----------
+theme = (ROOT / "sim" / "theme_patch.txt").read_text(encoding="utf-8")
+rep("</style>\n</head>", theme + "</style>\n</head>")
+rep("<style>\n  :root {", '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">\n<style>\n  :root {')
+rep('    <header class="top">\n      <div>\n        <h1>', '    <a class="back" href="./">← 전입신고 불가 매물 추적기로 돌아가기</a>\n    <header class="top">\n      <div>\n        <div class="chip">SIMULATOR</div>\n        <h1>')
+
 (ROOT / "simulator.html").write_text(s, encoding="utf-8", newline="")
 print("written", len(s))

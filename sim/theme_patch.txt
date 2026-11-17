@@ -1,0 +1,61 @@
+/* ===== 기사(index.html) 컨셉에 맞춘 테마: 네이비 배경, 크림 글자, 앰버 강조 ===== */
+@font-face{font-family:'Paperlogy';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Paperlogy';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+:root, :root[data-theme="light"], :root[data-theme="dark"]{
+  color-scheme: dark;
+  --page:#172343; --surface-1:rgba(255,255,255,.045);
+  --text-primary:#ece7de; --text-secondary:#b8b1a4; --text-muted:#9a9285;
+  --gridline:rgba(255,255,255,.10); --baseline:rgba(255,255,255,.22); --border:rgba(255,255,255,.14);
+  --series-1:#6c80b5; --series-2:#b4691a; --series-3:#5f8f86; --series-4:#D9A05B;
+  --critical:#e8a0a0; --ramp-base:#172343; --accent:#D9A05B;
+  --serif:'Paperlogy','Pretendard',sans-serif; --sans:'Pretendard',system-ui,sans-serif;
+}
+::selection{background:#D9A05B;color:#172343}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;line-height:1.7;background:var(--page)}
+.wrap{max-width:960px;padding:30px 20px 90px}
+a.back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;margin-bottom:22px}
+a.back:hover{color:#e8b978}
+.chip{display:inline-block;font:600 12px/1 var(--serif);letter-spacing:.14em;color:var(--accent);margin-bottom:12px}
+header.top{margin-bottom:12px}
+h1{font:500 clamp(26px,3.6vw,38px)/1.35 var(--serif);letter-spacing:-.01em;margin:0 0 12px}
+.sub{font-size:15.5px;line-height:1.8;color:var(--text-secondary)}
+.sub b{color:var(--accent);font-weight:600}
+button.theme-toggle{display:none}
+.disclaimer{background:transparent;border:1px solid rgba(217,160,91,.28);border-radius:14px;padding:14px 18px;font-size:13.5px;line-height:1.75;color:var(--text-secondary)}
+.disclaimer b{color:var(--accent)}
+section.card{background:var(--surface-1);border:1px solid var(--border);border-radius:16px;padding:22px 24px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+section.card h2{font:500 19px/1.4 var(--serif);margin:0 0 6px;gap:10px}
+section.card h2 .step-badge{background:var(--accent);color:#172343;width:24px;height:24px;font:600 12px/1 var(--serif)}
+section.card p.hint{font-size:13.5px;line-height:1.75;color:var(--text-muted)}
+label.field input[type="number"], label.field select{background:rgba(255,255,255,.06);border-radius:10px;color:var(--text-primary)}
+label.field input[type="number"]:focus, label.field select:focus{outline:2px solid var(--accent)}
+.region-check-item,.region-group,.opt-row{background:rgba(255,255,255,.04)}
+.region-group .region-check-item{background:rgba(255,255,255,.04)}
+.region-select-all{background:rgba(217,160,91,.10);border-color:rgba(217,160,91,.5)}
+input[type="checkbox"]{accent-color:var(--accent)}
+.rg-head input[type="checkbox"],.region-check-item input[type="checkbox"],.opt-row input{accent-color:var(--accent)}
+.rg-toggle{background:transparent}
+.seg-fill{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.seg-handle{background:#ece7de;border-color:#172343}
+.bf-badge{color:var(--accent);background:rgba(217,160,91,.14)}
+.stat-tile{background:rgba(255,255,255,.04);border-radius:12px}
+.stat-tile .st-value{font-family:var(--serif);font-weight:500}
+.stat-tile.highlight{border-color:rgba(217,160,91,.6)}
+.stat-tile.highlight .st-value{color:var(--accent)}
+.gauge-fill{background:var(--accent)}
+.gauge-marker::before{background:var(--accent);border-color:#172343}
+.gauge-marker-label{background:#ece7de;color:#172343;border-color:transparent}
+.bar-row .bar-fill{background:var(--accent)!important}
+.bar-row .bar-track{background:rgba(255,255,255,.08)}
+.impact-section{background:transparent;border:1px solid rgba(217,160,91,.3);border-radius:18px}
+.impact-section h3{font:500 22px/1.4 var(--serif);color:var(--accent)}
+.impact-card{background:rgba(255,255,255,.04);border-radius:14px}
+.impact-card .im-value{color:var(--accent);font-family:var(--serif);font-weight:500}
+.impact-card .im-assump input{background:rgba(255,255,255,.06)}
+table.detail th,table.detail td{border-bottom-color:rgba(255,255,255,.08)}
+table.detail tr.total td{border-top-color:rgba(255,255,255,.3)}
+.note-banner{background:rgba(217,160,91,.10);border-color:rgba(217,160,91,.5)}
+#tooltip{background:#ece7de;color:#172343}
+footer.assump{color:var(--text-muted);border-top:1px solid var(--border);padding-top:18px;font-size:12.5px}
+footer.assump b{color:var(--text-secondary)}
+@media(max-width:560px){.wrap{padding:22px 14px 70px}section.card{padding:18px 16px}}
