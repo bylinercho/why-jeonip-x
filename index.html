@@ -27,7 +27,7 @@ mark{background:none;color:#D9A05B;padding:0}
 section,footer,.hero{text-align:center}
 .wide{max-width:1100px;margin:0 auto;padding:0 48px}
 .col{max-width:640px;margin-left:auto;margin-right:auto}
-.chart,.two,.nums,.strip,.key,.cap,.grp,.grpx,table.cmp,table.duty,.flow,.who,#whobox,.clips,.box,.pull,.depctl,#reveal,.contracts,.blank,.ledger,.legend,.memo,.formula{max-width:860px;margin-left:auto;margin-right:auto}
+.chart,.two,.nums,.strip,.key,.cap,.grp,.grpx,table.cmp,table.duty,.flow,.clips,.box,.pull,.depctl,#reveal,.contracts,.blank,.ledger,.legend,.memo,.formula{max-width:860px;margin-left:auto;margin-right:auto}
 .mapbox{max-width:1000px;margin-left:auto;margin-right:auto}
 .cap,.key,.legend,.small{text-align:center;justify-content:center}
 .small{max-width:640px;margin-left:auto;margin-right:auto}
@@ -244,15 +244,6 @@ html.leaf-open{overflow:hidden}
 .lf-t{padding-top:2px}
 .lf-ar{text-align:center;color:#D9A05B;font-size:20px;line-height:1.4;margin:2px 0}
 @media(max-width:760px){.lf{grid-template-columns:1fr;gap:8px}}
-.who{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:26px auto 0;text-align:left}
-@media(max-width:640px){.who{grid-template-columns:repeat(2,1fr)}}
-.who button{font:inherit;text-align:left;cursor:pointer;background:transparent;border:1.5px solid var(--ln);border-radius:16px;padding:14px 16px;color:#ece7de}
-.who button b{display:block;font:500 19px/1.5 'Paperlogy',sans-serif}
-.who button span{font-size:12.5px;color:#9a9285}
-.who button.on{background:#D9A05B;border-color:#D9A05B;color:#172343}.who button.on span{color:#3a2c14}
-#whobox{border:1px solid rgba(217,160,91,.25);border-radius:16px;margin-top:14px;padding:24px 24px 10px;text-align:left}
-#whobox .say{font:500 21px/1.6 'Paperlogy',sans-serif;margin:0 0 14px;color:#ece7de}
-#whobox ol{margin:0 0 16px;padding-left:22px;font-size:15.5px;color:#b8b1a4}
 footer{margin:60px auto 0;padding:48px 0 100px;border-top:1px solid var(--rule2);font-size:14px;color:#9a9285;max-width:700px}
 footer h3{font-size:17px;margin:0 auto 14px}
 footer ul{text-align:left;padding-left:20px}
@@ -364,7 +355,7 @@ body.lock{overflow:hidden}
 @media(prefers-reduced-motion:reduce){.contracts .sheet,.cpill{opacity:1;transform:none;transition:none}}
 .clip{background:rgba(255,255,255,.06);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border:1px solid rgba(255,255,255,.14);color:#ece7de;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
 .clip span{color:#9a9285}.clip i{color:#D9A05B}
-.memo,.box,#reveal,.panel,#whobox,.mapwrap{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.memo,.box,#reveal,.panel,.mapwrap{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 #gtip{position:fixed;z-index:9999;pointer-events:none;max-width:280px;padding:8px 12px;border-radius:10px;font:500 13px/1.5 Pretendard,sans-serif;color:#ece7de;background:rgba(23,35,67,.78);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.2);box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
 #gtip.on{opacity:1;transform:none}
 .arc{transition:opacity .2s,stroke-dasharray 1.1s cubic-bezier(.22,.85,.3,1)!important;cursor:pointer}
@@ -1131,21 +1122,6 @@ svg:hover .arc:not(:hover){opacity:.4}
   </div>
 </section>
 
-<!-- ===== 8 ===== -->
-<section id="chain" data-t="CH.9 책임의 단절">
-  <div class="wide rv">
-    <div class="art" data-n="09"><span>CH.9</span><em>책임의 단절</em></div>
-    <h2>책임은 어디에서<br>끊길까</h2>
-    <div class="body col"><p>네 주체를 차례로 눌러 보세요. 각자 내놓을 법한 답과, 그 답으로는 풀리지 않는 질문이 나옵니다.</p></div>
-    <div class="who" id="who"></div>
-    <div id="whobox"></div>
-    <div class="body col" style="margin-top:30px">
-      <p>플랫폼이 문제를 알고도 반복 노출을 허용했는지 확인되기 전에는 '방조'라고 단정할 수 없다. 이 취재는 누가 '나쁜 쪽'인지 먼저 정해 두지 않았다. 규정이 없는 문제인지, 있는 권한을 쓰지 않은 문제인지, 기관 사이에서 책임이 끊긴 문제인지 나눠서 본다.</p>
-    </div>
-    <div class="memo">네 주체의 답변을 받아 나란히 싣기. 플랫폼에는 약관·등록 정책·신고 처리·제재 건수 질의. 답을 못 받으면 질의 일자와 회신 여부 밝히기. 보도 전 반론 기회 제공.</div>
-  </div>
-</section>
-
 <!-- ===== 맺음 ===== -->
 <section id="close" data-t="맺으며">
   <div class="wide rv">
@@ -1161,7 +1137,7 @@ svg:hover .arc:not(:hover){opacity:.4}
         <li>다방·직방·피터팬·당근마켓의 월세·전세 매물 534,959건을 2026년 11월에 수집함. 확실한 중복(같은 ID, 재등록, 공동중개, 플랫폼 사이에서 건물·층·면적·보증금·월세가 모두 같은 매물)을 뺀 510,562건을 분석함</li>
         <li>건축HUB 건축물대장 표제부(2026년 9월분)와 지번을 기준으로 대조함. 매칭률은 다방 93.9%, 직방 88.2%, 피터팬 97.4%, 당근 97%</li>
         <li>전입 가능 여부는 광고 본문을 기준으로 가능·보류·불가능으로 판정함. 표현이 확정적이지 않은 보류 474건은 불가에 넣지 않음</li>
-        <li>당근마켓 매물에는 중개사무소 정보가 없어, 제6조의 사무소별 집계에는 다방·직방·피터팬 매물만 반영함</li>
+        <li>당근마켓 매물에는 중개사무소 정보가 없어, CH.6의 사무소별 집계에는 다방·직방·피터팬 매물만 반영함</li>
         <li>지도 경계는 행정동 경계 자료(vuski/admdongkor, 2026년 10월 1일 기준)를 시·군·구로 합쳐 그림</li>
         <li>지자체 조례는 법제처 국가법령정보 공동활용 API로 2026년 11월 17일에 내려받아 분석함. 건축 조례 174곳(자치구는 시·도 조례를 따르므로 제외), 임차인 보호 계열 조례 121건</li>
         <li>건축물대장은 건물 단위 표제부 기준이라, 층별·호실별로 용도가 다른 건물은 개별 매물의 실제 용도와 어긋날 수 있음(층별개요·전유부는 대조하지 못함)</li>
@@ -1775,20 +1751,6 @@ function fig6Render(el, o){
     zoomTo(pad(G.bb, .02)); render(); labels();
   })();
 
-  /* ===== 책임 주체 ===== */
-  var A = [
-    {n:'임대인', s:'조건을 만든 쪽', say:'"건물 용도나 계약 조건 때문에 어쩔 수 없어요."', q:['왜 전입신고를 막았나요','추가 월세나 할인은 무엇을 근거로 정했나요','임대차 신고 의무는 지켰나요']},
-    {n:'중개업자', s:'광고하고 중개한 쪽', say:'"임대인의 요구를 전달했을 뿐이에요."', q:['전입을 막는 이유를 확인했나요','보증금 보호의 위험을 세입자에게 설명했나요','광고와 계약서 내용이 같은가요']},
-    {n:'플랫폼', s:'계속 보여 준 쪽', say:'"매물 정보는 이용자가 등록합니다."', q:['전입 제한 문구를 어떤 기준으로 관리하나요','신고가 들어오면 어떤 조치를 하나요','같은 게시자의 반복 등록을 막나요']},
-    {n:'정부·지자체', s:'점검할 권한이 있는 쪽', say:'"사실대로 알린 광고는 허위광고로 제재하기 어렵습니다."', q:['전입 불가 광고가 점검 항목에 들어 있나요','권한이 있는데 쓰지 않은 건 아닌가요','제도 개선을 검토한 적이 있나요']}
-  ];
-  function showWho(i){
-    $('who').innerHTML = A.map(function(a, j){ return '<button type="button" class="'+(j===i?'on':'')+'" data-i="'+j+'"><b>'+a.n+'</b><span>'+a.s+'</span></button>'; }).join('');
-    $('who').querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ showWho(+b.dataset.i); }); });
-    var a = A[i];
-    $('whobox').innerHTML = '<div class="cap">돌아올 법한 답</div><p class="say">'+a.say+'</p><div class="cap">그 답으로 풀리지 않는 질문</div><ol>'+a.q.map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>';
-  }
-  showWho(0);
 })();
 </script>
 
