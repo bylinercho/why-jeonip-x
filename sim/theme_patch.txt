@@ -116,3 +116,11 @@ label.field input[type="number"],label.field select{padding:6px 8px;font-size:13
   .minibar b{color:#D9A05B;font:500 18px/1.2 var(--serif)}
   body{padding-bottom:58px}
 }
+/* ===== 데스크톱: 입력·결과 두 칸의 아래 높이를 맞춤 ===== */
+@media(min-width:941px){
+  .layout{align-items:stretch}
+  .layout:has(#calcDetails[open]){align-items:start}
+  .inputs{display:flex;flex-direction:column;justify-content:space-between}
+  .resultcol{position:static;max-height:none;overflow:visible;display:flex;flex-direction:column}
+  .resultcol>section.card{flex:1}
+}
