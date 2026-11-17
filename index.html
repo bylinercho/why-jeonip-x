@@ -223,6 +223,21 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .lf{display:grid;grid-template-columns:200px 1fr auto;gap:18px;align-items:start;border:1.5px solid var(--ln);border-radius:16px;padding:16px 20px}
 .lf-h b{display:block;font:500 17px/1.5 'Paperlogy',sans-serif;color:#ece7de}
 .lf-h small{display:block;font-size:12.5px;line-height:1.5;color:#9a9285;margin-top:2px}
+.lf-h-btn{align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.lf-btn{align-self:flex-start;border:1.5px solid #D9A05B;background:transparent;color:#D9A05B;font:600 13.5px/1.3 var(--sans);padding:9px 14px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s}
+.lf-btn:hover,.lf-btn:focus-visible{background:#D9A05B;color:#172343;outline:none}
+.leafm{position:fixed;inset:0;z-index:9999;background:rgba(10,16,34,.94);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 14px 40px}
+.leafm[hidden]{display:none}
+.leafm-in{max-width:1240px;margin:0 auto;text-align:center}
+.leafm-bar{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 4px 14px;background:linear-gradient(rgba(10,16,34,.98),rgba(10,16,34,.9) 70%,transparent)}
+.leafm-t{font:500 15px/1.5 var(--sans);color:#ece7de;text-align:left}
+.leafm-x{flex:none;border:1px solid rgba(255,255,255,.35);background:transparent;color:#ece7de;font:600 13.5px/1 var(--sans);padding:9px 14px;border-radius:999px;cursor:pointer}
+.leafm-x:hover{background:#ece7de;color:#172343}
+.leafm figure{margin:12px 0 26px}
+.leafm figcaption{font:600 13px/1.5 var(--sans);color:#9a9285;margin:0 0 8px;text-align:left}
+.leafm img{display:block;width:100%;height:auto;border-radius:10px;background:#fff}
+.leafm-s{font:400 12.5px/1.6 var(--sans);color:#9a9285;margin-top:4px;text-align:left}
+html.leaf-open{overflow:hidden}
 .lf-q{font-size:15px;line-height:1.75;color:#b8b1a4}
 .lf-q em{font-style:normal;font-weight:700;color:#D9A05B}
 .lf-s{display:block;font-size:13px;line-height:1.65;color:#9a9285;margin-top:8px}
@@ -1051,7 +1066,7 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="cap">그림 11. 온라인 매물 광고 점검이 흘러가는 길</div>
     <div class="lawflow">
       <div class="lf">
-        <div class="lf-h"><b>국토교통부</b><small>공인중개사법 제18조의3 제1항</small></div>
+        <div class="lf-h lf-h-btn"><div><b>국토교통부</b><small>공인중개사법 제18조의3 제1항</small></div><button type="button" class="lf-btn" id="leafBtn" aria-haspopup="dialog">정부 모니터링 리플릿 보기</button></div>
         <div class="lf-q">“국토교통부장관은 인터넷을 이용한 중개대상물에 대한 표시ㆍ광고가 제18조의2의 규정을 준수하는지 여부를 모니터링 <em>할 수 있다</em>.”
           <span class="lf-s">시행규칙 제10조의3 제1항: 기본 모니터링은 분기별로, 수시 모니터링은 “법 제18조의2를 위반한 사실이 의심되는 경우 등 국토교통부장관이 필요하다고 판단하여 실시하는 모니터링”이다.</span></div>
         <div class="lf-t"><span class="tag may">할 수 있다</span></div>
@@ -1799,6 +1814,29 @@ function fig6Render(el, o){
     svg.addEventListener('mousemove',show); svg.addEventListener('click',show);
     svg.addEventListener('mouseleave',function(){tip.style.opacity=0;});
   }catch(e){}
+})();
+</script>
+<div class="leafm" id="leafModal" hidden role="dialog" aria-modal="true" aria-label="정부 모니터링 리플릿">
+  <div class="leafm-in">
+    <div class="leafm-bar"><div class="leafm-t">국토교통부 「부동산 중개대상물 인터넷 표시·광고 모니터링 안내」 리플릿</div><button type="button" class="leafm-x" id="leafClose">닫기 ✕</button></div>
+    <figure><figcaption>리플릿 1면: 모니터링이란, 수행기관, 업무 흐름, 과태료 안내</figcaption><a href="img/leaflet_1.jpg" target="_blank" rel="noopener"><img data-src="img/leaflet_1.jpg" alt="국토교통부 부동산 중개대상물 인터넷 표시·광고 모니터링 안내 리플릿 1면" decoding="async"></a></figure>
+    <figure><figcaption>리플릿 2면: 주요 위반 유형, 광고에 명시해야 할 사항</figcaption><a href="img/leaflet_2.jpg" target="_blank" rel="noopener"><img data-src="img/leaflet_2.jpg" alt="국토교통부 부동산 중개대상물 인터넷 표시·광고 모니터링 안내 리플릿 2면" decoding="async"></a></figure>
+    <p class="leafm-s">이미지를 누르면 원본 크기로 열립니다. 출처: 국토교통부 리플릿</p>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('leafBtn'), m=document.getElementById('leafModal'), x=document.getElementById('leafClose');
+  if(!btn||!m) return;
+  var loaded=false, last=null;
+  function open(){
+    if(!loaded){ [].forEach.call(m.querySelectorAll('img[data-src]'),function(i){ i.src=i.getAttribute('data-src'); }); loaded=true; }
+    last=document.activeElement; m.hidden=false; m.scrollTop=0; document.documentElement.classList.add('leaf-open'); x.focus();
+  }
+  function close(){ m.hidden=true; document.documentElement.classList.remove('leaf-open'); if(last&&last.focus) last.focus(); }
+  btn.addEventListener('click',open); x.addEventListener('click',close);
+  m.addEventListener('click',function(e){ if(e.target===m) close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!m.hidden) close(); });
 })();
 </script>
 </body></html>
