@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>전입신고 불가 월세 매물 잠재세수 시뮬레이터 (전국)</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6; /* blue   - 필요경비 */
+    --series-2:       #eb6834; /* orange - 기본공제 */
+    --series-3:       #1baf7a; /* aqua   - 과세표준 */
+    --series-4:       #eda100; /* yellow - warn accents */
+    --good:           #0ca30c;
+    --critical:       #d03b3b;
+    --ramp-base:      #fcfcfb; /* 순서형(ordinal) 색 그라데이션이 옅어질 때 섞이는 기준색 */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --series-3:       #199e70;
+      --series-4:       #c98500;
+      --good:           #0ca30c;
+      --critical:       #e66767;
+      --ramp-base:      #3a3a36;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --gridline:       #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --series-3:       #199e70;
+    --series-4:       #c98500;
+    --good:           #0ca30c;
+    --critical:       #e66767;
+    --ramp-base:      #3a3a36;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  header.top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 16px; margin-bottom: 8px;
+  }
+  h1 { font-size: 22px; font-weight: 700; margin: 0 0 6px; }
+  .sub { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0; }
+  .disclaimer {
+    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+    background: var(--surface-1); border: 1px solid var(--border);
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.6;
+  }
+  .disclaimer b { color: var(--text-primary); }
+
+  button.theme-toggle {
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary);
+    border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; white-space: nowrap;
+  }
+
+  section.card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px; margin-top: 18px;
+  }
+  section.card h2 {
+    font-size: 15px; margin: 0 0 4px; display: flex; align-items: center; gap: 8px;
+  }
+  section.card h2 .step-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%; background: var(--series-1);
+    color: #fff; font-size: 11px; font-weight: 700; flex: none;
+  }
+  section.card p.hint { font-size: 12.5px; color: var(--text-muted); margin: 0 0 14px; line-height: 1.6; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 720px) {
+    .grid, .grid.cols-4 { grid-template-columns: 1fr 1fr; }
+  }
+
+  label.field { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; color: var(--text-secondary); }
+  label.field input[type="number"], label.field select {
+    font-size: 14px; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--page); color: var(--text-primary); font-family: inherit;
+    font-variant-numeric: tabular-nums;
+  }
+  label.field input[type="number"]:focus, label.field select:focus { outline: 2px solid var(--series-1); outline-offset: 1px; }
+
+  .unit-row { display: flex; gap: 8px; align-items: center; }
+  .unit-row input { flex: 1; }
+  .unit-row select { width: 84px; }
+
+  .region-check-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  @media (max-width: 720px) { .region-check-grid { grid-template-columns: repeat(2, 1fr); } }
+  .region-check-item {
+    display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-primary);
+    padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--page); cursor: pointer;
+  }
+  .region-check-item input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--series-1); cursor: pointer; flex: none; }
+  .region-select-all {
+    display: inline-flex; width: auto; margin-bottom: 10px; font-weight: 600;
+    background: color-mix(in srgb, var(--series-1) 10%, var(--surface-1));
+    border-color: var(--series-1);
+  }
+
+  .region-group { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; background: var(--page); }
+  .rg-head { display: flex; align-items: center; gap: 10px; padding: 8px 12px; flex-wrap: wrap; }
+  .rg-head label { display: flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; cursor: pointer; flex: 1 1 auto; min-width: 140px; }
+  .rg-head input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--series-1); }
+  .rg-meta { font-size: 12px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .rg-toggle { border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary); border-radius: 7px; padding: 4px 9px; font-size: 12px; cursor: pointer; }
+  .rg-body { display: none; padding: 0 12px 12px; }
+  .region-group.open .rg-body { display: block; }
+  .region-group .region-check-grid { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 720px) { .region-group .region-check-grid { grid-template-columns: repeat(2, 1fr); } }
+  .region-group .region-check-item { background: var(--surface-1); font-size: 12.5px; }
+  .opt-row { display: flex; align-items: flex-start; gap: 8px; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; background: var(--page); cursor: pointer; }
+  .opt-row input { margin-top: 3px; accent-color: var(--series-1); flex: none; }
+  #bracketWrap { margin-top: 12px; }
+
+  /* ---- generic drag segment slider (여러 구간 비율을 마우스로 드래그해서 조정) ---- */
+  .split-slider {
+    position: relative; height: 42px; border-radius: 10px; overflow: hidden;
+    background: var(--gridline); cursor: pointer; touch-action: none; user-select: none;
+  }
+  .split-slider.dense { height: 34px; }
+  .seg-fill {
+    position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden;
+  }
+  .seg-handle {
+    position: absolute; top: 3px; bottom: 3px; width: 12px; margin-left: -6px;
+    background: var(--surface-1); border: 2px solid var(--text-primary); border-radius: 6px;
+    cursor: ew-resize; box-shadow: 0 1px 3px rgba(0,0,0,0.3); pointer-events: none;
+  }
+  @media (max-width: 480px) {
+    /* 좁은 화면에서는 구간이 좁아져 막대 안 라벨 글자가 옆 구간까지 삐져나오므로 숨김 —
+       정확한 비율 값은 막대 바로 아래 숫자 입력칸과 드래그/탭 시 툴팁으로 계속 확인 가능 */
+    .seg-fill { font-size: 0; }
+  }
+  .split-numbers { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .split-numbers label.field { flex: 1 1 130px; min-width: 0; }
+  .split-numbers.grid.cols-4 { margin-top: 12px; }
+
+  /* ---- 소득 구간 카드 (높이를 항상 맞춰서 가지런하게) ---- */
+  .bracket-field { gap: 8px; }
+  .bf-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-height: 32px; }
+  .bf-range { font-size: 12px; color: var(--text-secondary); line-height: 1.35; }
+  .bf-badge {
+    flex: none; font-size: 11px; font-weight: 700; color: var(--series-1);
+    background: color-mix(in srgb, var(--series-1) 14%, var(--surface-1));
+    border-radius: 999px; padding: 2px 8px; white-space: nowrap;
+  }
+
+  /* ---- 잠재세수 위치 게이지 ---- */
+  .gauge-track {
+    position: relative; height: 10px; border-radius: 6px; background: var(--gridline);
+    margin: 30px 6px 8px;
+  }
+  .gauge-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 6px; background: var(--series-1); }
+  .gauge-marker { position: absolute; top: 50%; width: 2px; height: 22px; margin-top: -11px; margin-left: -1px; background: var(--text-primary); }
+  .gauge-marker::before {
+    content: ''; position: absolute; top: -5px; left: -5px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--series-3); border: 2px solid var(--surface-1); box-shadow: 0 0 0 1px var(--border);
+  }
+  .gauge-marker-label {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    font-size: 11.5px; font-weight: 700; color: var(--text-primary); white-space: nowrap;
+    background: var(--surface-1); padding: 2px 7px; border-radius: 6px; border: 1px solid var(--border);
+  }
+  .gauge-scale { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-muted); padding: 0 6px; }
+
+  /* ---- results ---- */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+  @media (max-width: 720px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+  .stat-tile {
+    background: var(--page); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .stat-tile .st-label { font-size: 11.5px; color: var(--text-muted); }
+  .stat-tile .st-value { font-size: 19px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .stat-tile .st-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+  .stat-tile.highlight { border-color: var(--series-1); }
+  .stat-tile.highlight .st-value { color: var(--series-1); }
+
+  /* ---- impact conversion ---- */
+  .impact-section {
+    margin-top: 28px; padding: 22px 24px; border-radius: 16px;
+    background: color-mix(in srgb, var(--series-1) 7%, var(--surface-1));
+    border: 1px solid color-mix(in srgb, var(--series-1) 25%, var(--border));
+  }
+  .impact-section h3 { font-size: 17px; margin: 0 0 4px; }
+  .impact-section p.chart-hint { font-size: 12.5px; margin: 0 0 16px; }
+  .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .impact-card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .impact-card .im-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .impact-card .im-value { font-size: 28px; font-weight: 700; color: var(--series-1); font-variant-numeric: tabular-nums; }
+  .impact-card .im-assump {
+    font-size: 12px; color: var(--text-muted); line-height: 1.6;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 5px;
+  }
+  .impact-card .im-assump .im-chip {
+    display: inline-flex; align-items: center; gap: 3px; white-space: nowrap;
+  }
+  .impact-card .im-assump input {
+    width: 50px; font-size: 12px; padding: 3px 5px; border: 1px solid var(--border);
+    border-radius: 6px; background: var(--page); color: var(--text-primary);
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .impact-card .im-assump input#impactMealPeople,
+  .impact-card .im-assump input#impactMealAmt { width: 60px; }
+  .impact-card .im-note { font-size: 11px; color: var(--text-muted); line-height: 1.5; opacity: 0.85; }
+
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 6px; }
+  table.detail {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+  }
+  table.detail th, table.detail td {
+    text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--gridline);
+  }
+  table.detail th { color: var(--text-muted); font-weight: 600; font-size: 12px; white-space: nowrap; }
+  table.detail td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.detail tr.total td { font-weight: 700; border-top: 2px solid var(--baseline); border-bottom: none; }
+  @media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr; }
+    #bracketGrid { grid-template-columns: 1fr; }
+  }
+
+  .chart-block { margin-top: 22px; }
+  .chart-block h3 { font-size: 13px; margin: 0 0 4px; }
+  .chart-block p.chart-hint { font-size: 11.5px; color: var(--text-muted); margin: 0 0 10px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; font-size: 12px; color: var(--text-secondary); }
+  .legend .lg-item { display: flex; align-items: center; gap: 6px; }
+  .legend .lg-swatch { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .bar-row .bar-label { width: 92px; font-size: 12px; color: var(--text-secondary); flex: none; }
+  .bar-row .bar-track { flex: 1; height: 20px; background: var(--gridline); border-radius: 4px; position: relative; overflow: hidden; }
+  .bar-row .bar-fill { height: 100%; border-radius: 4px; }
+  .bar-row .bar-value { width: 130px; text-align: right; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--text-primary); flex: none; }
+
+  .stack-track { display: flex; height: 26px; border-radius: 4px; overflow: hidden; background: var(--gridline); }
+  .stack-seg { height: 100%; }
+
+  #tooltip {
+    position: fixed; pointer-events: none; z-index: 50;
+    background: var(--text-primary); color: var(--surface-1);
+    font-size: 12px; padding: 5px 8px; border-radius: 6px; opacity: 0; transition: opacity .1s;
+    transform: translate(-50%, -120%); white-space: nowrap;
+  }
+
+  .note-banner {
+    margin-top: 10px; padding: 10px 12px; border-radius: 8px;
+    background: rgba(237,161,0,0.10); border: 1px solid var(--series-4); color: var(--text-secondary);
+    font-size: 12px; display:none;
+  }
+  .note-banner.show { display: block; }
+
+  footer.assump {
+    margin-top: 26px; font-size: 11.5px; color: var(--text-muted); line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="wrap">
+
+    <header class="top">
+      <div>
+        <h1>전입신고 불가 월세 매물 잠재세수 시뮬레이터</h1>
+        <p class="sub">2026년 11월 다방·직방·피터팬·당근마켓에서 모은 전국 매물 가운데, 광고에 전입신고 불가를 밝힌 <b>월세 매물 8,924건</b>(아파트 제외)의 임대소득이 정상적으로 신고·과세될 경우 발생할 수 있는 <b>잠재 세수 규모</b>를 추정합니다.</p>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button">다크 모드</button>
+    </header>
+
+    <div class="disclaimer">
+      <b>이 도구는 실제 탈루 세액을 계산하는 세금 계산기가 아닙니다.</b> 임대인 식별 정보가 없는 매물 데이터를 바탕으로, 사용자가 입력한 가정값(주택 보유 구조, 임대사업자 등록 비율 등)에 따라 잠재적 과세 규모가 어떻게 달라지는지 보여주는 시뮬레이션 모델입니다. 광고에 전입신고 불가를 적은 매물이 곧 세금을 내지 않는 매물이라는 뜻은 아니며, 실제 임대인별 세부담과는 다를 수 있습니다. 기본 가정값은 근거가 확인된 통계가 아니라 예시입니다.
+    </div>
+
+    <!-- STEP 0: 기초 데이터 -->
+    <section class="card">
+      <h2><span class="step-badge">0</span>기초 데이터</h2>
+      <p class="hint">전국 시·도별로 체크하면 해당 지역 매물 개수와 월세 총합(월간)이 합산됩니다. 「시·군·구 보기」를 누르면 시·군·구 단위로 고를 수 있습니다. 대상은 광고에 전입신고 불가를 적은 월세 매물(월세가 있는 보증부 월세 포함)이며 아파트는 제외했습니다. 판정 보류 매물은 넣지 않았습니다.</p>
+
+      <label class="region-check-item region-select-all" id="regionSelectAllWrap">
+        <input type="checkbox" id="regionSelectAll" />
+        <span id="regionSelectAllText">전국 전체 선택</span>
+      </label>
+      <div id="regionGroups"></div>
+      <p class="split-hint" id="regionSumHint">지역을 선택하면 매물 개수와 월세 총합이 자동으로 계산됩니다.</p>
+
+      <div class="grid" style="margin-top: 14px; display: none;">
+        <label class="field">
+          전체 매물 개수
+          <input type="number" id="totalListings" min="0" step="1" value="1000" />
+        </label>
+        <label class="field">
+          월세 총합 (전체 매물 월세의 합)
+          <span class="unit-row">
+            <input type="number" id="totalRent" min="0" step="1" value="50000" />
+            <select id="rentUnit">
+              <option value="10000" selected>만원</option>
+              <option value="1">원</option>
+            </select>
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <!-- STEP 1: 임대인 구조 추정 -->
+    <section class="card">
+      <h2><span class="step-badge">1</span>임대인 구조 추정</h2>
+      <p class="hint">전체 매물 중 몇 %가 몇 주택자의 매물인지 입력하세요. 추정 임대인 수 = N1/1 + N2/2 + N3/3 + N4/4. 경계선을 드래그하거나 숫자를 입력하면 비율이 바뀌고, 합계는 항상 100%로 유지됩니다.</p>
+      <div class="split-slider" id="houseSplitTrack"></div>
+      <div class="grid cols-4 split-numbers">
+        <label class="field">1주택자 매물 비율 (%)
+          <input type="number" id="r1" min="0" max="100" step="0.1" value="40" />
+        </label>
+        <label class="field">2주택자 매물 비율 (%)
+          <input type="number" id="r2" min="0" max="100" step="0.1" value="30" />
+        </label>
+        <label class="field">3주택자 매물 비율 (%)
+          <input type="number" id="r3" min="0" max="100" step="0.1" value="20" />
+        </label>
+        <label class="field">4주택 이상 매물 비율 (%)
+          <input type="number" id="r4" min="0" max="100" step="0.1" value="10" />
+        </label>
+      </div>
+      <label class="opt-row"><input type="checkbox" id="excl1" checked /><span>1주택 소유자의 월세 소득은 비과세로 보고 과세 대상에서 뺍니다. 소득세법상 국내 1주택 소유자의 주택 임대소득은 원칙적으로 비과세입니다(기준시가 12억원 초과 주택 등은 예외인데, 이 도구는 주택 가격을 알 수 없어 반영하지 못합니다). 체크를 풀면 1주택 매물도 과세하는 최대 시나리오로 계산합니다.</span></label>
+    </section>
+
+    <!-- STEP 2: 임대사업자 유형 -->
+    <section class="card">
+      <h2><span class="step-badge">2</span>임대사업자 유형</h2>
+      <p class="hint">등록/미등록 임대사업자 비율에 따라 필요경비율(등록 60%, 미등록 50%)과 기본공제액(등록 400만원, 미등록 200만원)이 다르게 적용됩니다. 경계선을 드래그하거나 숫자를 입력하세요.</p>
+      <div class="split-slider" id="bizSplitTrack"></div>
+      <div class="split-numbers">
+        <label class="field">등록 임대사업자 비율 (%)
+          <input type="number" id="regRatioNum" min="0" max="100" step="0.1" value="30" />
+        </label>
+        <label class="field">미등록 임대사업자 비율 (%)
+          <input type="number" id="unregRatioNum" min="0" max="100" step="0.1" value="70" />
+        </label>
+      </div>
+    </section>
+
+    <!-- STEP 3: 과세 방식 비율 -->
+    <section class="card">
+      <h2><span class="step-badge">3</span>과세 방식 비율</h2>
+      <p class="hint">임대인마다 과세 방식이 다를 수 있으므로, 1주택~4주택 비율처럼 분리과세/종합과세 비율과 종합과세 안의 소득 구간별 비율을 입력합니다. 경계선을 드래그하거나 숫자를 입력하세요 (모두 과세표준 기준, 합계는 항상 100%).</p>
+      <div class="split-slider" id="methodSplitTrack"></div>
+      <div class="split-numbers">
+        <label class="field">분리과세 비율 (%)
+          <input type="number" id="sepRatio" min="0" max="100" step="0.1" value="60" />
+        </label>
+        <label class="field">종합과세 비율 (%)
+          <input type="number" id="compRatio" min="0" max="100" step="0.1" value="40" />
+        </label>
+      </div>
+
+      <div id="bracketWrap">
+        <p class="hint" style="margin-top: 18px;">종합과세 비율 중 소득 구간별 분포입니다. 막대의 경계선을 드래그하면 8개 구간 비율이 조정됩니다 (종합과세 비율 안에서 합계 항상 100%).</p>
+        <div class="split-slider dense" id="bracketSplitTrack"></div>
+        <div class="grid cols-4" id="bracketGrid" style="margin-top: 14px;"></div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="card">
+      <h2>계산 결과</h2>
+      <div class="note-banner" id="noteBanner"></div>
+
+      <div class="stat-grid" id="statGrid" style="margin-top:14px;"></div>
+
+      <div class="chart-block" id="gaugeBlock">
+        <h3>현재 설정 잠재세수의 위치</h3>
+        <p class="chart-hint">1단계 4주택 100%·2단계 미등록 100%·3단계 종합과세 100%(10억원 초과 구간 100%)로 가정했을 때 나오는 세액을 오른쪽 끝(최댓값)에 두고, 지금 설정으로 계산된 위 최종 잠재세수가 그 사이 어디에 있는지 표시합니다.</p>
+        <div class="gauge-track" id="gaugeTrack">
+          <div class="gauge-fill" id="gaugeFill"></div>
+          <div class="gauge-marker" id="gaugeMarker"><span class="gauge-marker-label" id="gaugeMarkerLabel"></span></div>
+        </div>
+        <div class="gauge-scale">
+          <span>0원</span>
+          <span id="gaugeMaxLabel"></span>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="detail" id="detailTable">
+          <thead><tr><th>항목</th><th style="text-align:right;">값</th></tr></thead>
+          <tbody id="detailBody"></tbody>
+        </table>
+      </div>
+
+      <div class="chart-block">
+        <h3>연간 임대수입 구성 (필요경비 · 기본공제 · 과세표준)</h3>
+        <p class="chart-hint">연간 임대수입(@) 중 필요경비와 기본공제를 제외한 나머지가 과세표준입니다.</p>
+        <div class="legend" id="stackLegend"></div>
+        <div class="stack-track" id="stackTrack"></div>
+      </div>
+
+      <div class="chart-block">
+        <h3>주택 보유 구간별 추정 임대인 수</h3>
+        <p class="chart-hint">각 구간 매물 수를 보유 주택 수로 나눠 추정한 임대인 수입니다 (마우스를 올리면 정확한 값이 표시됩니다).</p>
+        <div id="landlordBars"></div>
+      </div>
+
+      <div class="chart-block">
+        <h3>과세 방식·소득 구간별 예상 소득세</h3>
+        <p class="chart-hint">분리과세 비율과 종합과세 내 소득 구간별 비율에 따라 과세표준이 나뉘고, 각 구간의 세율·누진공제가 적용된 세액입니다.</p>
+        <div id="methodBars"></div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="detail" id="methodDetailTable">
+          <thead><tr><th>과세 방식 / 소득 구간</th><th style="text-align:right;">비율</th><th style="text-align:right;">과세표준</th><th style="text-align:right;">세율 (누진공제)</th><th style="text-align:right;">세액</th></tr></thead>
+          <tbody id="methodDetailBody"></tbody>
+        </table>
+      </div>
+
+      <div class="impact-section" id="impactBlock">
+        <h3>이 정도 세수라면?</h3>
+        <p class="chart-hint">최종 잠재세수를 실제 청년 지원 정책 기준으로 환산한 예시입니다. 아래 입력칸의 가정값은 실제 제도를 참고했지만 직접 바꿀 수 있습니다.</p>
+        <div class="impact-grid" id="impactGrid">
+          <div class="impact-card">
+            <div class="im-label">청년 월세 지원</div>
+            <div class="im-value" id="impactHousingValue">-</div>
+            <div class="im-assump">
+              <span class="im-chip">청년 1명당 월</span>
+              <span class="im-chip"><input type="number" id="impactHousingAmt" value="20" min="0" step="1" />만원</span>
+              <span class="im-chip">× 12개월 지원 기준</span>
+            </div>
+            <div class="im-note">청년월세 특별지원 사업 기준 참고</div>
+          </div>
+          <div class="impact-card">
+            <div class="im-label">청년 대중교통비 지원</div>
+            <div class="im-value" id="impactTransitValue">-</div>
+            <div class="im-assump">
+              <span class="im-chip">청년 1명당 월</span>
+              <span class="im-chip"><input type="number" id="impactTransitAmt" value="5" min="0" step="1" />만원</span>
+              <span class="im-chip">× 12개월 지원 기준</span>
+            </div>
+          </div>
+          <div class="impact-card">
+            <div class="im-label">천원의 아침밥</div>
+            <div class="im-value" id="impactMealValue">-</div>
+            <div class="im-assump">
+              <span class="im-chip">대학생 <input type="number" id="impactMealPeople" value="1000" min="1" step="1" />명</span>
+              <span class="im-chip">1끼당 <input type="number" id="impactMealAmt" value="2000" min="0" step="100" />원</span>
+              <span class="im-chip">(정부 지원분) 지원 기준</span>
+            </div>
+            <div class="im-note">1식 5,000원 중 정부 2,000원·학생 1,000원·대학·지자체 각 1,000원 부담 사례 참고</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="assump">
+      <b>이 모델이 반영하지 못하는 것</b><br>
+      · 1주택 소유자 비과세의 예외(기준시가 12억원 초과 등), 3주택 이상 보증금의 간주임대료, 등록 임대주택 세제 혜택은 반영하지 않습니다.<br>
+      · 기본공제 400만원·200만원은 분리과세 제도의 공제인데, 이 모델은 종합과세 몫에도 같은 방식으로 적용합니다. 소득 구간별 누진공제도 구간마다 나눠 단순화했습니다.<br>
+      · 주택 수, 등록 비율, 과세 방식, 소득 구간 비율의 기본값은 근거가 있는 통계가 아니라 예시이며, 값을 바꾸면 결과가 크게 달라집니다.<br>
+      · 데이터는 2026년 11월 다방·직방·피터팬·당근마켓에 공개된 매물입니다. 같은 임대인이 올린 매물인지 알 수 없고, 오프라인으로만 맺은 계약은 포함되지 않습니다.
+    </footer>
+
+  </div>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var BRACKETS = [
+    { label: '1,400만원 이하',                          rate: 0.06, deduction: 0 },
+    { label: '1,400만원 초과 ~ 5,000만원 이하',           rate: 0.15, deduction: 1260000 },
+    { label: '5,000만원 초과 ~ 8,800만원 이하',           rate: 0.24, deduction: 5760000 },
+    { label: '8,800만원 초과 ~ 1억 5,000만원 이하',        rate: 0.35, deduction: 15440000 },
+    { label: '1억 5,000만원 초과 ~ 3억원 이하',            rate: 0.38, deduction: 19940000 },
+    { label: '3억원 초과 ~ 5억원 이하',                    rate: 0.40, deduction: 25940000 },
+    { label: '5억원 초과 ~ 10억원 이하',                   rate: 0.42, deduction: 35940000 },
+    { label: '10억원 초과',                               rate: 0.45, deduction: 65940000 }
+  ];
+
+  // ---- element refs ----
+  var el = function(id){ return document.getElementById(id); };
+  var totalListingsEl = el('totalListings');
+  var totalRentEl = el('totalRent');
+  var rentUnitEl = el('rentUnit');
+  var houseRatioEls = [el('r1'), el('r2'), el('r3'), el('r4')];
+  var methodRatioEls = [el('sepRatio'), el('compRatio')];
+  var tooltip = el('tooltip');
+
+  // ---- 0단계: 전국 시·도 / 시·군·구별 전입 불가 월세 매물 수·월세 합계(만원, 월간) ----
+  // 2026년 11월 수집, 4개 플랫폼, 중복 제거 후 아파트 제외 전입 불가 월세(월세>0) 매물. sim/make_region_data.py로 집계.
+  var REGION_DATA = {"강원":{"강릉시":[7,735],"속초시":[58,5607],"원주시":[22,1236],"춘천시":[17,808],"평창군":[2,115],"홍천군":[1,40]},"경기":{"고양시":[237,26730],"과천시":[6,1450],"광명시":[18,1302],"광주시":[6,525],"구리시":[118,10481],"군포시":[7,439],"김포시":[212,12100],"남양주시":[132,13415],"동두천시":[1,30],"부천시":[76,4187],"성남시":[47,4702],"수원시":[457,32206],"시흥시":[37,2453],"안산시":[762,42099],"안성시":[3,260],"안양시":[57,5450],"양주시":[12,1011],"양평군":[2,110],"오산시":[79,4897],"용인시":[40,3307],"의왕시":[4,355],"의정부시":[64,3121],"이천시":[1,60],"파주시":[90,7755],"평택시":[262,20126],"하남시":[473,38870],"화성시":[476,37040]},"경남":{"거제시":[5,210],"김해시":[5,178],"남해군":[1,35],"양산시":[8,374],"진주시":[7,320],"창원시":[29,1864],"통영시":[2,35]},"경북":{"경산시":[20,1178],"구미시":[2,62],"김천시":[7,432],"의성군":[1,150],"포항시":[2,78]},"광주·전남":{"광산구":[63,3933],"나주시":[24,1179],"남구":[5,272],"동구":[66,4918],"목포시":[1,50],"무안군":[5,190],"북구":[14,741],"서구":[32,1954],"여수시":[48,3187]},"기타":{"익산시":[1,80]},"대구":{"남구":[6,515],"달서구":[4,316],"달성군":[8,366],"동구":[10,469],"북구":[3,150],"서구":[5,200],"수성구":[14,1005],"중구":[44,2568]},"대전":{"대덕구":[9,520],"동구":[11,549],"서구":[96,4768],"유성구":[61,4439],"중구":[11,424]},"부산":{"강서구":[14,1044],"금정구":[6,250],"기장군":[97,5827],"남구":[23,1667],"동구":[21,1974],"동래구":[29,1872],"부산진구":[187,12235],"북구":[1,36],"사상구":[16,809],"사하구":[1,36],"수영구":[112,7873],"연제구":[39,1961],"영도구":[1,85],"중구":[15,855],"해운대구":[35,3834]},"서울":{"강남구":[568,116648],"강동구":[91,10405],"강북구":[9,720],"강서구":[60,5317],"관악구":[186,10278],"광진구":[57,6948],"구로구":[51,3684],"금천구":[230,14759],"노원구":[4,225],"도봉구":[15,983],"동대문구":[123,14865],"동작구":[37,2018],"마포구":[36,4766],"서대문구":[29,3497],"서초구":[300,57592],"성동구":[43,5538],"성북구":[8,557],"송파구":[170,27959],"양천구":[13,1230],"영등포구":[105,11486],"용산구":[53,12081],"은평구":[11,970],"종로구":[46,5691],"중구":[40,6065],"중랑구":[27,2326]},"세종":{"세종시":[14,707]},"울산":{"남구":[52,1874],"울주군":[6,305],"중구":[7,232]},"인천":{"검단구":[58,5226],"계양구":[6,415],"남동구":[76,4153],"미추홀구":[99,6379],"부평구":[150,10387],"서해구":[332,28311],"연수구":[108,9018],"영종구":[58,2872],"제물포구":[22,1293]},"전북":{"익산시":[12,909],"전주시":[30,1472]},"제주":{"서귀포시":[58,2777],"제주시":[315,24494]},"충남":{"당진시":[3,182],"보령시":[1,47],"아산시":[36,2495],"천안시":[87,5610],"태안군":[1,30],"홍성군":[2,65]},"충북":{"음성군":[10,490],"제천시":[1,31],"진천군":[1,35],"청주시":[54,3183]}};
+  var SIDO_ORDER = ['서울','경기','인천','부산','대구','대전','광주·전남','울산','세종','강원','충북','충남','전북','경북','경남','제주','기타'];
+  var SIDO_LABEL = { '기타': '기타(지역 미분류)' };
+  var regionGroups = el('regionGroups');
+  var allItems = [];
+  var groups = [];
+  SIDO_ORDER.forEach(function(sido){
+    var data = REGION_DATA[sido]; if (!data) return;
+    var names = Object.keys(data).sort(function(x, y){ return data[y][0] - data[x][0] || x.localeCompare(y, 'ko'); });
+    var box = document.createElement('div'); box.className = 'region-group';
+    var head = document.createElement('div'); head.className = 'rg-head';
+    var lab = document.createElement('label');
+    var gcb = document.createElement('input'); gcb.type = 'checkbox';
+    var nm = document.createElement('span'); nm.textContent = SIDO_LABEL[sido] || sido;
+    lab.appendChild(gcb); lab.appendChild(nm);
+    var meta = document.createElement('span'); meta.className = 'rg-meta';
+    var cnt = 0, val = 0; names.forEach(function(n){ cnt += data[n][0]; val += data[n][1]; });
+    meta.textContent = '매물 ' + cnt.toLocaleString('ko-KR') + '개 · 월세 ' + val.toLocaleString('ko-KR') + '만원';
+    var tg = document.createElement('button'); tg.type = 'button'; tg.className = 'rg-toggle'; tg.textContent = '시·군·구 보기 ▾';
+    tg.addEventListener('click', function(){ var o = box.classList.toggle('open'); tg.textContent = o ? '시·군·구 접기 ▴' : '시·군·구 보기 ▾'; });
+    head.appendChild(lab); head.appendChild(meta); head.appendChild(tg);
+    var body = document.createElement('div'); body.className = 'rg-body';
+    var grid = document.createElement('div'); grid.className = 'region-check-grid';
+    var g = { cb: gcb, items: [], box: box };
+    names.forEach(function(n){
+      var l = document.createElement('label'); l.className = 'region-check-item';
+      var c = document.createElement('input'); c.type = 'checkbox';
+      var sp = document.createElement('span'); sp.textContent = n + ' ' + data[n][0].toLocaleString('ko-KR');
+      l.title = n + ' · 매물 ' + data[n][0] + '개 · 월세 ' + data[n][1].toLocaleString('ko-KR') + '만원';
+      l.appendChild(c); l.appendChild(sp); grid.appendChild(l);
+      var it = { cb: c, count: data[n][0], value: data[n][1] };
+      g.items.push(it); allItems.push(it);
+      c.addEventListener('change', function(){ syncGroup(g); syncSelectAll(); updateRegionSum(); });
+    });
+    body.appendChild(grid); box.appendChild(head); box.appendChild(body); regionGroups.appendChild(box);
+    gcb.addEventListener('change', function(){ g.items.forEach(function(it){ it.cb.checked = gcb.checked; }); gcb.indeterminate = false; syncSelectAll(); updateRegionSum(); });
+    groups.push(g);
+  });
+  function syncGroup(g){
+    var n = g.items.filter(function(it){ return it.cb.checked; }).length;
+    g.cb.checked = n === g.items.length;
+    g.cb.indeterminate = n > 0 && n < g.items.length;
+  }
+  var regionSelectAll = el('regionSelectAll');
+  el('regionSelectAllText').textContent = '전국 전체 선택 (' + groups.length + '개 시·도, ' + allItems.length + '개 시·군·구)';
+  regionSelectAll.addEventListener('change', function(){
+    allItems.forEach(function(it){ it.cb.checked = regionSelectAll.checked; });
+    groups.forEach(syncGroup);
+    regionSelectAll.indeterminate = false;
+    updateRegionSum();
+  });
+  function syncSelectAll(){
+    var n = allItems.filter(function(it){ return it.cb.checked; }).length;
+    regionSelectAll.checked = n === allItems.length;
+    regionSelectAll.indeterminate = n > 0 && n < allItems.length;
+  }
+
+  function updateRegionSum(){
+    var rentSum = 0, listingSum = 0, regionCount = 0;
+    allItems.forEach(function(it){
+      if (it.cb.checked){ rentSum += it.value; listingSum += it.count; regionCount++; }
+    });
+    el('regionSumHint').textContent = regionCount
+      ? ('선택한 ' + regionCount + '개 시·군·구 · 매물 ' + listingSum.toLocaleString('ko-KR') + '개 · 월세 총합 ' + rentSum.toLocaleString('ko-KR') + '만원이 자동으로 계산되었습니다.')
+      : '지역을 선택하면 매물 개수와 월세 총합이 자동으로 계산됩니다.';
+    rentUnitEl.value = '10000';
+    totalRentEl.value = rentSum;
+    totalListingsEl.value = listingSum;
+    recompute();
+  }
+
+  // ---- formatting helpers ----
+  function fmtWon(n){
+    if (!isFinite(n)) n = 0;
+    return Math.round(n).toLocaleString('ko-KR') + '원';
+  }
+  function fmtKorean(n){
+    n = Math.round(n);
+    if (n < 0) return '-' + fmtKorean(-n);
+    var eok = Math.floor(n / 100000000);
+    var man = Math.floor((n % 100000000) / 10000);
+    var won = n % 10000;
+    var parts = [];
+    if (eok > 0) parts.push(eok.toLocaleString('ko-KR') + '억');
+    if (man > 0) parts.push(man.toLocaleString('ko-KR') + '만');
+    if (parts.length === 0) parts.push(won.toLocaleString('ko-KR'));
+    return parts.join(' ') + '원';
+  }
+  function fmtNum(n, digits){
+    if (!isFinite(n)) n = 0;
+    return n.toLocaleString('ko-KR', { maximumFractionDigits: digits == null ? 0 : digits });
+  }
+  function fmtPct(n){
+    return (Math.round(n * 10) / 10) + '%';
+  }
+
+  // ---- tooltip helper ----
+  function showTooltip(evt, text){
+    tooltip.textContent = text;
+    tooltip.style.left = evt.clientX + 'px';
+    tooltip.style.top = evt.clientY + 'px';
+    tooltip.style.opacity = '1';
+  }
+  function hideTooltip(){ tooltip.style.opacity = '0'; }
+
+  // ---- 일반화된 드래그 구간 슬라이더 ----
+  // N개 항목의 비율(합계 100)을 하나의 막대에서 경계선을 드래그해 조정한다.
+  // 경계선 하나를 옮기면 그 좌우 두 구간만 바뀌므로 합계는 항상 100으로 유지된다.
+  function createSplitSlider(opts){
+    var track = opts.track;
+    var values = opts.values;
+    var N = values.length;
+    var draggingIdx = null;
+
+    function cumSum(uptoExclusive){
+      var s = 0;
+      for (var i = 0; i < uptoExclusive; i++) s += values[i];
+      return s;
+    }
+    function colorFor(i){
+      return typeof opts.colors === 'function' ? opts.colors(i) : opts.colors[i];
+    }
+    function tooltipFor(i){
+      if (opts.tooltipLabels) return opts.tooltipLabels[i];
+      if (opts.labels) return opts.labels[i];
+      return '구간 ' + (i + 1);
+    }
+    function draw(){
+      track.innerHTML = '';
+      var left = 0;
+      for (var i = 0; i < N; i++){
+        var seg = document.createElement('div');
+        seg.className = 'seg-fill';
+        seg.style.left = left + '%';
+        seg.style.width = Math.max(0, values[i]) + '%';
+        seg.style.background = colorFor(i);
+        if (opts.labels && values[i] >= 9){
+          seg.textContent = opts.labels[i] + ' ' + fmtPct(values[i]);
+        }
+        (function(idx){
+          seg.addEventListener('mousemove', function(e){ showTooltip(e, tooltipFor(idx) + ': ' + fmtPct(values[idx])); });
+          seg.addEventListener('mouseleave', hideTooltip);
+        })(i);
+        track.appendChild(seg);
+        left += values[i];
+        if (i < N - 1){
+          var handle = document.createElement('div');
+          handle.className = 'seg-handle';
+          handle.style.left = left + '%';
+          track.appendChild(handle);
+        }
+      }
+      if (opts.numberInputs){
+        opts.numberInputs.forEach(function(inp, idx){ inp.value = Math.round(values[idx] * 10) / 10; });
+      }
+    }
+    function moveBoundary(idx, clientX){
+      var rect = track.getBoundingClientRect();
+      var posPct = (clientX - rect.left) / rect.width * 100;
+      var leftBound = cumSum(idx);
+      var rightBound = cumSum(idx + 2);
+      posPct = Math.max(leftBound, Math.min(rightBound, posPct));
+      values[idx] = posPct - leftBound;
+      values[idx + 1] = rightBound - posPct;
+      draw();
+      opts.onChange(values);
+    }
+    function nearestBoundary(clientX){
+      var rect = track.getBoundingClientRect();
+      var posPct = (clientX - rect.left) / rect.width * 100;
+      var bestIdx = 0, bestDist = Infinity;
+      for (var i = 0; i < N - 1; i++){
+        var d = Math.abs(cumSum(i + 1) - posPct);
+        if (d < bestDist){ bestDist = d; bestIdx = i; }
+      }
+      return bestIdx;
+    }
+    track.addEventListener('pointerdown', function(e){
+      if (N < 2) return;
+      draggingIdx = nearestBoundary(e.clientX);
+      try { track.setPointerCapture(e.pointerId); } catch(err){}
+      moveBoundary(draggingIdx, e.clientX);
+    });
+    track.addEventListener('pointermove', function(e){
+      if (draggingIdx == null) return;
+      moveBoundary(draggingIdx, e.clientX);
+    });
+    track.addEventListener('pointerup', function(){ draggingIdx = null; });
+    track.addEventListener('pointercancel', function(){ draggingIdx = null; });
+
+    if (opts.numberInputs){
+      opts.numberInputs.forEach(function(inp, idx){
+        inp.addEventListener('input', function(){
+          var v = parseFloat(inp.value);
+          if (isNaN(v)) return;
+          v = Math.max(0, Math.min(100, v));
+          var othersSum = 100 - values[idx];
+          var remaining = 100 - v;
+          if (othersSum <= 0.0001){
+            var each = remaining / (N - 1 || 1);
+            for (var i = 0; i < N; i++){ if (i !== idx) values[i] = each; }
+          } else {
+            var scale = remaining / othersSum;
+            for (var i = 0; i < N; i++){ if (i !== idx) values[i] = values[i] * scale; }
+          }
+          values[idx] = v;
+          draw();
+          opts.onChange(values);
+        });
+      });
+    }
+
+    draw();
+    return { redraw: draw, values: values };
+  }
+
+  // ---- 1단계: 1~4주택 매물 비율 슬라이더 ----
+  var houseSlider = createSplitSlider({
+    track: el('houseSplitTrack'),
+    values: [40, 30, 20, 10],
+    colors: ['var(--series-1)', 'var(--series-2)', 'var(--series-3)', 'var(--series-4)'],
+    labels: ['1주택', '2주택', '3주택', '4주택+'],
+    numberInputs: houseRatioEls,
+    onChange: function(){ recompute(); }
+  });
+
+  // ---- 2단계: 등록/미등록 임대사업자 비율 슬라이더 ----
+  var bizSlider = createSplitSlider({
+    track: el('bizSplitTrack'),
+    values: [30, 70],
+    colors: ['var(--series-1)', 'var(--series-2)'],
+    labels: ['등록', '미등록'],
+    numberInputs: [el('regRatioNum'), el('unregRatioNum')],
+    onChange: function(){ recompute(); }
+  });
+
+  // ---- 3단계: 분리과세/종합과세 비율 슬라이더 ----
+  var methodSlider = createSplitSlider({
+    track: el('methodSplitTrack'),
+    values: [60, 40],
+    colors: ['var(--series-1)', 'var(--series-2)'],
+    labels: ['분리과세', '종합과세'],
+    numberInputs: methodRatioEls,
+    onChange: function(){ updateBracketVisibility(); recompute(); }
+  });
+
+  // ---- 3단계 하위: 종합과세 내 소득 구간별 비율 입력칸 + 슬라이더 ----
+  var DEFAULT_BRACKET_RATIOS = [30, 25, 20, 12, 7, 3, 2, 1]; // 합계 100, 낮은 구간에 집중된 기본값
+  var BRACKET_MIX_PCT = [32, 42, 52, 62, 72, 82, 91, 100]; // 낮은 구간일수록 옅은 색(순서형 팔레트)
+  var BRACKET_SHORT = [
+    '1,400만원 이하', '1,400만~5,000만원', '5,000만~8,800만원', '8,800만~1억 5,000만원',
+    '1억 5,000만~3억원', '3억~5억원', '5억~10억원', '10억원 초과'
+  ];
+  var bracketGrid = el('bracketGrid');
+  var bracketEls = BRACKETS.map(function(b, i){
+    var label = document.createElement('label');
+    label.className = 'field bracket-field';
+
+    var top = document.createElement('div');
+    top.className = 'bf-top';
+    var range = document.createElement('span');
+    range.className = 'bf-range';
+    range.textContent = BRACKET_SHORT[i];
+    var badge = document.createElement('span');
+    badge.className = 'bf-badge';
+    badge.textContent = (b.rate*100).toFixed(0) + '%';
+    top.appendChild(range);
+    top.appendChild(badge);
+    label.appendChild(top);
+
+    var input = document.createElement('input');
+    input.type = 'number';
+    input.min = '0'; input.max = '100'; input.step = '0.1';
+    input.value = DEFAULT_BRACKET_RATIOS[i];
+    input.id = 'br' + i;
+    label.appendChild(input);
+    bracketGrid.appendChild(label);
+    return input;
+  });
+  var bracketSlider = createSplitSlider({
+    track: el('bracketSplitTrack'),
+    values: DEFAULT_BRACKET_RATIOS.slice(),
+    colors: function(i){ return 'color-mix(in srgb, var(--series-1) ' + BRACKET_MIX_PCT[i] + '%, var(--ramp-base))'; },
+    labels: null,
+    tooltipLabels: BRACKETS.map(function(b){ return b.label; }),
+    numberInputs: bracketEls,
+    onChange: function(){ recompute(); }
+  });
+
+  // ---- 종합과세 비율이 0이면 소득 구간 입력을 접어서 보여줌 ----
+  function updateBracketVisibility(){
+    var compRatio = parseFloat(el('compRatio').value) || 0;
+    el('bracketWrap').style.display = compRatio > 0 ? 'block' : 'none';
+  }
+  updateBracketVisibility();
+
+  // ---- other inputs ----
+  el('excl1').addEventListener('change', recompute);
+  [totalListingsEl, totalRentEl, rentUnitEl].forEach(function(i){
+    i.addEventListener('input', recompute);
+    i.addEventListener('change', recompute);
+  });
+
+  // ---- 잠재세수 체감 환산 입력값 ----
+  var impactHousingAmtEl = el('impactHousingAmt');
+  var impactTransitAmtEl = el('impactTransitAmt');
+  var impactMealPeopleEl = el('impactMealPeople');
+  var impactMealAmtEl = el('impactMealAmt');
+  [impactHousingAmtEl, impactTransitAmtEl, impactMealPeopleEl, impactMealAmtEl].forEach(function(i){
+    i.addEventListener('input', recompute);
+    i.addEventListener('change', recompute);
+  });
+
+  // ---- theme toggle ----
+  var themeBtn = el('themeToggle');
+  var theme = 'light';
+  themeBtn.addEventListener('click', function(){
+    theme = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    themeBtn.textContent = theme === 'light' ? '다크 모드' : '라이트 모드';
+  });
+
+  // ---- core calculation ----
+  function recompute(){
+    var noteBanner = el('noteBanner');
+    noteBanner.className = 'note-banner';
+
+    var N = parseFloat(totalListingsEl.value) || 0;
+    var rentUnit = parseFloat(rentUnitEl.value) || 1;
+    var totalRentWon = (parseFloat(totalRentEl.value) || 0) * rentUnit;
+
+    var r = houseRatioEls.map(function(i){ return (parseFloat(i.value) || 0) / 100; });
+    var N1 = N * r[0], N2 = N * r[1], N3 = N * r[2], N4 = N * r[3];
+
+    var annualAll = totalRentWon * 12; // 선택 지역 전체 월세의 연 환산
+    var excl1 = el('excl1').checked;   // 1주택 소유자 월세는 비과세로 제외
+    var taxableShare = excl1 ? (1 - r[0]) : 1; // 월세가 매물에 고르게 분포한다고 가정
+    var annualIncome = annualAll * taxableShare; // @ (과세 대상 연간 임대수입)
+    var exemptIncome = annualAll - annualIncome;
+
+    var estLandlords = (excl1 ? 0 : N1 / 1) + N2 / 2 + N3 / 3 + N4 / 4;
+
+    var regRatio = (parseFloat(el('regRatioNum').value) || 0) / 100;
+    var unregRatio = 1 - regRatio;
+
+    var necessaryExpenses = annualIncome * (regRatio * 0.6 + unregRatio * 0.5);
+
+    var regLandlords = estLandlords * regRatio;
+    var unregLandlords = estLandlords * unregRatio;
+    var basicDeduction = regLandlords * 4000000 + unregLandlords * 2000000;
+
+    var taxBaseRaw = annualIncome - necessaryExpenses - basicDeduction;
+    var taxBase = Math.max(0, taxBaseRaw);
+
+    // ---- 과세 방식별 인원(과세표준) 비율에 따라 세액을 나눠 계산 ----
+    var sepRatio = (parseFloat(methodRatioEls[0].value) || 0) / 100;
+    var compRatio = (parseFloat(methodRatioEls[1].value) || 0) / 100;
+
+    var separateTaxBase = taxBase * sepRatio;
+    var incomeTaxSeparate = separateTaxBase * 0.14;
+
+    var comprehensiveTaxBase = taxBase * compRatio;
+    var bracketDetails = BRACKETS.map(function(b, i){
+      var ratio = (parseFloat(bracketEls[i].value) || 0) / 100;
+      var segTaxBase = comprehensiveTaxBase * ratio;
+      var segTaxRaw = segTaxBase * b.rate - b.deduction;
+      var segTax = segTaxBase > 0 ? Math.max(0, segTaxRaw) : 0;
+      return { label: b.label, rate: b.rate, deduction: b.deduction, ratio: ratio, taxBase: segTaxBase, tax: segTax };
+    });
+    var incomeTaxComprehensive = bracketDetails.reduce(function(s, d){ return s + d.tax; }, 0);
+
+    var incomeTax = incomeTaxSeparate + incomeTaxComprehensive;
+    var localTax = incomeTax * 0.1;
+    var finalTax = incomeTax * 1.1;
+    var effectiveRate = taxBase > 0 ? incomeTax / taxBase : 0;
+
+    if (taxBaseRaw < 0) {
+      noteBanner.textContent = 'ℹ 필요경비와 기본공제 합이 연간 임대수입보다 커서 과세표준이 0으로 처리되었습니다.';
+      noteBanner.className = 'note-banner show';
+    } else if (comprehensiveTaxBase > 0 && bracketDetails.some(function(d){ return d.taxBase > 0 && d.taxBase * d.rate - d.deduction < 0; })) {
+      noteBanner.textContent = 'ℹ 일부 소득 구간에서 누진공제가 (배분된 과세표준 × 세율)보다 커서 해당 구간의 세액이 0으로 처리되었습니다.';
+      noteBanner.className = 'note-banner show';
+    }
+
+    render({
+      N: N, N1: N1, N2: N2, N3: N3, N4: N4,
+      annualAll: annualAll, exemptIncome: exemptIncome, excl1: excl1,
+      annualIncome: annualIncome,
+      estLandlords: estLandlords, regLandlords: regLandlords, unregLandlords: unregLandlords,
+      necessaryExpenses: necessaryExpenses, basicDeduction: basicDeduction,
+      taxBase: taxBase,
+      sepRatio: sepRatio, compRatio: compRatio,
+      separateTaxBase: separateTaxBase, incomeTaxSeparate: incomeTaxSeparate,
+      comprehensiveTaxBase: comprehensiveTaxBase, bracketDetails: bracketDetails, incomeTaxComprehensive: incomeTaxComprehensive,
+      effectiveRate: effectiveRate,
+      incomeTax: incomeTax, localTax: localTax, finalTax: finalTax
+    });
+  }
+
+  // ---- rendering ----
+  function statTile(label, value, sub, highlight){
+    return '<div class="stat-tile' + (highlight ? ' highlight' : '') + '">' +
+      '<div class="st-label">' + label + '</div>' +
+      '<div class="st-value">' + value + '</div>' +
+      (sub ? '<div class="st-sub">' + sub + '</div>' : '') +
+      '</div>';
+  }
+
+  function render(v){
+    el('statGrid').innerHTML =
+      statTile(v.excl1 ? '과세 대상 연간 임대수입 (@)' : '연간 임대수입 (@)', fmtKorean(v.annualIncome), v.excl1 ? ('1주택 비과세분 ' + fmtKorean(v.exemptIncome) + ' 제외') : fmtWon(v.annualIncome)) +
+      statTile('추정 과세 대상 임대인 수', fmtNum(v.estLandlords, 1) + '명') +
+      statTile('과세표준', fmtKorean(v.taxBase), fmtWon(v.taxBase)) +
+      statTile('최종 잠재세수 (지방소득세 포함)', fmtKorean(v.finalTax), fmtWon(v.finalTax), true);
+
+    var rows = [
+      ['전체 매물 개수', fmtNum(v.N) + '개'],
+      ['월세 총합 × 12 (선택 지역 전체 연간 월세)', fmtWon(v.annualAll)],
+      ['　└ 1주택 비과세분 (제외)', v.excl1 ? fmtWon(v.exemptIncome) : '제외 안 함'],
+      ['① 과세 대상 연간 임대수입 (@)', fmtWon(v.annualIncome)],
+      ['1주택 / 2주택 / 3주택 / 4주택+ 매물수', fmtNum(v.N1,1) + ' / ' + fmtNum(v.N2,1) + ' / ' + fmtNum(v.N3,1) + ' / ' + fmtNum(v.N4,1)],
+      ['② 추정 과세 대상 임대인 수 ' + (v.excl1 ? '(N2/2+N3/3+N4/4)' : '(N1/1+N2/2+N3/3+N4/4)'), fmtNum(v.estLandlords, 2) + '명'],
+      ['　└ 등록 임대인 수 (추정)', fmtNum(v.regLandlords, 2) + '명'],
+      ['　└ 미등록 임대인 수 (추정)', fmtNum(v.unregLandlords, 2) + '명'],
+      ['③ 필요경비 (등록60% / 미등록50% 가중)', fmtWon(v.necessaryExpenses)],
+      ['④ 기본공제 (등록 400만원·미등록 200만원 × 인원)', fmtWon(v.basicDeduction)],
+      ['⑤ 과세표준 (@ − 필요경비 − 기본공제)', fmtWon(v.taxBase)],
+      ['⑥ 분리과세 비율 / 과세표준', fmtPct(v.sepRatio*100) + ' · ' + fmtWon(v.separateTaxBase)],
+      ['⑥ 종합과세 비율 / 과세표준', fmtPct(v.compRatio*100) + ' · ' + fmtWon(v.comprehensiveTaxBase)],
+      ['　가중평균 실효세율 (소득세 ÷ 과세표준)', fmtPct(v.effectiveRate*100)],
+      ['　예상 소득세 (분리 + 종합 합산)', fmtWon(v.incomeTax)],
+      ['⑦ 지방소득세 (소득세 × 10%)', fmtWon(v.localTax)]
+    ];
+    el('detailBody').innerHTML = rows.map(function(r){
+      return '<tr><td>' + r[0] + '</td><td class="num">' + r[1] + '</td></tr>';
+    }).join('') + '<tr class="total"><td>최종 잠재세수 (소득세 × 1.1)</td><td class="num">' + fmtWon(v.finalTax) + '</td></tr>';
+
+    var methodRows = [];
+    methodRows.push({ name: '분리과세', ratio: v.sepRatio*100, base: v.separateTaxBase, rateText: '14%', tax: v.incomeTaxSeparate });
+    v.bracketDetails.forEach(function(d){
+      methodRows.push({ name: '종합과세 · ' + d.label, ratio: v.compRatio*100*d.ratio, base: d.taxBase, rateText: (d.rate*100).toFixed(0) + '% (−' + fmtWon(d.deduction) + ')', tax: d.tax });
+    });
+    el('methodDetailBody').innerHTML = methodRows.map(function(r){
+      return '<tr><td>' + r.name + '</td><td class="num">' + fmtPct(r.ratio) + '</td><td class="num">' + fmtWon(r.base) + '</td><td class="num">' + r.rateText + '</td><td class="num">' + fmtWon(r.tax) + '</td></tr>';
+    }).join('') + '<tr class="total"><td colspan="4">합계 예상 소득세</td><td class="num">' + fmtWon(v.incomeTax) + '</td></tr>';
+
+    renderGauge(v);
+    renderStack(v);
+    renderLandlordBars(v);
+    renderMethodBars(v);
+    renderImpact(v);
+  }
+
+  function renderGauge(v){
+    // 최댓값(오른쪽 끝) = 1단계 4주택 100% + 2단계 미등록 100% + 3단계 종합과세 100%·10억원 초과 구간 100%로
+    // 가정했을 때 나오는 세액. 매물 개수·월세 총합(0단계)만 그대로 두고 나머지 가정을 가장 세금이 많이 나오는
+    // 쪽으로 고정한 값이며, 실제 슬라이더 설정과는 무관하게 항상 이 네 가지로 계산한다.
+    var estLandlordsMax = v.N / 4; // 전체 매물이 4주택자 소유라고 가정 (임대인 수를 최소화 → 기본공제 최소화)
+    var necessaryExpensesMax = v.annualAll * 0.5; // 미등록 100% → 필요경비율 50%
+    var basicDeductionMax = estLandlordsMax * 2000000; // 미등록 100% → 1인당 200만원 공제
+    var taxBaseMax = Math.max(0, v.annualAll - necessaryExpensesMax - basicDeductionMax);
+    var topBracket = BRACKETS[BRACKETS.length - 1]; // 종합과세 100% · 10억원 초과 구간 100%
+    var incomeTaxMax = Math.max(0, taxBaseMax * topBracket.rate - topBracket.deduction);
+    var maxFinal = incomeTaxMax * 1.1;
+    var pct = maxFinal > 0 ? Math.min(100, Math.max(0, v.finalTax / maxFinal * 100)) : 0;
+
+    el('gaugeFill').style.width = pct + '%';
+    el('gaugeMarker').style.left = pct + '%';
+    el('gaugeMarkerLabel').textContent = fmtKorean(v.finalTax) + ' · ' + fmtPct(pct);
+    el('gaugeMaxLabel').textContent = fmtKorean(maxFinal) + ' (4주택·미등록·종합과세·10억원 초과 100% 가정)';
+  }
+
+  function renderStack(v){
+    var total = v.annualIncome;
+    var segs = [
+      { key: '필요경비', value: v.necessaryExpenses, color: 'var(--series-1)' },
+      { key: '기본공제', value: v.basicDeduction, color: 'var(--series-2)' },
+      { key: '과세표준', value: v.taxBase, color: 'var(--series-3)' }
+    ];
+    // clamp: if expenses+deduction exceed total (taxBase floored at 0), scale expense/deduction display proportionally to total
+    var sumSeg = segs[0].value + segs[1].value + segs[2].value;
+    var scale = (total > 0 && sumSeg > total) ? total / sumSeg : 1;
+
+    el('stackLegend').innerHTML = segs.map(function(s){
+      return '<span class="lg-item"><span class="lg-swatch" style="background:' + s.color + '"></span>' + s.key + ': ' + fmtKorean(s.value) + '</span>';
+    }).join('');
+
+    var track = el('stackTrack');
+    track.innerHTML = '';
+    if (total <= 0) { return; }
+    segs.forEach(function(s, idx){
+      var pct = Math.max(0, (s.value * scale) / total * 100);
+      var div = document.createElement('div');
+      div.className = 'stack-seg';
+      div.style.width = pct + '%';
+      div.style.background = s.color;
+      div.style.marginRight = idx < segs.length - 1 ? '2px' : '0';
+      div.addEventListener('mousemove', function(e){ showTooltip(e, s.key + ': ' + fmtWon(s.value)); });
+      div.addEventListener('mouseleave', hideTooltip);
+      track.appendChild(div);
+    });
+  }
+
+  function renderLandlordBars(v){
+    var items = [
+      { label: v.excl1 ? '1주택(비과세)' : '1주택', value: v.N1 / 1 },
+      { label: '2주택', value: v.N2 / 2 },
+      { label: '3주택', value: v.N3 / 3 },
+      { label: '4주택+', value: v.N4 / 4 }
+    ];
+    var max = Math.max.apply(null, items.map(function(i){ return i.value; }).concat([0.0001]));
+    var wrap = el('landlordBars');
+    wrap.innerHTML = '';
+    items.forEach(function(it){
+      var row = document.createElement('div');
+      row.className = 'bar-row';
+      var pct = (it.value / max) * 100;
+      row.innerHTML =
+        '<div class="bar-label">' + it.label + '</div>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%; background: var(--series-1);"></div></div>' +
+        '<div class="bar-value">' + fmtNum(it.value, 2) + '명</div>';
+      var fill = row.querySelector('.bar-fill');
+      fill.addEventListener('mousemove', function(e){ showTooltip(e, it.label + ' 추정 임대인: ' + fmtNum(it.value, 2) + '명'); });
+      fill.addEventListener('mouseleave', hideTooltip);
+      wrap.appendChild(row);
+    });
+  }
+
+  function renderMethodBars(v){
+    var items = [{ label: '분리과세', value: v.incomeTaxSeparate }];
+    v.bracketDetails.forEach(function(d, i){
+      items.push({ label: '종합 ' + (i+1) + '구간', value: d.tax, full: '종합과세 · ' + d.label });
+    });
+    var max = Math.max.apply(null, items.map(function(i){ return i.value; }).concat([0.0001]));
+    var wrap = el('methodBars');
+    wrap.innerHTML = '';
+    items.forEach(function(it){
+      var row = document.createElement('div');
+      row.className = 'bar-row';
+      var pct = (it.value / max) * 100;
+      row.innerHTML =
+        '<div class="bar-label">' + it.label + '</div>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%; background: var(--series-1);"></div></div>' +
+        '<div class="bar-value">' + fmtWon(it.value) + '</div>';
+      var fill = row.querySelector('.bar-fill');
+      fill.addEventListener('mousemove', function(e){ showTooltip(e, (it.full || it.label) + ': ' + fmtWon(it.value)); });
+      fill.addEventListener('mouseleave', hideTooltip);
+      wrap.appendChild(row);
+    });
+  }
+
+  function renderImpact(v){
+    var housingMonthly = (parseFloat(impactHousingAmtEl.value) || 0) * 10000;
+    var transitMonthly = (parseFloat(impactTransitAmtEl.value) || 0) * 10000;
+    var mealPeople = Math.max(1, parseFloat(impactMealPeopleEl.value) || 0);
+    var mealAmt = parseFloat(impactMealAmtEl.value) || 0;
+
+    var housingCount = housingMonthly > 0 ? v.finalTax / (housingMonthly * 12) : 0;
+    var transitCount = transitMonthly > 0 ? v.finalTax / (transitMonthly * 12) : 0;
+    var mealCount = mealAmt > 0 ? v.finalTax / (mealPeople * mealAmt) : 0;
+
+    el('impactHousingValue').textContent = '약 ' + fmtNum(housingCount) + '명';
+    el('impactTransitValue').textContent = '약 ' + fmtNum(transitCount) + '명';
+    el('impactMealValue').textContent = '약 ' + fmtNum(mealCount) + '끼';
+  }
+
+  // initial render: 전국 전체 선택으로 시작
+  regionSelectAll.checked = true;
+  regionSelectAll.dispatchEvent(new Event('change'));
+})();
+</script>
+</body>
+</html>
