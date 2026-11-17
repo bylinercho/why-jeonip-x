@@ -219,6 +219,16 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .flow .n b{display:block;font:500 17px/1.5 'Paperlogy',sans-serif;color:#ece7de}
 .flow .n .tag{margin-top:8px}
 .flow .ar{align-self:center;color:#D9A05B;font-size:24px}
+.lawflow{max-width:860px;margin:14px auto 8px;text-align:left}
+.lf{display:grid;grid-template-columns:200px 1fr auto;gap:18px;align-items:start;border:1.5px solid var(--ln);border-radius:16px;padding:16px 20px}
+.lf-h b{display:block;font:500 17px/1.5 'Paperlogy',sans-serif;color:#ece7de}
+.lf-h small{display:block;font-size:12.5px;line-height:1.5;color:#9a9285;margin-top:2px}
+.lf-q{font-size:15px;line-height:1.75;color:#b8b1a4}
+.lf-q em{font-style:normal;font-weight:700;color:#D9A05B}
+.lf-s{display:block;font-size:13px;line-height:1.65;color:#9a9285;margin-top:8px}
+.lf-t{padding-top:2px}
+.lf-ar{text-align:center;color:#D9A05B;font-size:20px;line-height:1.4;margin:2px 0}
+@media(max-width:760px){.lf{grid-template-columns:1fr;gap:8px}}
 .who{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:26px auto 0;text-align:left}
 @media(max-width:640px){.who{grid-template-columns:repeat(2,1fr)}}
 .who button{font:inherit;text-align:left;cursor:pointer;background:transparent;border:1.5px solid var(--ln);border-radius:16px;padding:14px 16px;color:#ece7de}
@@ -1015,6 +1025,7 @@ svg:hover .arc:not(:hover){opacity:.4}
       <tr><td>플랫폼</td><td>정부의 자료 제출·조치 요구에 응하기</td><td><span class="tag must">해야 한다</span></td></tr>
       <tr><td>국토교통부</td><td>인터넷 매물 광고 모니터링<small>공인중개사법 제18조의3</small></td><td><span class="tag may">할 수 있다</span></td></tr>
       <tr><td>국토부·지자체</td><td>중개사무소 조사<small>공인중개사법 제37조</small></td><td><span class="tag may">할 수 있다</span></td></tr>
+      <tr><td>시·도지사·등록관청</td><td>국토부의 요구를 받으면 조사·조치를 완료하고 10일 안에 결과 통보<small>공인중개사법 시행규칙 제10조의3 제5항</small></td><td><span class="tag must">해야 한다</span></td></tr>
       <tr><td>플랫폼</td><td>전입 불가 매물을 스스로 찾아 걸러내기</td><td><span class="tag none">규정 없음</span></td></tr>
       <tr><td>임대인</td><td>전입신고를 막거나 값을 붙이는 행위의 금지<small>금지 특약은 무효지만 처벌·과태료는 없다는 전문가 설명</small></td><td><span class="tag none">뚜렷한 규정 없음</span></td></tr>
     </tbody></table>
@@ -1031,17 +1042,43 @@ svg:hover .arc:not(:hover){opacity:.4}
     <h2>정부에는 권한이 있다.<br>의무는 없다</h2>
     <div class="body col"><p>정부는 온라인 매물 광고를 점검할 수 있다. 단계마다 법이 쓴 표현을 따라가 보면 다음과 같다.</p></div>
     <div class="cap">그림 11. 온라인 매물 광고 점검이 흘러가는 길</div>
-    <div class="flow">
-      <div class="n"><b>국토교통부</b>인터넷 매물 광고가 법을 지키는지 모니터링. 실제 조사는 위탁기관이 맡음.<br><span class="tag may">할 수 있다</span></div>
-      <div class="ar">→</div>
-      <div class="n"><b>플랫폼</b>자료 제출, 위반이 의심되는 광고의 확인·추가정보 게재 등 필요한 조치 요구를 받으면 따름.<br><span class="tag must">해야 한다</span></div>
-      <div class="ar">→</div>
-      <div class="n"><b>국토부·시·도·등록관청</b>개업공인중개사에게 보고·자료 제출을 명하고 사무소 장부를 조사함.<br><span class="tag may">할 수 있다</span></div>
+    <div class="lawflow">
+      <div class="lf">
+        <div class="lf-h"><b>국토교통부</b><small>공인중개사법 제18조의3 제1항</small></div>
+        <div class="lf-q">“국토교통부장관은 인터넷을 이용한 중개대상물에 대한 표시ㆍ광고가 제18조의2의 규정을 준수하는지 여부를 모니터링 <em>할 수 있다</em>.”
+          <span class="lf-s">시행규칙 제10조의3 제1항: 기본 모니터링은 분기별로, 수시 모니터링은 “법 제18조의2를 위반한 사실이 의심되는 경우 등 국토교통부장관이 필요하다고 판단하여 실시하는 모니터링”이다.</span></div>
+        <div class="lf-t"><span class="tag may">할 수 있다</span></div>
+      </div>
+      <div class="lf-ar">↓</div>
+      <div class="lf">
+        <div class="lf-h"><b>플랫폼</b><small>공인중개사법 제18조의3 제3항</small></div>
+        <div class="lf-q">“…정보통신서비스 제공자에게 이 법 위반이 의심되는 표시ㆍ광고에 대한 확인 또는 추가정보의 게재 등 필요한 조치를 요구할 수 있다. 이 경우 필요한 조치를 요구받은 정보통신서비스 제공자는 정당한 사유가 없으면 <em>이에 따라야 한다</em>.”
+          <span class="lf-s">따르지 않으면 500만 원 이하 과태료(제51조 제2항 제1의3호)다.</span></div>
+        <div class="lf-t"><span class="tag must">해야 한다</span></div>
+      </div>
+      <div class="lf-ar">↓</div>
+      <div class="lf">
+        <div class="lf-h"><b>국토교통부 → 지자체</b><small>시행규칙 제10조의3 제4항</small></div>
+        <div class="lf-q">“국토교통부장관은 …결과보고서를 시ㆍ도지사 및 등록관청 등에 통보하고 필요한 조사 및 조치를 <em>요구할 수 있다</em>.”</div>
+        <div class="lf-t"><span class="tag may">할 수 있다</span></div>
+      </div>
+      <div class="lf-ar">↓</div>
+      <div class="lf">
+        <div class="lf-h"><b>시·도지사·등록관청</b><small>시행규칙 제10조의3 제5항</small></div>
+        <div class="lf-q">“시ㆍ도지사 및 등록관청 등은 제4항에 따른 요구를 받으면 신속하게 조사 및 조치를 완료하고, 완료한 날부터 10일 이내에 그 결과를 국토교통부장관에게 <em>통보해야 한다</em>.”</div>
+        <div class="lf-t"><span class="tag must">해야 한다</span></div>
+      </div>
+      <div class="lf-ar">↓</div>
+      <div class="lf">
+        <div class="lf-h"><b>조사 수단</b><small>공인중개사법 제37조 제1항</small></div>
+        <div class="lf-q">“…개업공인중개사 또는 거래정보사업자에 대하여 그 업무에 관한 사항을 보고하게 하거나 자료의 제출 그 밖에 필요한 명령을 할 수 있으며, 소속 공무원으로 하여금 중개사무소…에 출입하여 장부ㆍ서류 등을 조사 또는 검사하게 <em>할 수 있다</em>.”</div>
+        <div class="lf-t"><span class="tag may">할 수 있다</span></div>
+      </div>
     </div>
-    <p class="small">기본 모니터링은 분기마다, 수시 모니터링은 위반이 의심될 때 한다. 다만 법령은 조사 대상과 물량, 지역별 최소 규모를 정하지 않았다.</p>
+    <p class="small">조문은 국가법령정보센터 현행 본문에서 옮겼다. 조사 대상과 물량은 법과 시행규칙이 정하지 않고, 모니터링 기관이 내는 기본계획서에 맡긴다(시행규칙 제10조의3 제2항). 세부 기준은 국토교통부 고시로 정하는데, 그 내용은 확인하지 못했다</p>
     <div class="pull">법이 '할 수 있다'고만 하면, 단속은 예산과 의지의 문제가 된다.</div>
     <div class="body col">
-      <p>출발점이 '할 수 있다'인 만큼, 점검이 시작되지 않으면 뒤의 의무도 작동하지 않는다. 처음부터 "전입신고 불가"라고 적은 매물이 점검 항목에 들어 있는지는 따로 확인해야 한다.</p>
+      <p>출발점이 '할 수 있다'인 만큼, 점검이 시작되지 않으면 뒤의 의무도 작동하지 않는다. 플랫폼의 조치 의무도, 지자체의 조사·조치 의무도 국토교통부가 요구해야 생긴다. 처음부터 "전입신고 불가"라고 적은 매물이 점검 항목에 들어 있는지는 따로 확인해야 한다.</p>
       <p>서동규 위원장은 정부의 플랫폼 단속이 허위매물, 무자격 중개, 시세 교란에 맞춰져 있고 불법 건축물 임대차 자체는 대상이 아닌 것으로 안다고 했다. 시·군·구의 민간임대차 담당 인력이 부족하고, 위반건축물 단속은 신고가 있어야 움직이는 경우가 많다는 지적이다. 이는 전문가의 인식이며, 취재팀이 점검 지침으로 확인한 내용은 아니다.</p>
       <p>위반건축물 단속의 법 구조는 건축법 조문으로 확인된다. 허가권자(시장·군수·구청장)는 위반 건축물의 실태를 파악하려고 조사를 <strong>할 수 있고</strong>(제79조 제5항), 시정명령도 <strong>할 수 있다</strong>(제79조 제1항). 그러나 시정명령을 받고도 따르지 않으면 이행강제금을 <strong>부과한다</strong>(제80조 제1항). 단속의 출발점은 재량이고, 시작된 뒤의 제재는 의무에 가깝다. 반복 부과 횟수(1년 2회 이내)와 영리·상습 위반의 가중 비율은 지자체 조례가 정한다(제80조 제2항·제5항). 점검이 시작되지 않으면 뒤의 단계도 작동하지 않는 구조다.</p>
       <p>조례가 이 재량을 어떻게 쓰는지도 살폈다. 이행강제금 조항이 있는 지자체 건축 조례 166곳 가운데 반복 부과 횟수를 확인한 162곳에서, <mark>147곳이 연 1회</mark>였다. 법이 허용한 상한인 연 2회는 15곳뿐이었다. 하남·구리·남양주·안산은 모두 연 1회다. 영리·상습 위반을 가중하도록 한 제80조 제2항을 조례에 옮긴 흔적을 찾지 못한 곳도 9곳 있었다.</p>
@@ -1054,7 +1091,7 @@ svg:hover .arc:not(:hover){opacity:.4}
       <p class="small">조례 본문에 명시되지 않았다는 뜻이다. 지원센터 상담이나 내부 지침, 데이터베이스에 등록되지 않은 규정에서 다루는지는 확인하지 못했다. 이행강제금 횟수·가중 규정은 조례 본문을 자동으로 읽어 추출했으며, 읽지 못한 4곳은 제외함</p>
       <p>정부가 "허위광고가 아니라서 단속하기 어렵다"고 답한다면 질문은 이어진다. 세입자의 권리에 큰 영향을 주는 조건에 별도 표시를 요구할 수는 없을까. <strong>법 적용이 어렵다는 답은 책임을 끝내는 설명이 아니라, 무엇을 바꿔야 하는지 묻는 출발점이다.</strong></p>
     </div>
-    <div class="memo">국토부에 실제 전입 불가 광고를 보여 주고 모니터링 대상인지, 적용 조항이 무엇인지 공식 질의. 신고·점검·통보·과태료 건수 요청. 조문 번호·표현 최종 확인. 건축법 제79·80조는 법제처 본문으로 확인함(2026-11-12 시행본). 이행강제금 반복 부과 횟수·가중 규정은 지자체 건축 조례 166곳을 확인함(횟수 미확인 4곳, 가중 미확인 9곳은 원문 재확인 필요). 18조의3 모니터링 결과의 지자체 '통보' 근거는 시행규칙 등으로 확인 필요. 인력 부족은 지자체별 담당 인원·업무량으로 확인.</div>
+    <div class="memo">국토부에 실제 전입 불가 광고를 보여 주고 모니터링 대상인지, 적용 조항이 무엇인지 공식 질의. 신고·점검·통보·과태료 건수 요청. 조문 번호·표현 최종 확인. 건축법 제79·80조는 법제처 본문으로 확인함(2026-11-12 시행본). 이행강제금 반복 부과 횟수·가중 규정은 지자체 건축 조례 166곳을 확인함(횟수 미확인 4곳, 가중 미확인 9곳은 원문 재확인 필요). 모니터링 결과의 지자체 통보·조치 근거는 공인중개사법 시행규칙 제10조의3 제4·5항으로 확인함. 인력 부족은 지자체별 담당 인원·업무량으로 확인.</div>
   </div>
 </section>
 
