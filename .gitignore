@@ -23,3 +23,10 @@ __pycache__/
 
 # API 키 (절대 커밋 금지)
 .law_oc
+
+# 인터뷰 원본·메모 (공개 금지)
+add_file*.md
+민달팽이유니온_*.txt
+*.txt
+!sim/theme_patch.txt
+Leaflet_*.png
