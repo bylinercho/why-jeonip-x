@@ -269,5 +269,28 @@ rep("    </footer>", "    </div></details></footer>")
 rep('<div id="tooltip"></div>', '<div id="tooltip"></div>\n<div class="minibar" id="miniBar"><span>최종 잠재세수</span><b id="miniVal">-</b></div>')
 rep("  function render(v){", "  function render(v){\n    var mv = el('miniVal'); if (mv) mv.textContent = fmtKorean(v.finalTax);")
 
+# ---------- 줄글 최소화 ----------
+import re
+# 각 단계의 안내 문단(.hint) 전부 삭제
+s = re.sub(r'[ \t]*<p class="hint"[^>]*>.*?</p>\n?', "", s, flags=re.S)
+# 부제를 한 줄로
+rep('<p class="sub">2026년 11월 다방·직방·피터팬·당근마켓에서 모은 전국 매물 가운데, 광고에 전입신고 불가를 밝힌 <b>월세 매물 8,924건</b>(아파트 제외)의 임대소득이 정상적으로 신고·과세될 경우 발생할 수 있는 <b>잠재 세수 규모</b>를 추정합니다.</p>',
+    '<p class="sub">전입신고 불가를 밝힌 전국 <b>월세 매물 8,924건</b>(아파트 제외)의 임대소득이 과세된다면?</p>')
+# 경고문을 한 줄로
+d0 = s.index('<div class="disclaimer">')
+d1 = s.index("</div>", d0) + len("</div>")
+s = s[:d0] + '<div class="disclaimer"><b>세금 계산기가 아닌 시뮬레이션입니다.</b> 가정값은 예시이며, 한계는 맨 아래에 있습니다.</div>' + s[d1:]
+# 1주택 비과세 옵션: 한 줄 라벨 + 자세한 설명은 마우스를 올렸을 때만
+o0 = s.index('<label class="opt-row">')
+o1 = s.index("</label>", o0) + len("</label>")
+s = s[:o0] + ('<label class="opt-row" title="소득세법상 국내 1주택 소유자의 주택 임대소득은 원칙적으로 비과세입니다(기준시가 12억원 초과 주택 등은 예외이며 이 도구는 반영하지 못합니다). 체크를 풀면 1주택 매물도 과세하는 최대 시나리오로 계산합니다.">'
+              '<input type="checkbox" id="excl1" checked /><span>1주택 소유자 월세는 비과세로 제외</span></label>') + s[o1:]
+# 지역 합계 문구를 짧게
+rep("'선택한 ' + regionCount + '개 시·군·구 · 매물 ' + listingSum.toLocaleString('ko-KR') + '개 · 월세 총합 ' + rentSum.toLocaleString('ko-KR') + '만원이 자동으로 계산되었습니다.'",
+    "regionCount + '개 시·군·구 · 매물 ' + listingSum.toLocaleString('ko-KR') + '개 · 월 월세 ' + rentSum.toLocaleString('ko-KR') + '만원'")
+rep("'지역을 선택하면 매물 개수와 월세 총합이 자동으로 계산됩니다.'", "'지역을 선택하세요'")
+# 계산 중 안내 배너 숨김
+s = s.replace("</style>\n</head>", ".note-banner{display:none!important}\n.opt-row{cursor:help}\n</style>\n</head>", 1)
+
 (ROOT / "simulator.html").write_text(s, encoding="utf-8", newline="")
 print("written", len(s))
