@@ -1313,7 +1313,7 @@ function fig6Render(el, o){
       var s = '<svg width="'+(300*k)+'" height="'+(300*k)+'" viewBox="0 0 300 300"><circle id="f2L" cx="150" cy="150" r="150" fill="'+GOLD+'" fill-opacity=".05" stroke="'+GOLD+'" stroke-opacity=".7" stroke-width="1.2"></circle>'
         + '<text x="150" y="'+(60+12/k)+'" text-anchor="middle" font-size="'+fz(12)+'" fill="#9A9285">전입 불가</text><text x="150" y="'+(66+12/k+22/k+4)+'" text-anchor="middle" font-size="'+fz(22)+'" font-weight="700" fill="'+GOLD+'">'+f(BT)+'건</text>';
       LC.forEach(function(c){
-        s += '<g class="f2cg" style="transition-delay:0s,'+(1+c.d)+'s;transition-delay:'+(1.4+c.d)+'s" data-tip="'+c.n+' '+f(c.v)+'건 · '+c.p.toFixed(1)+'%"><circle class="f2c" style="--o:'+c.o+'" cx="'+c.x+'" cy="'+c.y+'" r="'+c.r.toFixed(2)+'" fill="'+c.c+'" stroke="'+c.c+'" stroke-width="1.2"></circle>';
+        s += '<g class="f2cg" style="transition-delay:0s,'+(1+c.d)+'s;transition-delay:'+(1.4+c.d)+'s" data-tip="'+c.n+' '+f(c.v)+'건 · '+c.p.toFixed(1)+'%"><circle class="f2c" style="--o:'+c.o+'" cx="'+c.x+'" cy="'+c.y+'" r="'+c.r.toFixed(2)+'" fill="'+c.c+'" stroke="none"></circle>';
         if(c.tx){
           s += '<text x="'+c.x+'" y="'+c.y+'" text-anchor="middle" font-size="'+fz(c.fp)+'" font-weight="700" fill="'+(c.n==='오피스텔'?GOLD:'#ECE7DE')+'">'+c.p.toFixed(1)+'%</text><text x="'+c.x+'" y="'+(c.y+(c.fl+8)/k)+'" text-anchor="middle" font-size="'+fz(c.fl)+'" fill="#ECE7DE">'+c.n+'</text>';
         } else {
