@@ -254,6 +254,10 @@ footer li{margin-bottom:8px;line-height:1.8}
 #ordwrap{position:relative;background:rgba(255,255,255,.03);border:1px solid var(--rule);border-radius:16px;overflow:hidden;max-width:560px;margin:10px auto 0}
 #ordmap{display:block;width:100%;height:min(66vh,560px)}
 #ordmap path.a{vector-effect:non-scaling-stroke;stroke:rgba(23,35,67,.75);stroke-width:.5;cursor:pointer}
+#ordmap path.a{transition:fill .35s,opacity .35s}
+#ordmap path.dim{opacity:.08;pointer-events:none}
+#ordback{position:absolute;left:10px;top:10px;font:inherit;font-size:13px;background:#D9A05B;color:#172343;font-weight:700;border:0;border-radius:999px;padding:6px 14px;cursor:pointer;display:none;z-index:3}
+#ordwrap .maphint{z-index:2}
 #ordmap path.o{fill:none;stroke:rgba(236,231,222,.45);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:none}
 #ordmap path.v1{fill:#6c80b5}#ordmap path.v2{fill:#D9A05B}#ordmap path.v0{fill:rgba(236,231,222,.28)}
 #ordmap path.inh{opacity:.55}
@@ -787,9 +791,9 @@ svg:hover .arc:not(:hover){opacity:.4}
 </section>
 
 <!-- ===== 1 ===== -->
-<section id="lose" data-t="CH.1 잃는 것">
+<section id="lose" data-t="CH.1 잃는 권리">
   <div class="wide rv">
-    <div class="art" data-n="01"><span>CH.1</span><em>임차인이 잃는 것</em></div>
+    <div class="art" data-n="01"><span>CH.1</span><em>잃는 권리</em></div>
     <h2>전입신고를 못 하면<br>무엇을 잃을까</h2>
     <div class="body col">
       <p>전입신고는 세 들어 산다는 사실을 다른 사람에게 주장하고 보증금을 지키는 첫걸음이다. 그런데 매물 광고에는 전입신고를 하지 말라는 조건, 하려면 월세를 더 내라는 조건이 붙어 있다.</p>
@@ -1034,9 +1038,9 @@ svg:hover .arc:not(:hover){opacity:.4}
 </section>
 
 <!-- ===== 7 ===== -->
-<section id="gov" data-t="CH.8 정부">
+<section id="gov" data-t="CH.8 정부 관리">
   <div class="wide rv">
-    <div class="art" data-n="08"><span>CH.8</span><em>정부</em></div>
+    <div class="art" data-n="08"><span>CH.8</span><em>정부 관리</em></div>
     <h2>전입은 막고, 용도는 바꿔 쓰고…<br>정부는 어디까지 관리하나</h2>
     <div class="body col">
       <p>취재팀이 확인한 전입신고 불가 매물과 건축물대장상 용도와 실제 사용 용도가 다른 매물은 서로 다른 문제를 안고 있다. 전자는 임차인의 대항력 확보를 어렵게 만들고, 후자는 주거용으로 적합하지 않은 공간이 임대차 시장에 유통될 가능성을 키운다. 그렇다면 정부는 이 두 유형의 매물을 어떻게 관리하고 있을까.</p>
@@ -1099,9 +1103,9 @@ svg:hover .arc:not(:hover){opacity:.4}
       <p>이행강제금 조항이 있는 지자체 건축 조례 166곳 가운데 반복 부과 횟수를 확인한 162곳을 분석한 결과, <mark>147곳이 연 1회</mark>만 부과하도록 정했다. 법이 허용한 상한인 연 2회를 채택한 곳은 15곳이었다. 하남·구리·남양주·안산도 모두 연 1회였다. 영리·상습 위반을 가중하도록 한 법 조항을 조례에 반영한 흔적을 찾지 못한 곳도 9곳 있었다.</p>
     </div>
       <div class="cap">그림 11. 이행강제금 반복 부과 횟수: 시·군·구별 건축 조례 기준</div>
-      <div id="ordwrap"><svg id="ordmap" preserveAspectRatio="xMidYMid meet" role="img" aria-label="지자체별 이행강제금 반복 부과 횟수 지도"></svg><div id="ordtip"></div></div>
-      <div class="ordleg"><span><i style="background:#6c80b5"></i>연 1회 <b id="ord1"></b></span><span><i style="background:#D9A05B"></i>연 2회(법 상한) <b id="ord2"></b></span><span><i style="background:rgba(236,231,222,.28)"></i>확인 못함 <b id="ord0"></b></span><span style="opacity:.8">옅은 색: 시·도 조례를 따르는 자치구 등</span></div>
-      <p class="small" style="text-align:center">시·군·구를 눌러 보세요. 자치구는 건축법상 특별시·광역시 조례를 따르므로 광역 조례 값을 표시함. 조례 본문에서 반복 부과 횟수를 자동으로 읽어 낸 값이며 일부는 원문 확인이 필요함</p>
+      <div id="ordwrap"><svg id="ordmap" preserveAspectRatio="xMidYMid meet" role="img" aria-label="지자체별 이행강제금 반복 부과 횟수 지도"></svg><button id="ordback" type="button">← 전국 지도</button><span class="maphint" id="ordhint">지역을 눌러 보세요</span><div id="ordtip"></div></div>
+      <div class="ordleg" id="ordleg"></div>
+      <p class="small" style="text-align:center">처음에는 시·도별로 보여 주고, 시·도를 누르면 시·군·구로 확대된다. 시·도의 색은 소속 시·군·구 중 연 2회(법 상한) 비율이다. 자치구는 건축법상 특별시·광역시 조례를 따르므로 광역 조례 값을 표시함. 조례 본문에서 반복 부과 횟수를 자동으로 읽어 낸 값이며 일부는 원문 확인이 필요함</p>
 
     <h3>임차인 보호 제도에도 빠진 문제</h3>
     <div class="body col">
@@ -1783,20 +1787,74 @@ function fig6Render(el, o){
 (function(){
   try{
     var G=JSON.parse(document.getElementById('geo').textContent), O=JSON.parse(document.getElementById('ordd').textContent);
-    var svg=document.getElementById('ordmap'), wrap=document.getElementById('ordwrap'), tip=document.getElementById('ordtip'); if(!svg||!G.sgg) return;
-    var NS='http://www.w3.org/2000/svg', bb=G.bb; svg.setAttribute('viewBox',[bb[0],bb[1],bb[2]-bb[0],bb[3]-bb[1]].join(' '));
+    var svg=document.getElementById('ordmap'), wrap=document.getElementById('ordwrap'), tip=document.getElementById('ordtip'),
+        back=document.getElementById('ordback'), hint=document.getElementById('ordhint'), leg=document.getElementById('ordleg');
+    if(!svg||!G.sgg) return;
+    var NS='http://www.w3.org/2000/svg';
+    var full=[G.bb[0],G.bb[1],G.bb[2]-G.bb[0],G.bb[3]-G.bb[1]], vb=full.slice(), anim=null, cur=null;
+    function setVB(a){ vb=a; svg.setAttribute('viewBox',a.join(' ')); }
+    setVB(full);
+    function animTo(t){
+      var from=vb.slice(), t0=null; if(anim) cancelAnimationFrame(anim);
+      function step(ts){ if(t0==null) t0=ts; var k=Math.min(1,(ts-t0)/450); k=1-Math.pow(1-k,3);
+        setVB(from.map(function(v,j){ return v+(t[j]-v)*k; })); if(k<1) anim=requestAnimationFrame(step); }
+      anim=requestAnimationFrame(step);
+    }
+    function bbox(s){ var b=G.sido[s].bb, w=b[2]-b[0], h=b[3]-b[1], m=Math.max(w,h)*.08; return [b[0]-m,b[1]-m,w+2*m,h+2*m]; }
+
     var ga=document.createElementNS(NS,'g'), go=document.createElementNS(NS,'g'); svg.appendChild(ga); svg.appendChild(go);
-    var c={0:0,1:0,2:0};
-    G.sgg.forEach(function(x,i){var o=O[i]||{v:0}, v=o.v<0?0:o.v; c[v]++;
-      var p=document.createElementNS(NS,'path'); p.setAttribute('d',x.d); p.setAttribute('class','a v'+v+(o.i?' inh':'')); p.dataset.i=i; ga.appendChild(p);});
-    Object.keys(G.sido).forEach(function(s){var p=document.createElementNS(NS,'path'); p.setAttribute('d',G.sido[s].d); p.setAttribute('class','o'); go.appendChild(p);});
-    ['0','1','2'].forEach(function(k){var e=document.getElementById('ord'+k); if(e) e.textContent=c[k]+'곳';});
-    function show(e){var t=e.target; if(t.dataset.i==null){tip.style.opacity=0;return;} var i=t.dataset.i,x=G.sgg[i],o=O[i]||{v:0};
-      var r=wrap.getBoundingClientRect(), nm=x.n+(o.i?' (시·도 조례 적용)':'');
-      tip.innerHTML=nm+' <b style="color:#9a5a10;margin-left:6px">'+(o.v>0?'연 '+o.v+'회':'확인 못함')+'</b>';
-      tip.style.left=(e.clientX-r.left)+'px'; tip.style.top=(e.clientY-r.top)+'px'; tip.style.opacity=1;}
-    svg.addEventListener('mousemove',show); svg.addEventListener('click',show);
-    svg.addEventListener('mouseleave',function(){tip.style.opacity=0;});
+    var S={}, paths=[], outl={};
+    G.sgg.forEach(function(x,i){
+      var o=O[i]||{v:0}, v=o.v<0?0:o.v, t=S[x.s]||(S[x.s]={n:0,v0:0,v1:0,v2:0}); t.n++; t['v'+v]++;
+      var p=document.createElementNS(NS,'path'); p.setAttribute('d',x.d); p.dataset.i=i; ga.appendChild(p); paths.push(p);
+    });
+    Object.keys(G.sido).forEach(function(s){
+      var p=document.createElementNS(NS,'path'); p.setAttribute('d',G.sido[s].d); p.setAttribute('class','o'); go.appendChild(p); outl[s]=p;
+    });
+    function mix(t){ var a=[108,128,181], b=[217,160,91]; return 'rgb('+a.map(function(c,j){ return Math.round(c+(b[j]-c)*t); }).join(',')+')'; }
+    function share(t){ var d=t.v1+t.v2; return d? t.v2/d : 0; }
+    function legend(){
+      if(cur===null){
+        leg.innerHTML='<span>연 1회 중심</span><i style="display:inline-block;width:150px;height:8px;border-radius:4px;background:linear-gradient(90deg,'+mix(0)+','+mix(1)+')"></i><span>연 2회 많음</span><span style="opacity:.8">색: 소속 시·군·구 중 연 2회(법 상한) 비율</span>';
+      }else{
+        var t=S[cur];
+        leg.innerHTML='<span><i style="background:#6c80b5"></i>연 1회 <b>'+t.v1+'곳</b></span><span><i style="background:#D9A05B"></i>연 2회(법 상한) <b>'+t.v2+'곳</b></span>'+(t.v0?'<span><i style="background:rgba(236,231,222,.28)"></i>확인 못함 <b>'+t.v0+'곳</b></span>':'')+'<span style="opacity:.8">옅은 색: 시·도 조례를 따르는 자치구 등</span>';
+      }
+    }
+    function render(){
+      paths.forEach(function(p,i){
+        var x=G.sgg[i], o=O[i]||{v:0}, v=o.v<0?0:o.v;
+        if(cur===null){ p.setAttribute('class','a'); p.style.fill=mix(share(S[x.s])); }
+        else if(x.s===cur){ p.setAttribute('class','a v'+v+(o.i?' inh':'')); p.style.fill=''; }
+        else { p.setAttribute('class','a dim'); p.style.fill=''; }
+      });
+      Object.keys(outl).forEach(function(s){ outl[s].style.display=(cur===null||s===cur)?'':'none'; });
+      back.style.display=cur===null?'none':'block';
+      hint.textContent=cur===null?'지역을 눌러 보세요':cur+' · 시·군·구에 올려 보세요';
+      legend();
+    }
+    render();
+    function pathOf(e){ var t=e.target; return (t&&t.dataset&&t.dataset.i!=null)?t:null; }
+    function showTip(e){
+      var t=pathOf(e); if(!t){ tip.style.opacity=0; return; }
+      var i=+t.dataset.i, x=G.sgg[i], o=O[i]||{v:0}, h;
+      if(cur===null){
+        var s=S[x.s];
+        h=x.s+' <b style="color:#9a5a10;margin-left:6px">'+s.n+'곳 중 연 1회 '+s.v1+'곳 · 연 2회 '+s.v2+'곳'+(s.v0?' · 확인 못함 '+s.v0+'곳':'')+'</b>';
+      }else{
+        h=x.n+(o.i?' (시·도 조례 적용)':'')+' <b style="color:#9a5a10;margin-left:6px">'+(o.v>0?'연 '+o.v+'회':'확인 못함')+'</b>';
+      }
+      var r=wrap.getBoundingClientRect(); tip.innerHTML=h;
+      tip.style.left=(e.clientX-r.left)+'px'; tip.style.top=(e.clientY-r.top)+'px'; tip.style.opacity=1;
+    }
+    svg.addEventListener('mousemove',showTip);
+    svg.addEventListener('mouseleave',function(){ tip.style.opacity=0; });
+    svg.addEventListener('click',function(e){
+      var t=pathOf(e); if(!t) return;
+      if(cur===null){ cur=G.sgg[+t.dataset.i].s; tip.style.opacity=0; render(); animTo(bbox(cur)); }
+      else showTip(e);
+    });
+    back.addEventListener('click',function(){ cur=null; tip.style.opacity=0; render(); animTo(full); });
   }catch(e){}
 })();
 </script>
