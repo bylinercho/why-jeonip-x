@@ -199,6 +199,10 @@ table.duty td{border-bottom:1px solid var(--rule2);padding:11px 12px;line-height
 table.duty td:first-child{font-weight:600;white-space:nowrap;color:#ece7de}
 table.duty td small{display:block;color:#9a9285;font-size:12px}
 .pull.key{font-size:clamp(28px,3.6vw,42px);line-height:1.5;margin:52px auto 40px;max-width:820px}
+.lawcmp{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:40px auto 0;text-align:left}
+.lawcmp .box{margin:0}.lawcmp .box p{margin:0 0 12px}.lawcmp .box p:last-child{margin:0}
+.lawcmp .box b{display:inline-block;color:#ece7de;margin-right:6px}
+@media(max-width:760px){.lawcmp{grid-template-columns:1fr}}
 .foldx{max-width:860px;margin:36px auto 0;border:1px solid var(--rule);border-radius:14px;background:rgba(255,255,255,.03);padding:0 20px;text-align:left}
 .foldx>summary{cursor:pointer;list-style:none;padding:15px 0;font:600 15px/1.5 var(--sans);color:#D9A05B;text-align:center}
 .foldx>summary::-webkit-details-marker{display:none}
@@ -982,6 +986,23 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="body col">
       <p>"전입신고 불가"라고 <mark>사실대로 적은 광고는 거짓 광고가 아니다.</mark> 광고와 실제 계약 조건이 같다면 지금의 부당광고 규정으로는 제재하기 어렵다. 그래서 중개업자가 조건을 옮기기만 했는지가 아니라, 이유를 확인하고 위험을 설명했는지를 따져야 한다.</p>
     </div>
+    <div class="lawcmp">
+      <div class="box">
+        <h4>숨기거나 속이면</h4>
+        <p><b>처벌</b> 거래상의 중요사항에 관하여 "거짓된 언행 그 밖의 방법으로 중개의뢰인의 판단을 그르치게 하는 행위"는 금지되고(공인중개사법 제33조 제1항 제4호), 어기면 1년 이하 징역 또는 1천만 원 이하 벌금이다(제49조 제1항 제10호).</p>
+        <p><b>과태료</b> 법령에 따른 이용제한사항 등을 성실·정확하게 설명하고 건축물대장 등본 같은 근거자료를 보이지 않으면 500만 원 이하 과태료다(제25조 제1항, 제51조 제2항 제1의6호).</p>
+        <p><b>배상</b> 고의나 과실로 손해를 주면 배상할 책임이 있다(제30조 제1항).</p>
+      </div>
+      <div class="box">
+        <h4>사실대로 쓰면</h4>
+        <p><b>광고</b> 부당한 표시·광고는 존재하지 않는 매물, 가격 등을 사실과 다르게 거짓으로 쓰거나 과장한 것, 그 밖에 대통령령으로 정한 것이다(제18조의2 제4항). 계약 조건 그대로 적은 "전입 불가"는 앞의 두 가지에 해당하지 않는다.</p>
+        <p><b>계약</b> 임차인에게 불리한 약정은 효력이 없다(주택임대차보호법 제10조). 하지만 그런 약정을 했다는 이유만으로 처벌하는 조항은 확인하지 못했다.</p>
+      </div>
+    </div>
+    <div class="body col" style="margin-top:34px">
+      <p>실제 점검에서도 이 구분이 보인다. 국토교통부는 2025년 7월부터 2026년 6월까지 온라인 광고를 점검해 <mark>위법 의심 광고 1만412건</mark>을 찾았다고 밝혔다. 이 가운데 상시 모니터링 9,383건의 유형은 부당한 표시·광고가 5,201건(55.4%), 필수 정보를 빠뜨린 명시의무 위반이 3,753건(40%), 무자격자 광고가 429건(4.6%)이었다. 부당한 표시·광고에는 건축물 용도나 면적을 사실과 다르게 적은 사례가 들어 있다. 하지만 보도된 집계에서 "전입 불가"를 사실대로 밝힌 광고를 따로 센 항목은 보이지 않는다.</p>
+      <p class="small">출처: SBS Biz 2026. 9. 18. 보도(국토교통부 발표). 법 조문은 국가법령정보센터 현행 본문 기준. 국토부 보도자료 원문과는 대조하지 못했고, 제18조의2 제4항 제3호가 위임한 시행령·고시의 세부 유형도 확인하지 못함</p>
+    </div>
     <details class="foldx">
       <summary>근거 보기: 전입신고 불가 매물과 관련된 법 규정 (표 2)</summary>
       <div class="cap">표 2. 전입신고 불가 매물과 관련된 법 규정</div>
@@ -999,7 +1020,7 @@ svg:hover .arc:not(:hover){opacity:.4}
     </tbody></table>
     <p class="small">취재팀이 지금까지 확인한 법령 기준이다. 규정이 없다는 것이 그 행위가 합법이라는 뜻은 아니다.</p>
     </details>
-    <div class="memo">행안부·지자체에 전입신고 방해 민원 처리 절차·처분 사례 질의. 확인·설명 의무 범위는 중개사 단체·법률 전문가에게(조문 번호 확인). 국토부·국세청에 임대차 신고 자료와 과세 자료 연계 여부 질의.</div>
+    <div class="memo">행안부·지자체에 전입신고 방해 민원 처리 절차·처분 사례 질의. 확인·설명 의무 범위는 중개사 단체·법률 전문가에게(조문 번호 확인). 국토부·국세청에 임대차 신고 자료와 과세 자료 연계 여부 질의. 변호사 확인: '전입신고 불가'가 제25조 확인·설명 대상(이용제한사항·중요사항)인지, 제33조 제1항 제4호의 '판단을 그르치게 하는 행위'에 드는지. 제18조의2 제4항 제3호 위임 시행령·고시 내용 확인. 국토부 1년 모니터링 보도자료 원문과 숫자 대조.</div>
   </div>
 </section>
 
