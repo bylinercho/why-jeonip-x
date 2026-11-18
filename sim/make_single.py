@@ -44,7 +44,7 @@ sim2 = rep(sim2, "if(!/[?&]embed=1/.test(location.search)) return;",
            "if(!(/[?&]embed=1/.test(location.search) || window.parent !== window)) return;")             # blob에서는 부모 유무로 판단
 sim2 = sim2.replace("</script>", "<\\/script>")
 sim2 = sim2.replace("<!--", "<\\!--")   # HTML 주석 시작 표시가 script 안에서 특수 상태를 만들지 않게
-html = rep(html, '<iframe id="simframe" src="simulator.html?embed=1" title="전입신고 불가 월세 매물 잠재세수 계산기" loading="lazy"></iframe>',
+html = rep(html, '<iframe id="simframe" src="simulator.html?embed=1&v=20261118b" title="전입신고 불가 월세 매물 잠재세수 계산기" loading="lazy"></iframe>',
            '<iframe id="simframe" title="전입신고 불가 월세 매물 잠재세수 계산기"></iframe>')
 html = rep(html, '<a href="simulator.html" target="_blank" rel="noopener">새 창에서 크게 보기</a>',
            '<a href="#" id="simopen">새 창에서 크게 보기</a>')
