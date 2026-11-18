@@ -1535,7 +1535,7 @@ function fig6Render(el, o){
       var X = D.extra.comp, TT = D['오피스텔'].ban, KB = X['업무시설(오피스텔 등)'], KS = X['숙박시설(생숙)'], KE = TT - KB - KS;
       strip('comp', [{n:'업무시설', v:KB, c:'#8D97B8'}, {n:'숙박시설(생숙)', v:KS, c:'#D9A05B'}, {n:'그 밖', v:KE, c:'#ECE7DE'}], '건');
       var el = $('comp');
-      el.insertAdjacentHTML('afterend', '<div class="small" style="margin-top:6px">그 밖: 대장 없음 '+fmt(X['대장 없음'])+'건 · 공동주택 '+fmt(X['공동주택'])+'건 · 기타 '+fmt(X['기타'])+'건</div>');
+      el.insertAdjacentHTML('afterend', '<div class="small" style="margin:6px auto 28px">그 밖: 대장 없음 '+fmt(X['대장 없음'])+'건 · 공동주택 '+fmt(X['공동주택'])+'건 · 기타 '+fmt(X['기타'])+'건</div>');
     })();
   })();
   (function(){
