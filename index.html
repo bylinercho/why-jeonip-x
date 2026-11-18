@@ -251,6 +251,8 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .adp-fill span{font:600 16px/1 'Paperlogy',sans-serif;color:#172343;white-space:nowrap}
 .rv.in .adp-fill{transform:scaleX(1)}
 @media(max-width:760px){.adp-row{grid-template-columns:1fr;gap:6px}}
+#rv-3 .ln{white-space:nowrap}
+@media(max-width:560px){#rv-3 .ln{white-space:normal}}
 .foldx{max-width:860px;margin:36px auto 0;border:1px solid var(--rule);border-radius:14px;background:rgba(255,255,255,.03);padding:0 20px;text-align:left}
 .foldx>summary{cursor:pointer;list-style:none;padding:15px 0;font:600 15px/1.5 var(--sans);color:#D9A05B;text-align:center}
 .foldx>summary::-webkit-details-marker{display:none}
@@ -1332,14 +1334,14 @@ window.__startCount=function(){
       a:{cap:'A에 도장을 찍었습니다', h:'매달 10만원을 더 내고, 보증금을 지킬 장치를 얻었어요', sv:'+240만원',
          s1:'14일 안에 전입신고를 하고 확정일자를 받습니다. 월세는 매달 10만원 더 나가요.',
          s2:'일정한 요건 아래 새 집주인에게 계약을 주장하고, 경매에서 먼저 돌려받을 순서를 가질 수 있습니다.',
-         s3:'2년 동안 240만원을 더 내고 보증금 '+won(d)+'의 보호 장치를 산 셈이에요. 광고에 보이는 "전입 시 월세 추가"가 바로 이 거래입니다.'},
+         s3:['2년 동안 240만원을 더 내고 보증금 '+won(d)+'의 보호 장치를 산 셈이에요.','광고에 보이는 "전입 시 월세 추가"가 바로 이 거래입니다.']},
       b:{cap:'B에 도장을 찍었습니다', h:'2년에 240만원을 아꼈지만, 보증금을 지킬 장치를 내려놓았어요', sv:'-240만원',
          s1:'전입신고 없이 삽니다. 월세는 매달 10만원 덜 나가요.',
          s2:'대항력도, 우선변제권도 갖추지 못했습니다. 보증금 '+won(d)+'을 돌려받는 순서에서 밀릴 수 있어요.',
-         s3:'아낀 돈 240만원과 걸려 있는 보증금 '+won(d)+'을 맞바꾼 계약입니다. 이런 특약은 세입자에게 불리해 효력이 없다는 설명도 있어요. 하지만 약속대로 신고하지 않으면 보증금을 지킬 대항력은 생기지 않아요.'}
+         s3:['아낀 돈 240만원과 걸려 있는 보증금 '+won(d)+'을 맞바꾼 계약입니다.','이런 특약은 세입자에게 불리해 효력이 없다는 설명도 있어요.','하지만 약속대로 신고하지 않으면 보증금을 지킬 대항력은 생기지 않아요.']}
     }[picked];
     $('rv-cap').textContent = R.cap; $('rv-h').textContent = R.h; $('sv1').textContent = R.sv;
-    $('rv-1').textContent = R.s1; $('rv-2').textContent = R.s2; $('rv-3').textContent = R.s3;
+    $('rv-1').textContent = R.s1; $('rv-2').textContent = R.s2; $('rv-3').innerHTML = R.s3.map(function(t){ return '<span class="ln">'+t+'</span>'; }).join('<br>');
   }
   document.querySelectorAll('.sheet').forEach(function(p){
     p.addEventListener('click', function(){
