@@ -1532,28 +1532,10 @@ function fig6Render(el, o){
       whenSeen(el, function(){ el.classList.add('in'); });
     })();
     (function(){
-      var el = $('comp'), key = $('compkey'), GOLD = '#D9A05B', f = fmt;
-      var cp = el.previousElementSibling, hd = '';
-      if(cp && cp.classList.contains('cap')){ var mm = cp.textContent.match(/^\s*(그림\s*\d+)\.?\s*(.*)$/); hd = ''; }
-      if(key) key.style.display = 'none';
-      var X = D.extra.comp, TT = D['오피스텔'].ban, KB = X['업무시설(오피스텔 등)'], KS = X['숙박시설(생숙)'], KE = TT - KB - KS, pc = function(v){ return (v/TT*100).toFixed(1); };
-      var rgba = function(h,al){ var n = parseInt(h.slice(1),16); return 'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+al+')'; };
-      var G = [{n:'업무시설', v:KB, c:'#8D97B8'}, {n:'숙박시설(생숙)', v:KS, c:'#D9A05B', hi:1}, {n:'그 밖', v:KE, c:'#ECE7DE'}];
-      G.forEach(function(x){ x.row = Math.max(100, x.v/TT*240 + 24); });
-      var T = 240, H = G.reduce(function(s,x){ return s + x.row; }, 0), off0 = (H - T)/2, y = off0, ye = 0, bands = '', srcs = '', labs = '';
-      G.forEach(function(x){
-        var th = x.v/TT*T, y0 = y, y1 = ye + x.row/2 - th/2, tip = x.n+' · '+f(x.v)+'건 ('+pc(x.v)+'%)';
-        bands += '<path class="g9b" data-tip="'+tip+'" d="M0,'+y0+' C50,'+y0+' 50,'+y1+' 100,'+y1+' L100,'+(y1+th)+' C50,'+(y1+th)+' 50,'+(y0+th)+' 0,'+(y0+th)+' Z" fill="'+x.c+'" fill-opacity="'+(x.hi?.35:.25)+'" stroke="'+x.c+'" stroke-opacity="'+(x.hi?1:.6)+'" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>';
-        srcs += '<div style="height:'+th+'px;box-sizing:border-box;background:'+rgba(x.c,x.hi?.35:.25)+';border:1.2px solid '+rgba(x.c,x.hi?1:.6)+'"></div>';
-        labs += '<div class="g9l" data-tip="'+tip+'" style="height:'+x.row+'px;display:flex;flex-direction:column;justify-content:center;gap:2px;line-height:1.3"><span style="font-size:14px;color:#ece7de">'+x.n+'</span><b style="font:700 28px/1.2 Paperlogy,Pretendard,sans-serif;color:'+(x.hi?'#D9A05B':'#ece7de')+'">'+pc(x.v)+'%</b><span style="font-size:12.5px;color:'+(x.hi?'#D9A05B':'#9a9285')+'">'+f(x.v)+'건</span></div>';
-        y += th; ye += x.row;
-      });
-      el.className = 'g9'; el.style.cssText = '';
-      el.innerHTML = hd
-        + '<div class="g9h">\'오피스텔\'로 올린<b>'+f(TT)+'건</b></div><div class="g9n0">건축물대장을 보면</div>'
-        + '<div class="g9g"><div style="height:'+H+'px;padding-top:'+off0+'px"><div class="g9s" style="height:'+T+'px;display:flex;flex-direction:column;border-radius:6px;overflow:hidden">'+srcs+'</div></div><svg viewBox="0 0 100 '+H+'" preserveAspectRatio="none" width="100%" height="'+H+'" style="display:block">'+bands+'</svg><div style="padding-left:16px">'+labs+'</div></div>'
-        + '<div class="g9n">그 밖: 대장 없음 '+f(X['대장 없음'])+'건 · 공동주택 '+f(X['공동주택'])+'건 · 기타 '+f(X['기타'])+'건</div>';
-      whenSeen(el, function(){ el.classList.add('in'); });
+      var X = D.extra.comp, TT = D['오피스텔'].ban, KB = X['업무시설(오피스텔 등)'], KS = X['숙박시설(생숙)'], KE = TT - KB - KS;
+      strip('comp', [{n:'업무시설', v:KB, c:'#8D97B8'}, {n:'숙박시설(생숙)', v:KS, c:'#D9A05B'}, {n:'그 밖', v:KE, c:'#ECE7DE'}], '건');
+      var el = $('comp');
+      el.insertAdjacentHTML('afterend', '<div class="small" style="margin-top:6px">그 밖: 대장 없음 '+fmt(X['대장 없음'])+'건 · 공동주택 '+fmt(X['공동주택'])+'건 · 기타 '+fmt(X['기타'])+'건</div>');
     })();
   })();
   (function(){
