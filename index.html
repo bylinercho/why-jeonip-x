@@ -204,7 +204,7 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .taxbtn{display:inline-block;border:1.5px solid #D9A05B;color:#D9A05B;border-radius:999px;padding:12px 26px;font:600 16px/1.2 var(--sans);text-decoration:none;transition:background .15s,color .15s}
 .taxbtn:hover{background:#D9A05B;color:#172343}
 /* ===== CH.4 디자인 ===== */
-#price .clip{position:relative;background:#f4efe6;color:#172343;border:0;box-shadow:0 10px 26px rgba(0,0,0,.28);-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:6px 16px 16px 6px;padding:16px 20px 16px 50px;transform:rotate(-.6deg)}
+#price .clip{position:relative;background:#f7f4ec var(--paperimg) center/cover no-repeat;color:#172343;border:0;box-shadow:0 10px 26px rgba(0,0,0,.28);-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:6px 16px 16px 6px;padding:16px 20px 16px 50px;transform:rotate(-.6deg)}
 #price .clip:nth-child(even){transform:rotate(.7deg)}
 #price .clip:before{content:"";position:absolute;left:16px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:#172343;box-shadow:inset 0 0 0 2px rgba(217,160,91,.7)}
 #price .clip q{font:500 20px/1.5 'Paperlogy',sans-serif;color:#172343}
@@ -412,8 +412,8 @@ body.lock{overflow:hidden}
 .cpill{display:block;width:fit-content;max-width:100%;margin:20px auto 0;padding:8px 20px;border-radius:999px;background:rgba(255,255,255,.05);border:1.2px solid rgba(255,255,255,.25);font-size:14px;line-height:1.5;color:#ece7de;opacity:0;transition:opacity .4s}#chx.in .cpill{opacity:1}
 @media(max-width:720px){.contracts .sheet .v1{font-size:36px}}
 @media(prefers-reduced-motion:reduce){.contracts .sheet,.cpill{opacity:1;transform:none;transition:none}}
-.clip{background:#f7f4ec var(--paperimg) center/cover no-repeat;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;color:#172343;box-shadow:0 10px 24px rgba(0,0,0,.28)}
-.clip span{color:#6b6459}.clip i{color:#b4691a}.clip mark{color:#b4691a;font-weight:700}
+.clip{background:rgba(255,255,255,.06);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border:1px solid rgba(255,255,255,.14);color:#ece7de;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.clip span{color:#9a9285}.clip i{color:#D9A05B}
 .box,#reveal,.panel,.mapwrap{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 #gtip{position:fixed;z-index:9999;pointer-events:none;max-width:280px;padding:8px 12px;border-radius:10px;font:500 13px/1.5 Pretendard,sans-serif;color:#ece7de;background:rgba(23,35,67,.78);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.2);box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
 #gtip.on{opacity:1;transform:none}
