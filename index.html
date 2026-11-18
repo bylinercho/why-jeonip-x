@@ -246,10 +246,12 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .adp-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr);gap:18px;align-items:center;margin-bottom:12px}
 .adp-q{font:500 16px/1.45 'Paperlogy',sans-serif;color:#ece7de}
 .adp-q small{display:block;font:400 12px/1.5 var(--sans);color:#9a9285;margin-top:2px}
-.adp-bar{height:40px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
-.adp-fill{height:100%;width:var(--w);background:#D9A05B;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s;display:flex;align-items:center;justify-content:flex-end;padding-right:12px;border-radius:10px 0 0 10px}
-.adp-fill span{font:600 16px/1 'Paperlogy',sans-serif;color:#172343;white-space:nowrap}
-.rv.in .adp-fill{transform:scaleX(1)}
+.adp-bar{position:relative;height:40px}
+.adp-bar:before{content:"";position:absolute;left:0;top:50%;width:84%;height:22px;margin-top:-11px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.adp-fill{position:absolute;left:0;top:50%;height:22px;margin-top:-11px;width:calc(var(--w)*.84);border-radius:999px;box-sizing:border-box;background:rgba(217,160,91,.36);border:1.5px solid #D9A05B;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s}
+.adp-fill:after{content:"";position:absolute;right:6px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:rgba(236,231,222,.55)}
+.adp-v{position:absolute;top:50%;left:calc(var(--w)*.84 + 12px);transform:translateY(-50%);font:600 17px/1 'Paperlogy',sans-serif;color:#D9A05B;white-space:nowrap;opacity:0;transition:opacity .5s .9s}
+.rv.in .adp-fill{transform:scaleX(1)}.rv.in .adp-v{opacity:1}
 @media(max-width:760px){.adp-row{grid-template-columns:1fr;gap:6px}}
 #rv-3 .ln{white-space:nowrap}
 @media(max-width:560px){#rv-3 .ln{white-space:normal}}
@@ -1001,12 +1003,12 @@ svg:hover .arc:not(:hover){opacity:.4}
     </div>
     <div class="cap">그림 8. 광고에 적힌 '전입하려면 더 내는 돈' (한 달 월세)</div>
     <div class="adp">
-      <div class="adp-row"><div class="adp-q">“전입신고 가능(2만원추가)”<small>3건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:20%"><span>+2만원</span></div></div></div>
-      <div class="adp-row"><div class="adp-q">“전입시 55,000원추가”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:55%"><span>+5.5만원</span></div></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고시 월세 10% 추가”<small>1건 · 월세 65만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:65%"><span>+6.5만원</span></div></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고 시 월세 7만원 상향”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:70%"><span>+7만원</span></div></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고시 월세 5%인상”<small>1건 · 월세 160만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:80%"><span>+8만원</span></div></div></div>
-      <div class="adp-row"><div class="adp-q">“전입시 10만원추가비용”<small>8건 · 같은 매물이 반복 게시됨</small></div><div class="adp-bar"><div class="adp-fill" style="--w:100%"><span>+10만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고 가능(2만원추가)”<small>3건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:20%"></div><span class="adp-v" style="--w:20%">+2만원</span></div></div>
+      <div class="adp-row"><div class="adp-q">“전입시 55,000원추가”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:55%"></div><span class="adp-v" style="--w:55%">+5.5만원</span></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고시 월세 10% 추가”<small>1건 · 월세 65만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:65%"></div><span class="adp-v" style="--w:65%">+6.5만원</span></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고 시 월세 7만원 상향”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:70%"></div><span class="adp-v" style="--w:70%">+7만원</span></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고시 월세 5%인상”<small>1건 · 월세 160만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:80%"></div><span class="adp-v" style="--w:80%">+8만원</span></div></div>
+      <div class="adp-row"><div class="adp-q">“전입시 10만원추가비용”<small>8건 · 같은 매물이 반복 게시됨</small></div><div class="adp-bar"><div class="adp-fill" style="--w:100%"></div><span class="adp-v" style="--w:100%">+10만원</span></div></div>
     </div>
     <div class="body col" style="margin-top:22px">
       <p>전입을 하려면 한 달에 <mark>2만원에서 10만원</mark>을 더 내라는 광고가 25건이었고, 그중 15건이 금액을 적었다.<br>반대로 전입을 포기하면 깎아 준다는 광고는 19건이지만<br><strong>월세를 얼마나 깎는지 적은 광고는 한 건도 없었다.</strong><br>이 중 18건은 "주변 시세 대비 보증금 0원, 저렴한 월세"라는 같은 문구를 반복한 광고였다.<br>전입을 포기해서 아끼는 돈은 한 달에 몇만원이고, 그 대가로 보증금을 지킬 근거를 내놓는 셈이다.</p>
