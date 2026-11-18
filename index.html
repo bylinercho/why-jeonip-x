@@ -1569,7 +1569,7 @@ function fig6Render(el, o){
         var c = '<circle class="arc" data-tip="'+tipOf(x)+'" cx="100" cy="100" r="'+R+'" fill="none" stroke="'+x.c+'" stroke-width="24" stroke-dasharray="0 '+C+'" stroke-dashoffset="'+(-off)+'" data-d="'+d+'" data-c="'+C+'"></circle>'; off += len; return c; }).join('');
       var list = P.map(function(x){ var hi = x.hi ? ' hi' : ''; return '<div class="co-i'+hi+'" data-tip="'+tipOf(x)+'"><div class="co-n">'+x.n+'</div><div class="co-v"><i style="background:'+x.dot+'"></i><b>'+(x.v/TT*100).toFixed(1)+'%</b></div><div class="co-c">'+fmt(x.v)+'건</div></div>'; }).join('');
       el.className = 'co'; el.style.cssText = '';
-      el.innerHTML = '<div class="co-d"><svg viewBox="0 0 200 200" role="img" aria-label="오피스텔로 올린 광고의 건축물대장상 용도"><g transform="rotate(-90 100 100)">'+arcs+'</g></svg><div class="co-t"><span>'오피스텔'로 올린</span><b>'+fmt(TT)+'건</b></div></div><div class="co-l">'+list+'</div>';
+      el.innerHTML = '<div class="co-d"><svg viewBox="0 0 200 200" role="img" aria-label="오피스텔로 올린 광고의 건축물대장상 용도"><g transform="rotate(-90 100 100)">'+arcs+'</g></svg><div class="co-t"><span>&#39;오피스텔&#39;로 올린</span><b>'+fmt(TT)+'건</b></div></div><div class="co-l">'+list+'</div>';
       whenSeen(el, function(){ [].forEach.call(el.querySelectorAll('.arc'), function(a, i){ setTimeout(function(){ a.setAttribute('stroke-dasharray', a.getAttribute('data-d')+' '+a.getAttribute('data-c')); }, i*160); }); });
       el.insertAdjacentHTML('afterend', '<div class="small" style="margin:6px auto 28px">그 밖: 대장 없음 '+fmt(X['대장 없음'])+'건 · 공동주택 '+fmt(X['공동주택'])+'건 · 기타 '+fmt(X['기타'])+'건</div>');
     })();
