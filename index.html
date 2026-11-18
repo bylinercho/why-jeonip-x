@@ -392,7 +392,8 @@ body.lock{overflow:hidden}
 .contracts .sheet{display:flex;flex-direction:column;gap:4px;background:#ECE7DE;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;border:2px solid transparent;border-radius:12px;padding:24px 24px 22px;color:#172343;opacity:0;transform:translateY(18px);transition:opacity .5s,transform .3s}
 .contracts .sheet:hover{background:#ECE7DE;box-shadow:none;border-color:transparent;transform:translateY(-4px)}
 .contracts .sheet.sel,.contracts .sheet.sel:hover{border-color:#D9A05B}
-.contracts .sheet,.contracts .sheet:hover{background:#f7f4ec url(paper.jpg) center/cover no-repeat}
+:root{--paperimg:url(paper.jpg)}
+.contracts .sheet,.contracts .sheet:hover{background:#f7f4ec var(--paperimg) center/cover no-repeat}
 #chx.in .contracts .sheet{opacity:1;transform:none;transition-delay:.4s,.4s}#chx.in .contracts .sheet+.sheet{transition-delay:.5s,.5s}
 #chx.in .contracts .sheet.dim{opacity:.4}#chx.in .contracts .sheet:hover{transform:translateY(-4px);transition-delay:0s}
 .contracts .sheet .hd{font:500 14px/1.4 Pretendard,sans-serif;color:rgba(23,35,67,.6);text-align:center;letter-spacing:.3em;padding:0 0 10px .3em;margin:0 0 12px;border-bottom:1px solid rgba(23,35,67,.5)}
@@ -411,8 +412,8 @@ body.lock{overflow:hidden}
 .cpill{display:block;width:fit-content;max-width:100%;margin:20px auto 0;padding:8px 20px;border-radius:999px;background:rgba(255,255,255,.05);border:1.2px solid rgba(255,255,255,.25);font-size:14px;line-height:1.5;color:#ece7de;opacity:0;transition:opacity .4s}#chx.in .cpill{opacity:1}
 @media(max-width:720px){.contracts .sheet .v1{font-size:36px}}
 @media(prefers-reduced-motion:reduce){.contracts .sheet,.cpill{opacity:1;transform:none;transition:none}}
-.clip{background:rgba(255,255,255,.06);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border:1px solid rgba(255,255,255,.14);color:#ece7de;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
-.clip span{color:#9a9285}.clip i{color:#D9A05B}
+.clip{background:#f7f4ec var(--paperimg) center/cover no-repeat;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;color:#172343;box-shadow:0 10px 24px rgba(0,0,0,.28)}
+.clip span{color:#6b6459}.clip i{color:#b4691a}.clip mark{color:#b4691a;font-weight:700}
 .box,#reveal,.panel,.mapwrap{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 #gtip{position:fixed;z-index:9999;pointer-events:none;max-width:280px;padding:8px 12px;border-radius:10px;font:500 13px/1.5 Pretendard,sans-serif;color:#ece7de;background:rgba(23,35,67,.78);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.2);box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
 #gtip.on{opacity:1;transform:none}
