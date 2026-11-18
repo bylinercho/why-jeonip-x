@@ -282,6 +282,19 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .lf-btn:hover,.lf-btn:focus-visible{background:#D9A05B;color:#172343;outline:none}
 .leafm{position:fixed;inset:0;z-index:9999;background:rgba(10,16,34,.94);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 14px 40px}
 .leafm[hidden]{display:none}
+.orgb{font:inherit;color:#D9A05B;background:none;border:0;border-bottom:1.5px dotted #D9A05B;padding:0;cursor:pointer;font-weight:600}
+.orgb:hover{color:#e8b978;border-bottom-style:solid}
+.orgm{position:fixed;inset:0;z-index:9999;background:rgba(10,16,34,.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
+.orgm[hidden]{display:none}
+.orgm-in{width:min(520px,100%);max-height:88vh;overflow-y:auto;text-align:left;background:rgba(23,35,67,.92);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:26px 26px 22px;box-shadow:0 24px 60px rgba(0,0,0,.5);color:#ece7de}
+.orgm-in h4{font:500 24px/1.4 'Paperlogy',sans-serif;margin:0 0 4px;color:#D9A05B}
+.orgm-in .lead{font-size:16px;line-height:1.75;margin:10px 0 14px}
+.orgm-in ul{margin:0 0 14px;padding-left:18px;font-size:15px;line-height:1.75;color:#b8b1a4}
+.orgm-in li{margin-bottom:6px}
+.orgm-in .rel{border-top:1px solid rgba(255,255,255,.14);padding-top:12px;font-size:14.5px;line-height:1.7;color:#ece7de}
+.orgm-in .src{font-size:12px;color:#9a9285;margin:12px 0 0}
+.orgm-x{float:right;border:1px solid rgba(255,255,255,.35);background:transparent;color:#ece7de;font:600 13px/1 var(--sans);padding:8px 13px;border-radius:999px;cursor:pointer;margin:0 0 6px 10px}
+.orgm-x:hover{background:#ece7de;color:#172343}
 .leafm-in{max-width:1240px;margin:0 auto;text-align:center}
 .leafm-bar{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 4px 14px;background:linear-gradient(rgba(10,16,34,.98),rgba(10,16,34,.9) 70%,transparent)}
 .leafm-t{font:500 15px/1.5 var(--sans);color:#ece7de;text-align:left}
@@ -879,7 +892,7 @@ svg:hover .arc:not(:hover){opacity:.4}
     </div>
     <div class="pull">전입신고는 선택지처럼 제시된다.<br>하지만 그 결과는 세입자 혼자 떠안는다.</div>
     <div class="body col ol">
-      <p class="fl">서동규 민달팽이유니온 위원장은 전입신고를 하지 않기로 한 특약이 효력이 없다고 설명했다. 세입자에게 불리한 약정은 주택임대차보호법상 무효라는 것이다. 건축물대장상 주택이 아니어도 실제 주거 목적의 임대차라면 전입신고 자체는 가능하다고 했다. 다만 동주민센터 창구에서 근린생활시설이라는 이유로 안 된다고 안내하는 경우가 있다. 신고하지 않으면 대항력이 없어 보증금과 계약기간 보호가 약해진다.</p>
+      <p class="fl"><button type="button" class="orgb" id="orgBtn" aria-haspopup="dialog">민달팽이유니온</button>은 청년 주거권 보장과 주거 불평등 완화를 위해 활동하는 비영리 시민단체이다. 이 단체의 서동규 위원장은 전입신고를 하지 않기로 한 특약이 효력이 없다고 설명했다. 세입자에게 불리한 약정은 주택임대차보호법상 무효라는 것이다. 건축물대장상 주택이 아니어도 실제 주거 목적의 임대차라면 전입신고 자체는 가능하다고 했다. 다만 동주민센터 창구에서 근린생활시설이라는 이유로 안 된다고 안내하는 경우가 있다. 신고하지 않으면 대항력이 없어 보증금과 계약기간 보호가 약해진다.</p>
     </div>
     <div class="body col ol">
       <p>취재팀은 전국 부동산 플랫폼의 매물을 모아 전입신고 불가 조건을 추적했다.<br><strong>임대인·중개업자·플랫폼·정부</strong>가 각자 어떤 책임을 지는지 확인했다.</p>
@@ -1920,6 +1933,31 @@ function fig6Render(el, o){
   }
   function close(){ m.hidden=true; document.documentElement.classList.remove('leaf-open'); if(last&&last.focus) last.focus(); }
   btn.addEventListener('click',open); x.addEventListener('click',close);
+  m.addEventListener('click',function(e){ if(e.target===m) close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!m.hidden) close(); });
+})();
+</script>
+<div class="orgm" id="orgModal" hidden role="dialog" aria-modal="true" aria-label="민달팽이유니온 소개">
+  <div class="orgm-in">
+    <button type="button" class="orgm-x" id="orgClose">닫기 ✕</button>
+    <h4>민달팽이유니온</h4>
+    <p class="lead">청년 주거권 보장과 주거 불평등 완화를 위해 활동하는 비영리 시민단체이다.</p>
+    <ul>
+      <li>청년 주거 문제를 공론화하고, 제도 개선·주거 상담·세입자 조직화 활동을 한다.</li>
+      <li>청년 주거 문제를 풀기 위해 직접 협동조합(민달팽이주택협동조합)을 만들어 사회주택을 공급해 왔다.</li>
+    </ul>
+    <p class="rel"><b>이 기사에서는</b> 서동규 위원장이 전입신고 불가 특약의 효력, 건축물대장과 실제 용도가 다른 건물의 문제를 설명했다.</p>
+    <p class="src">출처: 언론 보도와 단체 소개 자료</p>
+  </div>
+</div>
+<script>
+(function(){
+  var b=document.getElementById('orgBtn'), m=document.getElementById('orgModal'), x=document.getElementById('orgClose');
+  if(!b||!m) return;
+  var last=null;
+  function open(){ last=document.activeElement; m.hidden=false; x.focus(); }
+  function close(){ m.hidden=true; if(last&&last.focus) last.focus(); }
+  b.addEventListener('click',open); x.addEventListener('click',close);
   m.addEventListener('click',function(e){ if(e.target===m) close(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!m.hidden) close(); });
 })();
