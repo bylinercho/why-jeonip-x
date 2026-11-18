@@ -455,6 +455,9 @@ body.lock{overflow:hidden}
 .contracts .sheet .sign{margin-top:auto;padding-top:18px;font-size:12px;color:rgba(23,35,67,.6)}
 .contracts .sheet .sign i{border-bottom-color:rgba(23,35,67,.4)}
 .contracts .sheet .sign{align-items:center}
+.contracts .sheet .seal{width:74px;height:74px;border:3px solid #c8281f;color:#c8281f;box-shadow:inset 0 0 0 3px rgba(255,255,255,0),inset 0 0 0 5px #c8281f;background:rgba(200,40,31,.04);bottom:46px;right:10px;filter:url(#stampRough);mix-blend-mode:multiply;font:700 17px/1.15 'Paperlogy',sans-serif;letter-spacing:.04em;text-align:center}
+.contracts .sheet .seal span{display:block;transform:translateY(1px)}
+.contracts .sheet.sel .seal{opacity:.88}
 .contracts .sheet .go{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 16px;border-radius:999px;background:#172343;color:#ECE7DE;font:700 13px/1 Pretendard,sans-serif;white-space:nowrap;transition:background .2s,color .2s}
 .contracts .sheet .go:hover{background:#D9A05B;color:#172343}
 .contracts .sheet.sel .go,.contracts .sheet.sel .go:hover{visibility:visible;background:#D9A05B;color:#172343}
@@ -839,6 +842,8 @@ svg:hover .arc:not(:hover){opacity:.4}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
 </head>
 <body class="lock">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="stampRough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2"/></filter></svg>
+
 <div id="intro-ov"><button class="skip" type="button" id="skipintro">건너뛰기 →</button><div style="display:flex;flex-direction:column;align-items:center;margin:0 20px"><div class="ilc" id="ilc"><div class="ilh"><span>월세</span><span>원룸</span><span>즉시 입주</span></div><div class="ill" id="ill"></div></div><div class="phrase" id="phrase">이 한 줄이 붙은 매물, 전국에 몇 건일까요?</div></div></div>
 <div id="map-bg"></div><div id="veil"></div><nav id="cnav"><div id="cnavl"></div></nav>
 <div id="top"><b>주소를 막는 집</b><span id="now"></span><div id="bar"></div></div>
@@ -876,7 +881,7 @@ svg:hover .arc:not(:hover){opacity:.4}
         <i class="dl"></i>
         <p class="sp">임차인은 전입 신고를 할 수 있으며,<br>확정일자를 받을 수 있다.</p>
         <div class="sign"><span class="sg">임차인 <i><em class="nm">Team A+</em></i> <span class="in">(인)<b class="sig" aria-hidden="true">TeamA+</b></span></span><span class="go">여기에 도장 찍기</span></div>
-        <div class="seal">계약</div>
+        <div class="seal"><span>계약<br>완료</span></div>
       </button>
       <button class="sheet" data-pick="b" type="button">
         <div class="hd">월세계약서 B</div>
@@ -886,7 +891,7 @@ svg:hover .arc:not(:hover){opacity:.4}
         <i class="dl"></i>
         <p class="sp">임차인은 전입 신고를 하지 않으며,<br>대신 월세를 10만원 할인한다.</p>
         <div class="sign"><span class="sg">임차인 <i><em class="nm">Team A+</em></i> <span class="in">(인)<b class="sig" aria-hidden="true">TeamA+</b></span></span><span class="go">여기에 도장 찍기</span></div>
-        <div class="seal">계약</div>
+        <div class="seal"><span>계약<br>완료</span></div>
       </button>
     </div>
     </div>
