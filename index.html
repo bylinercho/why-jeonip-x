@@ -203,8 +203,8 @@ table.duty td:first-child{font-weight:600;white-space:nowrap;color:#ece7de}
 table.duty td small{display:block;color:#9a9285;font-size:12px}
 .pull.key{font-size:clamp(28px,3.6vw,42px);line-height:1.5;margin:52px auto 40px;max-width:820px}
 .lawcmp{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:40px auto 0;text-align:left}
-.lawcmp .box{margin:0}.lawcmp .box p{margin:0 0 12px}.lawcmp .box p:last-child{margin:0}
-.lawcmp .box b{display:inline-block;color:#ece7de;margin-right:6px}
+.lawcmp .box{margin:0}.lawcmp .box p{margin:0 0 12px;display:grid;grid-template-columns:3.6em 1fr;column-gap:12px;align-items:start}.lawcmp .box p:last-child{margin:0}
+.lawcmp .box b{display:block;color:#ece7de;margin:0}
 @media(max-width:760px){.lawcmp{grid-template-columns:1fr}}
 .simbox{max-width:1040px;margin:26px auto 8px;border:1px solid rgba(217,160,91,.3);border-radius:18px;overflow:hidden;background:#172343}
 .simbox iframe{display:block;width:100%;height:820px;border:0;background:#172343}
@@ -315,6 +315,18 @@ footer{margin:60px auto 0;padding:48px 0 100px;border-top:1px solid var(--rule2)
 footer h3{font-size:17px;margin:0 auto 14px}
 footer ul{text-align:left;padding-left:20px}
 footer li{margin-bottom:8px;line-height:1.8}
+.dp{max-width:640px;margin:14px auto 0;padding:8px 0 0}
+.dp-bracket{margin:0 0 6px;width:66.6%;text-align:center;border-bottom:2px solid #D9A05B;padding-bottom:4px;font-size:14px;color:#D9A05B}.dp-bracket b{font:600 18px 'Paperlogy',sans-serif}
+.dp-row{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;align-items:end}
+.dp-c{display:flex;flex-direction:column;align-items:center}
+.dp-v{font:600 15px/1 'Paperlogy',sans-serif;color:#9a9285;margin-bottom:6px}.dp-c.on .dp-v{color:#D9A05B}
+.dp-t{position:relative;width:36px;height:170px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);overflow:hidden;display:flex;align-items:flex-end}
+.dp-t i{display:block;width:100%;border-radius:999px;background:rgba(150,160,190,.45);border:1.5px solid #8D97B8;box-sizing:border-box;transform:scaleY(0);transform-origin:bottom;transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s}
+.dp-c.on .dp-t i{background:rgba(217,160,91,.4);border-color:#D9A05B}
+.rv.in .dp-t i{transform:scaleY(1)}
+.dp-l{margin-top:8px;font-size:12px;line-height:1.4;color:#b8b1a4;text-align:center}
+.dp-n{margin-top:14px;text-align:center;font-size:12.5px;color:#9a9285}
+@media(max-width:560px){.dp-row{gap:6px}.dp-t{width:28px;height:140px}.dp-l{font-size:11px}}
 .cl{max-width:960px;margin:22px auto 0;display:flex;flex-direction:column;gap:30px;align-items:center}
 .cl-r{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:14px 44px}
 .cl-i{text-align:center;opacity:0;transform:translateY(10px);transition:opacity .7s,transform .7s}
@@ -965,7 +977,7 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="art" data-n="02"><span>CH.2</span><em>데이터</em></div>
     <h2>전국 매물 51만 건을<br>모았다</h2>
     <div class="body col ol">
-      <p class="fl">2026년 11월, 다방·직방·피터팬·당근마켓의 월세·전세 매물을 모았다. 광고 본문에 전입신고가 안 된다고 적은 매물은 <mark>9,230건</mark>이었다. 오피스텔은 <span data-num="오피스텔.n"></span>건 중 <span data-num="오피스텔.ban"></span>건(<span data-num="오피스텔.rate"></span>%)으로, 비율이 일반 주거 매물의 17배였다. 일반 주거 매물은 <span data-num="본분석.n"></span>건 중 <span data-num="본분석.ban"></span>건(<span data-num="본분석.rate"></span>%), 아파트는 <span data-num="아파트.n"></span>건 중 <span data-num="아파트.ban"></span>건(<span data-num="아파트.rate"></span>%)이 전입 불가였다. 아파트는 전입 불가 비율이 가장 낮은 만큼, 일반 주거 매물과 오피스텔 매물에 집중해 분석했다.</p>
+      <p class="fl">2026년 11월 9일부터 13일까지 5일간, 다방·직방·피터팬·당근마켓의 월세·전세 매물을 모았다. 광고 본문에 전입신고가 안 된다고 적은 매물은 <mark>9,230건</mark>이었다. 오피스텔은 <span data-num="오피스텔.n"></span>건 중 <span data-num="오피스텔.ban"></span>건(<span data-num="오피스텔.rate"></span>%)으로, 비율이 일반 주거 매물의 17배였다. 일반 주거 매물은 <span data-num="본분석.n"></span>건 중 <span data-num="본분석.ban"></span>건(<span data-num="본분석.rate"></span>%), 아파트는 <span data-num="아파트.n"></span>건 중 <span data-num="아파트.ban"></span>건(<span data-num="아파트.rate"></span>%)이 전입 불가였다. 아파트는 전입 불가 비율이 가장 낮은 만큼, 일반 주거 매물과 오피스텔 매물에 집중해 분석했다.</p>
     </div>
     <div class="chart"><div class="cap">그림 2. 수집부터 전입 불가까지</div><div id="funnel"></div></div>
 
@@ -985,7 +997,7 @@ svg:hover .arc:not(:hover){opacity:.4}
       <div class="panel" id="panel"></div>
     </div>
 
-    <div class="box"><h4>이 숫자의 한계</h4><p>경계는 2026년 행정구역을 기준으로 설정했다.<br>수원·성남 등 구 단위 행정구역이 있는 도시는 시 단위로 통합했다.<br>다만 해당 지도는 전국 임대차 시장 전체가 아닌 4개 부동산 플랫폼에 공개된 매물 현황을 보여준다는 점에 유의해야 한다.<br>온라인에 등록되지 않은 매물이나 계약 과정에서 구두로만 전입신고 불가 조건을 제시한 사례는 집계에 포함되지 않았다.</p></div>
+    
   </div>
 </section>
 
@@ -1031,7 +1043,6 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="strip" id="comp"></div><div class="key" id="compkey"></div>
     <div class="body col ol">
       <p class="fl">플랫폼의 '오피스텔' 카테고리는 중개사가 고른다. 그래서 <mark>1,239건</mark>은 대장상 숙박시설, 곧 생활숙박시설(생숙)이었다. 생숙은 2021년부터 주거용으로 쓸 수 없다. 이행강제금을 2027년 말까지 미뤄 줬을 뿐 주거를 허용한 것은 아니다. 다만 숙박업으로 신고해 운영하면 합법이다.</p>
-      <p class="small">대장상 오피스텔은 업무시설이지만 주거용으로 써도 불법은 아니다(김건 교수). 오피스텔의 전입 불가가 곧 위법을 뜻하지는 않는다</p>
     </div>
   </div>
 </section>
@@ -1053,18 +1064,11 @@ svg:hover .arc:not(:hover){opacity:.4}
 
     <div class="s91"><b>91.4%</b><span>전입 불가 매물이 보증금 1,000만원 이하다.<br>보증금이 적은 세입자일수록 이 조건을 만나기 쉽다</span></div>
 
-    <h3>전입을 포기하면 정말 저렴할까</h3>
-    <div class="body col">
-      <p>맨 앞의 계약서 B는 월세가 10만원 쌌다. 실제 매물도 그런지, 같은 시·군·구에서 면적이 비슷한 매물끼리 월세를 비교했다. 결과는 반대였다.</p>
-    </div>
-    <div class="nums" style="margin:20px auto 12px;justify-content:center;text-align:center">
-      <div class="r" style="flex:none;max-width:420px;padding:0"><b>+<span data-num="ext.rent.0.diff_med"></span>만원</b><p><strong>월세 차이(중간값).</strong> 전입 불가 매물 <span data-num="ext.rent.0.ban_n"></span>건을 같은 동네·비슷한 면적 매물의 중간 월세와 비교</p></div>
-    </div>
-    <div class="cap">그림 8. 전입 불가 매물의 월세는 같은 동네 비슷한 매물보다 얼마나 비싼가</div>
-    <div class="grp" id="rentdiff" style="grid-template-columns:repeat(7,1fr)"></div><div class="grpx" id="rentx" style="grid-template-columns:repeat(7,1fr)"></div>
-    <div class="body col" style="margin-top:18px">
-      <p>대장상 주택만 따로 봐도 월세가 8만원 높았다(878건). <strong>전입을 포기한 대가로 싸게 사는 구조가 아니었다.</strong> 깎아 준다고 밝힌 광고는 19건뿐이다.</p>
-      <p class="small">비교 기준: 같은 시·군·구, 같은 면적대(20㎡ 미만, 20~30, 30~40, 40~60, 60㎡ 이상)에서 일반 매물이 20건 이상인 경우만 비교함. 건물 연식, 옵션, 단기 임대 여부는 맞추지 못함. 전입 불가 매물에 신축·풀옵션이 많다면 그 영향이 섞여 있음</p>
+    <div class="cap" style="margin-top:44px">그림 8. 전입 불가 매물의 보증금 분포</div>
+    <div class="dp">
+      <div class="dp-bracket"><span>보증금 1,000만원 이하 <b>91.4%</b></span></div>
+      <div class="dp-row"><div class="dp-c on"><b class="dp-v">20.6%</b><div class="dp-t"><i style="height:76%"></i></div><span class="dp-l">100만원 이하</span></div><div class="dp-c on"><b class="dp-v">26.8%</b><div class="dp-t"><i style="height:99%"></i></div><span class="dp-l">100~300만원</span></div><div class="dp-c on"><b class="dp-v">27.2%</b><div class="dp-t"><i style="height:100%"></i></div><span class="dp-l">300~500만원</span></div><div class="dp-c on"><b class="dp-v">16.9%</b><div class="dp-t"><i style="height:62%"></i></div><span class="dp-l">500~1,000만원</span></div><div class="dp-c "><b class="dp-v">7.1%</b><div class="dp-t"><i style="height:26%"></i></div><span class="dp-l">1,000~3,000만원</span></div><div class="dp-c "><b class="dp-v">1.5%</b><div class="dp-t"><i style="height:6%"></i></div><span class="dp-l">3,000만원 초과</span></div></div>
+      <div class="dp-n">단위: % · 전입 불가 월세 매물 2,897건 중 보증금 구간별 비율</div>
     </div>
   </div>
 </section>
@@ -1099,7 +1103,7 @@ svg:hover .arc:not(:hover){opacity:.4}
 <section id="agents" data-t="CH.6 반복 게시">
   <div class="wide rv">
     <div class="art" data-n="06"><span>CH.6</span><em>올린 사람들</em></div>
-    <h2>같은 사무소가<br>반복해서 올린다</h2>
+    <h2>같은 부동산이<br>반복해서 올린다</h2>
     <div class="body col ol">
       <p>전입 불가 매물(아파트 제외 9,026건)을 올린 중개사무소를 세어 봤다.<br>매물을 올린 사무소 7,585곳 가운데 <strong>1,339곳</strong>이 한 건 이상 올렸다.<br>그런데 일부에 크게 몰려 있다.</p>
     </div>
@@ -1110,7 +1114,6 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="chart"><div class="cap">그림 9. 전입 불가 매물은 일부 사무소에 몰려 있다</div><div id="ahist"></div></div>
     <div class="cap">표 4. 전입 불가 매물을 가장 많이 올린 중개사무소 10곳</div>
     <table class="duty" id="atop"></table>
-    <p class="small">사무소 이름은 밝히지 않음. 같은 사무소인지는 중개사무소 등록번호(없으면 상호)로 판단함. 같은 집을 조건만 바꿔 다시 올린 경우가 일부 섞여 있을 수 있음. 많이 올렸다는 사실만으로 위법이라는 뜻은 아님</p>
     <div class="body col ol">
       <p>상위 10곳 중 여섯 곳이 경기 안산시에 있다.<br>그중 다섯 곳은 올린 매물 열 건 중 아홉 건 이상이 전입 불가였다.<br>우연히 한두 건 섞인 것이 아니라, 전입 불가 매물을 주로 다루는 사무소가 있다는 뜻이다.</p>
     </div>
@@ -1266,7 +1269,6 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="body col ol">
       <p>전입신고 불가 매물과 용도 불일치 매물은 각각 광고 관리와 건축물 관리라는 다른 행정 영역에 걸쳐 있다.<br>그렇다면 임차인을 보호하기 위한 지자체 제도에서는 이 문제를 다루고 있을까.</p>
       <p class="fl">취재팀이 제목에 전세·임차·임대차가 들어간 조례 121건(100개 지자체)을 분석한 결과, 본문에 '전입신고', '위반건축물', '건축물대장', '대항력'이라는 단어는 한 번도 등장하지 않았다. 지자체들이 전세사기와 보증금 피해에 대응하는 조례를 만들었지만, 전입신고를 막거나 실제 용도가 건축물대장과 다른 임대차 매물에 관한 내용은 조례에 담기지 않은 것이다. 위반건축물 단속 절차를 다룬 지자체 훈령·예규도 법제처 자치법규 데이터베이스에서는 찾지 못했다.</p>
-      <p class="small">조례 본문에 관련 표현이 없다는 의미다. 지원센터 상담이나 내부 지침, 데이터베이스에 등록되지 않은 규정에서 해당 문제를 다루는지는 확인하지 못했다. 이행강제금 횟수·가중 규정은 조례 본문을 자동으로 읽어 추출했으며, 확인하지 못한 4곳은 분석에서 제외했다</p>
       <p class="fl">전입신고를 막는 매물은 광고에 사실대로 조건을 적으면 허위광고로 보기 어렵고 부당광고인지는 개별 판단에 맡겨져 있으며, 건축물대장과 실제 용도가 다른 매물은 지자체의 점검이 시작돼야 행정 제재로 이어질 수 있다. 두 유형의 매물은 서로 다른 법의 적용을 받지만, 공통적으로 정부가 먼저 찾아내 관리하는 체계가 충분한지 의문이 남는다.</p>
       <p class="fl">점검 대상인지조차 확답이 나오지 않는다면 질문은 이어진다. 전입신고를 막는 조건을 별도로 표시하도록 하거나, 건축물대장상 용도와 실제 사용이 다른 임대 매물을 선제적으로 점검할 수는 없을까. 두 유형의 매물이 제도 사이에 남아 있는 한, 세입자가 계약 전에 위험을 알아서 걸러내야 하는 상황은 계속될 수밖에 없다.</p>
     </div>
@@ -1281,7 +1283,9 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="body col ol">
       <p class="fl">임대인이 전입신고를 막는 이유로 '세금'이 거론된다. 이호병 단국대 부동산학과 교수는 서울신문 인터뷰에서 임대인들이 오피스텔을 실제로는 주거용으로 쓰면서, 세금은 업무용으로 내려는 것이라고 설명했다.</p>
       <p class="fl">구조는 이렇다. 주택 임대는 부가가치세가 면세다(부가가치세법 제26조 제1항 제12호). 반면 업무용으로 사업자등록을 한 오피스텔은 부가세를 환급받을 수 있고, 임대인의 보유 주택 수에도 잡히지 않는다는 것이 이 교수의 설명이다. 서울신문은 이렇게 아끼는 세금이 많게는 수천만원이라고 전했다. 그런데 세입자가 전입신고를 하면 그 집이 '사람이 사는 주택'으로 드러난다. 전입을 막는 것이 이 구조를 지키는 방법이라는 설명이다.</p>
-      <p>취재팀은 이 설명을 데이터로 직접 검증할 수 없다.<br>다만 광고 문구에 흔적은 남아 있었다.</p>
+    </div>
+    <div class="body col ol" style="margin-top:6px">
+      <p>이 설명이 광고에 얼마나 드러나는지, 오피스텔 광고 제목에서 '부가세'와 '사업자'라는 말을 찾아봤다.</p>
     </div>
     <div class="nums" style="margin:30px auto 12px;justify-content:center;text-align:center">
       <div class="r" style="flex:1;max-width:340px;padding:0"><b>10.0%</b><p><strong>전입 불가 오피스텔 광고.</strong> 6,081건 중 611건의 제목에 '부가세' 또는 '사업자'가 있음</p></div>
@@ -1290,8 +1294,8 @@ svg:hover .arc:not(:hover){opacity:.4}
     <p class="small" style="text-align:center">전입 불가 광고에서 약 7배 많았다. 제목만 본 값이라 본문까지 보면 더 많을 수 있다</p>
     <div class="body col ol">
       <p>'부가세 별도', '일반사업자', '전입X' 같은 말이 한 제목에 나란히 붙은 광고가 있었다.<br>부가세를 따로 받는다는 것은 사업용 임대를 전제한 표현이다.<br>그런데 광고는 풀옵션 원룸처럼 사람이 사는 집을 내놓고 있었다.</p>
-      <p class="fl">임대소득세도 같은 문제와 이어진다. 월세 임대소득은 기준시가 12억원 이하 주택 한 채만 가진 사람이 아니라면 과세 대상이다(소득세법 제12조 제2호 나목). 그런데 국토교통부가 2020년 6월 기준으로 임대료를 파악한 주택은 731만 가구 중 207만 가구(28.3%)에 그쳤다. 국세청은 종합소득세 신고 내역과 주민등록 자료, 주택 시세를 맞춰 보며 탈루를 가려내는데, 신고를 하지 않은 임대인은 납부 세액의 20%를 가산세로 낸다. 전입신고를 막으면 이 교차 검증에 쓰이는 자료 하나가 약해질 수 있다.</p>
       <p>다만 전입을 막았다고 곧 탈세는 아니다.<br>세금을 정상적으로 내는 임대인도 있을 수 있고, 전입신고와 세금 신고는 별개의 의무다.<br>취재팀이 확인한 것은 전입을 막는 광고와 세금을 말하는 광고가 겹친다는 사실까지다.</p>
+      <p class="fl">한편 임대소득세도 이 문제와 이어진다. 월세 임대소득은 기준시가 12억원 이하 주택 한 채만 가진 사람이 아니라면 과세 대상이다(소득세법 제12조 제2호 나목). 그런데 국토교통부가 2020년 6월 기준으로 임대료를 파악한 주택은 731만 가구 중 207만 가구(28.3%)에 그쳤다. 국세청은 종합소득세 신고 내역과 주민등록 자료, 주택 시세를 맞춰 보며 탈루를 가려내는데, 신고를 하지 않은 임대인은 납부 세액의 20%를 가산세로 낸다. 전입신고를 막으면 이 교차 검증에 쓰이는 자료 하나가 약해질 수 있다.</p>
     </div>
     <div class="pull">전입을 막은 월세가 모두 과세된다면, 얼마가 걷힐까.</div>
     <div class="body col ol">
@@ -1315,17 +1319,6 @@ svg:hover .arc:not(:hover){opacity:.4}
     </div>
     <div class="pull">이 취재가 묻는 것은 전입신고 불가 매물이 몇 건이냐가 아니다. 같은 고통을 되풀이하지 않으려면 지금 누가, 무엇을 해야 하느냐다.</div>
     <footer>
-      <h3>조사 방법</h3>
-      <ul>
-        <li>다방·직방·피터팬·당근마켓의 월세·전세 매물 534,959건을 2026년 11월에 수집함. 확실한 중복(같은 ID, 재등록, 공동중개, 플랫폼 사이에서 건물·층·면적·보증금·월세가 모두 같은 매물)을 뺀 510,562건을 분석함</li>
-        <li>건축HUB 건축물대장 표제부(2026년 9월분)와 지번을 기준으로 대조함. 매칭률은 다방 93.9%, 직방 88.2%, 피터팬 97.4%, 당근 97%</li>
-        <li>전입 가능 여부는 광고 본문을 기준으로 가능·보류·불가능으로 판정함. 표현이 확정적이지 않은 보류 474건은 불가에 넣지 않음</li>
-        <li>당근마켓 매물에는 중개사무소 정보가 없어, CH.6의 사무소별 집계에는 다방·직방·피터팬 매물만 반영함</li>
-        <li>지도 경계는 행정동 경계 자료(vuski/admdongkor, 2026년 10월 1일 기준)를 시·군·구로 합쳐 그림</li>
-        <li>지자체 조례는 법제처 국가법령정보 공동활용 API로 2026년 11월 17일에 내려받아 분석함. 건축 조례 174곳(자치구는 시·도 조례를 따르므로 제외), 임차인 보호 계열 조례 121건</li>
-        <li>건축물대장은 건물 단위 표제부 기준이라, 층별·호실별로 용도가 다른 건물은 개별 매물의 실제 용도와 어긋날 수 있음(층별개요·전유부는 대조하지 못함)</li>
-        <li>건축물대장 대조와 광고 문구 판정만으로는 개별 매물의 위법 여부를 확정할 수 없음</li>
-      </ul>
       <div class="credit">
         <h3>TeamA+</h3>
         <p>고민성 영저널리스트 (gominseong37@naver.com)</p>
