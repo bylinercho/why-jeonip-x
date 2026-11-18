@@ -1368,12 +1368,21 @@ window.__startCount=function(){
   t+=2200;T(finish,t);
   document.getElementById('skipintro').onclick=finish;
   // map bg
-  if(window.L){var map=L.map('map-bg',{center:[37.5665,126.978],zoom:11,zoomControl:false,scrollWheelZoom:false,dragging:false,doubleClickZoom:false,touchZoom:false,boxZoom:false,keyboard:false});
+  if(window.L){var map=L.map('map-bg',{center:[36.3,127.8],zoom:7,zoomSnap:0.25,zoomDelta:0.25,zoomControl:false,scrollWheelZoom:false,dragging:false,doubleClickZoom:false,touchZoom:false,boxZoom:false,keyboard:false});
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',{attribution:'Tiles © Esri, HERE, Garmin, © OpenStreetMap contributors',maxNativeZoom:16,maxZoom:19}).addTo(map);}
+  var KOR=null,VIEW={follow:{c:[37.5614,127.1938],z:14},agents:{c:[37.3236,126.8219],z:12}},curKey='';
+  function korView(){ if(!window.L||!map) return null; var z=Math.min(map.getBoundsZoom(L.latLngBounds([33.0,125.2],[38.7,129.7]),false),8); return {c:[36.0,127.8],z:z}; }
+  function goView(id){
+    if(!window.L||typeof map==='undefined') return;
+    var key=VIEW[id]?id:'kor'; if(key===curKey) return; curKey=key;
+    var v=VIEW[id]||korView(); if(!v) return;
+    map.flyTo(v.c,v.z,{duration:2.4,easeLinearity:.2});
+  }
+  if(window.L&&typeof map!=='undefined'){ var kv=korView(); if(kv){ map.setView(kv.c,kv.z,{animate:false}); curKey='kor'; } }
   // chapter nav
   var secs=[].slice.call(document.querySelectorAll('body>section[data-t]')),nl=document.getElementById('cnavl');
   var links=secs.map(function(s){var a=document.createElement('a');a.href='#'+s.id;a.innerHTML='<span>'+s.dataset.t+'</span><i></i>';nl.appendChild(a);return a});
-  function upd(){var th=innerHeight*.3,c=-1;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<=th)c=i});links.forEach(function(a,i){a.classList.toggle('on',i===c)})}
+  function upd(){var th=innerHeight*.3,c=-1;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<=th)c=i});links.forEach(function(a,i){a.classList.toggle('on',i===c)});goView(c>=0&&secs[c]?secs[c].id:'')}
   addEventListener('scroll',upd,{passive:true});upd();
 })();
 </script>
