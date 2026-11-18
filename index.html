@@ -315,6 +315,28 @@ footer{margin:60px auto 0;padding:48px 0 100px;border-top:1px solid var(--rule2)
 footer h3{font-size:17px;margin:0 auto 14px}
 footer ul{text-align:left;padding-left:20px}
 footer li{margin-bottom:8px;line-height:1.8}
+.tv{position:relative;max-width:700px;margin:18px auto 0;text-align:left;padding-top:6px}
+.tv-x{position:absolute;right:0;top:-14px;font:600 14px/1 'Paperlogy',sans-serif;color:#172343;background:#D9A05B;border-radius:999px;padding:6px 12px}
+.tv-row{display:grid;grid-template-columns:170px 1fr 84px;gap:16px;align-items:center;margin-bottom:16px}
+.tv-lab b{display:block;font-size:16px;color:#ece7de}.tv-lab small{display:block;font-size:13px;color:#9a9285;margin-top:2px}
+.tv-track{height:28px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);overflow:hidden}
+.tv-fill{display:block;height:100%;border-radius:999px;box-sizing:border-box;background:rgba(217,160,91,.4);border:1.5px solid #D9A05B;transform:scaleX(0);transform-origin:left;transition:transform 1s cubic-bezier(.2,.8,.2,1) .2s}
+.tv-row.k2 .tv-fill{background:rgba(141,151,184,.4);border-color:#8D97B8}
+.rv.in .tv-fill{transform:scaleX(1)}
+.tv-num{font:600 clamp(26px,3vw,34px)/1 'Paperlogy',sans-serif;color:#D9A05B;text-align:right}.tv-row.k2 .tv-num{color:#8D97B8}
+.tv-n{text-align:center;font-size:13px;color:#9a9285;margin-top:4px}
+.tv-ad{max-width:700px;margin:34px auto 0;padding:18px 22px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--rule);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);text-align:left}
+.tv-adh{font-size:13px;color:#9a9285;margin-bottom:12px}
+.tv-adr{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center}
+.tv-chips{display:flex;flex-wrap:wrap;gap:8px}
+.tv-chips span{font:600 16px/1 'Paperlogy',sans-serif;color:#172343;background:#D9A05B;border-radius:8px;padding:9px 12px}
+.tv-chips span.home{background:#8D97B8}
+.tv-cap{font-size:14px;line-height:1.6;color:#b8b1a4}
+.tv-arrow{margin:12px 0;color:#D9A05B;font-size:14px}
+.tv-note{display:flex;gap:14px;align-items:flex-start;max-width:700px;margin:26px auto 0;padding:16px 20px;border-radius:12px;background:rgba(255,255,255,.04);border-left:3px solid #D9A05B;text-align:left}
+.tv-note b{flex:none;width:22px;height:22px;border-radius:50%;background:#D9A05B;color:#172343;font:700 14px/22px sans-serif;text-align:center}
+.tv-note p{margin:0;font-size:15px;line-height:1.75;color:#ece7de}
+@media(max-width:640px){.tv-row{grid-template-columns:1fr 70px;gap:6px 12px}.tv-lab{grid-column:1/3}.tv-track{grid-column:1}.tv-adr{grid-template-columns:1fr}.tv-x{top:-18px}}
 .dp{max-width:640px;margin:14px auto 0;padding:8px 0 0}
 .dp-bracket{margin:0 0 6px;width:66.6%;text-align:center;border-bottom:2px solid #D9A05B;padding-bottom:4px;font-size:14px;color:#D9A05B}.dp-bracket b{font:600 18px 'Paperlogy',sans-serif}
 .dp-row{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;align-items:end}
@@ -1287,14 +1309,35 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="body col ol" style="margin-top:6px">
       <p>이 설명이 광고에 얼마나 드러나는지, 오피스텔 광고 제목에서 '부가세'와 '사업자'라는 말을 찾아봤다.</p>
     </div>
-    <div class="nums" style="margin:30px auto 12px;justify-content:center;text-align:center">
-      <div class="r" style="flex:1;max-width:340px;padding:0"><b>10.0%</b><p><strong>전입 불가 오피스텔 광고.</strong> 6,081건 중 611건의 제목에 '부가세' 또는 '사업자'가 있음</p></div>
-      <div class="r" style="flex:1;max-width:340px;padding:0"><b>1.4%</b><p><strong>전입 가능 오피스텔 광고.</strong> 39,984건 중 571건의 제목에 같은 말이 있음</p></div>
+    <div class="cap" style="margin-top:34px">그림 9. 오피스텔 광고 제목에 '부가세' 또는 '사업자'가 들어간 비율</div>
+    <div class="tv">
+      <div class="tv-x">약 7배</div>
+      <div class="tv-row">
+        <div class="tv-lab"><b>전입 불가 광고</b><small>6,081건 중 611건</small></div>
+        <div class="tv-track"><i class="tv-fill" style="width:100%"></i></div>
+        <div class="tv-num">10.0%</div>
+      </div>
+      <div class="tv-row k2">
+        <div class="tv-lab"><b>전입 가능 광고</b><small>39,984건 중 571건</small></div>
+        <div class="tv-track"><i class="tv-fill" style="width:14%"></i></div>
+        <div class="tv-num">1.4%</div>
+      </div>
+      <div class="tv-n">제목만 본 값이라 본문까지 보면 더 많을 수 있다</div>
     </div>
-    <p class="small" style="text-align:center">전입 불가 광고에서 약 7배 많았다. 제목만 본 값이라 본문까지 보면 더 많을 수 있다</p>
+    <div class="tv-ad">
+      <div class="tv-adh">한 광고 제목에 나란히 붙은 말</div>
+      <div class="tv-adr">
+        <div class="tv-chips"><span>부가세 별도</span><span>일반사업자</span><span>전입X</span></div>
+        <div class="tv-cap">부가세를 따로 받는 것은<br>사업용 임대를 전제한 표현이다</div>
+      </div>
+      <div class="tv-arrow">↓ 그런데</div>
+      <div class="tv-adr">
+        <div class="tv-chips"><span class="home">풀옵션 원룸</span></div>
+        <div class="tv-cap">광고가 내놓은 것은<br>사람이 사는 집이었다</div>
+      </div>
+    </div>
+    <div class="tv-note"><b>!</b><p>다만 전입을 막았다고 곧 탈세는 아니다. 세금을 정상적으로 내는 임대인도 있을 수 있고, 전입신고와 세금 신고는 별개의 의무다. 취재팀이 확인한 것은 전입을 막는 광고와 세금을 말하는 광고가 겹친다는 사실까지다.</p></div>
     <div class="body col ol">
-      <p>'부가세 별도', '일반사업자', '전입X' 같은 말이 한 제목에 나란히 붙은 광고가 있었다.<br>부가세를 따로 받는다는 것은 사업용 임대를 전제한 표현이다.<br>그런데 광고는 풀옵션 원룸처럼 사람이 사는 집을 내놓고 있었다.</p>
-      <p>다만 전입을 막았다고 곧 탈세는 아니다.<br>세금을 정상적으로 내는 임대인도 있을 수 있고, 전입신고와 세금 신고는 별개의 의무다.<br>취재팀이 확인한 것은 전입을 막는 광고와 세금을 말하는 광고가 겹친다는 사실까지다.</p>
       <p class="fl">한편 임대소득세도 이 문제와 이어진다. 월세 임대소득은 기준시가 12억원 이하 주택 한 채만 가진 사람이 아니라면 과세 대상이다(소득세법 제12조 제2호 나목). 그런데 국토교통부가 2020년 6월 기준으로 임대료를 파악한 주택은 731만 가구 중 207만 가구(28.3%)에 그쳤다. 국세청은 종합소득세 신고 내역과 주민등록 자료, 주택 시세를 맞춰 보며 탈루를 가려내는데, 신고를 하지 않은 임대인은 납부 세액의 20%를 가산세로 낸다. 전입신고를 막으면 이 교차 검증에 쓰이는 자료 하나가 약해질 수 있다.</p>
     </div>
     <div class="pull">전입을 막은 월세가 모두 과세된다면, 얼마가 걷힐까.</div>
