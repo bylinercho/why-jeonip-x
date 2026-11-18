@@ -243,21 +243,14 @@ table.duty td small{display:block;color:#9a9285;font-size:12px}
 .pic p b{color:#ece7de}.pic p b.hi{color:#D9A05B}
 @media(max-width:760px){.dv-row{grid-template-columns:1fr;gap:8px}.dv-ax{grid-template-columns:1fr 1fr 1fr}.dv-ax span:nth-child(1){grid-column:auto;padding-left:0}}
 .adp{max-width:780px;margin:14px auto 0;text-align:left}
-.adp-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.3fr) 86px;gap:16px;align-items:center;margin-bottom:12px}
+.adp-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr);gap:18px;align-items:center;margin-bottom:12px}
 .adp-q{font:500 16px/1.45 'Paperlogy',sans-serif;color:#ece7de}
 .adp-q small{display:block;font:400 12px/1.5 var(--sans);color:#9a9285;margin-top:2px}
 .adp-bar{height:40px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
 .adp-fill{height:100%;width:var(--w);background:#D9A05B;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s;display:flex;align-items:center;justify-content:flex-end;padding-right:12px;border-radius:10px 0 0 10px}
 .adp-fill span{font:600 16px/1 'Paperlogy',sans-serif;color:#172343;white-space:nowrap}
 .rv.in .adp-fill{transform:scaleX(1)}
-.adp-t{text-align:right;line-height:1.2}.adp-t b{display:block;font:600 19px/1.2 'Paperlogy',sans-serif;color:#ece7de}.adp-t small{font-size:11px;color:#9a9285}
-.zero{max-width:860px;margin:30px auto 8px;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;text-align:center}
-.zero-c{border:1.5px solid var(--ln);border-radius:18px;padding:22px 18px}
-.zero-c b{display:block;font:600 clamp(38px,5vw,64px)/1.05 'Paperlogy',sans-serif;margin-bottom:12px}
-.zero-c span{display:block;font-size:14.5px;line-height:1.7;color:#9a9285}
-.zero-c.z0 b{color:#ece7de}.zero-c.z1{border-color:#D9A05B;background:rgba(217,160,91,.07)}.zero-c.z1 b{color:#D9A05B}
-.zero-vs{align-self:center;font:600 15px/1 'Paperlogy',sans-serif;color:#9a9285;letter-spacing:.08em}
-@media(max-width:760px){.adp-row{grid-template-columns:1fr auto;gap:6px 12px}.adp-q{grid-column:1/-1}.zero{grid-template-columns:1fr}.zero-vs{padding:2px 0}}
+@media(max-width:760px){.adp-row{grid-template-columns:1fr;gap:6px}}
 .foldx{max-width:860px;margin:36px auto 0;border:1px solid var(--rule);border-radius:14px;background:rgba(255,255,255,.03);padding:0 20px;text-align:left}
 .foldx>summary{cursor:pointer;list-style:none;padding:15px 0;font:600 15px/1.5 var(--sans);color:#D9A05B;text-align:center}
 .foldx>summary::-webkit-details-marker{display:none}
@@ -987,19 +980,14 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="body col">
       <p>앞서 본 이서준 씨는 전입신고를 포기하는 대가로 월세를 한 달 5만원 깎았다. 광고 문구를 하나씩 읽어 보면 같은 값이 거꾸로 적혀 있다. 전입신고를 하려면 월세를 더 내라는 것이다.</p>
     </div>
-    <div class="zero">
-      <div class="zero-c z0"><b>0원</b><span>주민센터 전입신고 수수료<br>이사한 뒤 14일 안에 해야 하는 법적 의무</span></div>
-      <div class="zero-vs">VS</div>
-      <div class="zero-c z1"><b>48만~<br>240만원</b><span>광고가 전입신고에 붙인 값<br>월 2만~10만원, 계약 2년으로 환산</span></div>
-    </div>
-    <div class="cap">그림 8. 광고에 적힌 '전입하려면 더 내는 돈' (한 달 기준과 2년 환산)</div>
+    <div class="cap">그림 8. 광고에 적힌 '전입하려면 더 내는 돈' (한 달 월세)</div>
     <div class="adp">
-      <div class="adp-row"><div class="adp-q">“전입신고 가능(2만원추가)”<small>3건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:20%"><span>+2만원</span></div></div><div class="adp-t"><b>48만원</b><small>2년</small></div></div>
-      <div class="adp-row"><div class="adp-q">“전입시 55,000원추가”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:55%"><span>+5.5만원</span></div></div><div class="adp-t"><b>132만원</b><small>2년</small></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고시 월세 10% 추가”<small>1건 · 월세 65만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:65%"><span>+6.5만원</span></div></div><div class="adp-t"><b>156만원</b><small>2년</small></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고 시 월세 7만원 상향”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:70%"><span>+7만원</span></div></div><div class="adp-t"><b>168만원</b><small>2년</small></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고시 월세 5%인상”<small>1건 · 월세 160만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:80%"><span>+8만원</span></div></div><div class="adp-t"><b>192만원</b><small>2년</small></div></div>
-      <div class="adp-row"><div class="adp-q">“전입시 10만원추가비용”<small>8건 · 같은 매물이 반복 게시됨</small></div><div class="adp-bar"><div class="adp-fill" style="--w:100%"><span>+10만원</span></div></div><div class="adp-t"><b>240만원</b><small>2년</small></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고 가능(2만원추가)”<small>3건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:20%"><span>+2만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입시 55,000원추가”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:55%"><span>+5.5만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고시 월세 10% 추가”<small>1건 · 월세 65만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:65%"><span>+6.5만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고 시 월세 7만원 상향”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:70%"><span>+7만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입신고시 월세 5%인상”<small>1건 · 월세 160만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:80%"><span>+8만원</span></div></div></div>
+      <div class="adp-row"><div class="adp-q">“전입시 10만원추가비용”<small>8건 · 같은 매물이 반복 게시됨</small></div><div class="adp-bar"><div class="adp-fill" style="--w:100%"><span>+10만원</span></div></div></div>
     </div>
     <div class="body col" style="margin-top:22px">
       <p>전입을 하려면 한 달에 <mark>2만원에서 10만원</mark>을 더 내라는 광고가 25건이었고, 그중 15건이 금액을 적었다. 반대로 전입을 포기하면 깎아 준다는 광고는 19건이지만 <strong>월세를 얼마나 깎는지 적은 광고는 한 건도 없었다.</strong> 이 중 18건은 "주변 시세 대비 보증금 0원, 저렴한 월세"라는 같은 문구를 반복한 광고였다. 전입을 포기해서 아끼는 돈은 한 달에 몇만원이고, 그 대가로 보증금을 지킬 근거를 내놓는 셈이다.</p>
