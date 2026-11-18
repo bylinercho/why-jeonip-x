@@ -330,7 +330,7 @@ footer li{margin-bottom:8px;line-height:1.8}
 #ordback{position:absolute;left:10px;top:10px;font:inherit;font-size:13px;background:#D9A05B;color:#172343;font-weight:700;border:0;border-radius:999px;padding:6px 14px;cursor:pointer;display:none;z-index:3}
 #ordwrap .maphint{z-index:2}
 #ordmap path.o{fill:none;stroke:rgba(236,231,222,.45);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:none}
-#ordmap path.v1{fill:#3a4a78}#ordmap path.v2{fill:#D9A05B}#ordmap path.v0{fill:rgba(236,231,222,.16)}
+#ordmap path.v1{fill:#2e3a5e}#ordmap path.v2{fill:#D9A05B}#ordmap path.v0{fill:rgba(236,231,222,.16)}
 #ordmap path.inh{opacity:.55}
 #ordtip{position:absolute;pointer-events:none;background:#ece7de;color:#172343;font-size:12.5px;padding:5px 10px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-135%);opacity:0;transition:opacity .1s;z-index:5}
 .ordleg{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;font-size:13px;color:var(--ink2);margin:12px auto 4px}
@@ -1892,14 +1892,14 @@ function fig6Render(el, o){
     Object.keys(G.sido).forEach(function(s){
       var p=document.createElementNS(NS,'path'); p.setAttribute('d',G.sido[s].d); p.setAttribute('class','o'); go.appendChild(p); outl[s]=p;
     });
-    function mix(t){ t=Math.max(0,Math.min(1,t)); var a=[58,74,120], m=[154,112,70], b=[217,160,91], f=t<.5?[a,m,t*2]:[m,b,(t-.5)*2]; return 'rgb('+[0,1,2].map(function(j){ return Math.round(f[0][j]+(f[1][j]-f[0][j])*f[2]); }).join(',')+')'; }
+    function mix(t){ t=Math.max(0,Math.min(1,t)); var a=[46,58,94], m=[142,106,68], b=[217,160,91], f=t<.5?[a,m,t*2]:[m,b,(t-.5)*2]; return 'rgb('+[0,1,2].map(function(j){ return Math.round(f[0][j]+(f[1][j]-f[0][j])*f[2]); }).join(',')+')'; }
     function share(t){ var d=t.v1+t.v2; return d? t.v2/d : 0; }
     function legend(){
       if(cur===null){
         leg.innerHTML='<span>연 1회 중심</span><i style="display:inline-block;width:150px;height:8px;border-radius:4px;background:linear-gradient(90deg,'+mix(0)+','+mix(.5)+','+mix(1)+')"></i><span>연 2회 많음</span><span style="opacity:.8">색: 소속 시·군·구 중 연 2회(법 상한) 비율</span>';
       }else{
         var t=S[cur];
-        leg.innerHTML='<span><i style="background:#3a4a78"></i>연 1회 <b>'+t.v1+'곳</b></span><span><i style="background:#D9A05B"></i>연 2회(법 상한) <b>'+t.v2+'곳</b></span>'+(t.v0?'<span><i style="background:rgba(236,231,222,.16)"></i>확인 못함 <b>'+t.v0+'곳</b></span>':'')+'<span style="opacity:.8">옅은 색: 시·도 조례를 따르는 자치구 등</span>';
+        leg.innerHTML='<span><i style="background:#2e3a5e"></i>연 1회 <b>'+t.v1+'곳</b></span><span><i style="background:#D9A05B"></i>연 2회(법 상한) <b>'+t.v2+'곳</b></span>'+(t.v0?'<span><i style="background:rgba(236,231,222,.16)"></i>확인 못함 <b>'+t.v0+'곳</b></span>':'')+'<span style="opacity:.8">옅은 색: 시·도 조례를 따르는 자치구 등</span>';
       }
     }
     function render(){
