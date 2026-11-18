@@ -432,6 +432,19 @@ body.lock{overflow:hidden}
 .box,#reveal,.panel,.mapwrap{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 #gtip{position:fixed;z-index:9999;pointer-events:none;max-width:280px;padding:8px 12px;border-radius:10px;font:500 13px/1.5 Pretendard,sans-serif;color:#ece7de;background:rgba(23,35,67,.78);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.2);box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
 #gtip.on{opacity:1;transform:none}
+.co{display:flex;align-items:center;justify-content:center;gap:48px;max-width:760px;margin:10px auto 0;text-align:center}
+.co-d{position:relative;width:min(320px,70vw);flex:none}.co-d svg{display:block;width:100%;height:auto}
+.co-t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.co-t span{font-size:14px;color:#9a9285;line-height:1.4}.co-t b{font:500 clamp(28px,4.4vw,38px)/1.2 'Paperlogy',sans-serif;color:#ece7de}
+.co-l{flex:0 1 260px}
+.co-i{padding:16px 0;border-top:1px solid rgba(255,255,255,.14)}.co-i:first-child{border-top:0;padding-top:0}.co-i:last-child{padding-bottom:0}
+.co-n{font-size:16px;color:#ece7de;line-height:1.4}
+.co-v{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px 0}
+.co-v i{width:14px;height:14px;border-radius:4px;flex:none}
+.co-v b{font:500 clamp(36px,5vw,50px)/1.15 'Paperlogy',sans-serif;color:#ece7de;letter-spacing:-.01em}
+.co-c{font-size:15px;color:#9a9285}
+.co-i.hi .co-n,.co-i.hi .co-v b,.co-i.hi .co-c{color:#D9A05B}
+@media(max-width:700px){.co{flex-direction:column;gap:24px}.co-l{flex:none;width:100%;max-width:300px}}
 .arc{transition:opacity .2s,stroke-dasharray 1.1s cubic-bezier(.22,.85,.3,1)!important;cursor:pointer}
 svg:hover .arc:not(:hover){opacity:.4}
 .wc{cursor:pointer}.wc:hover{filter:brightness(1.25);transform:scale(1.12)!important}
@@ -1548,8 +1561,16 @@ function fig6Render(el, o){
     })();
     (function(){
       var X = D.extra.comp, TT = D['오피스텔'].ban, KB = X['업무시설(오피스텔 등)'], KS = X['숙박시설(생숙)'], KE = TT - KB - KS;
-      strip('comp', [{n:'업무시설', v:KB, c:'#8D97B8'}, {n:'숙박시설(생숙)', v:KS, c:'#D9A05B'}, {n:'그 밖', v:KE, c:'#ECE7DE'}], '건');
-      var el = $('comp');
+      var el = $('comp'), key = $('compkey'); if (key) key.style.display = 'none';
+      var P = [{n:'업무시설', v:KB, c:'#8D97B8', dot:'#8D97B8'}, {n:'숙박시설(생숙)', v:KS, c:'#D9A05B', dot:'#D9A05B', hi:1}, {n:'그 밖', v:KE, c:'#a5a4a8', dot:'#ece7de'}];
+      var R = 78, C = 2*Math.PI*R, gap = 3, off = 0;
+      var tipOf = function(x){ return (x.n+' · '+fmt(x.v)+'건 ('+(x.v/TT*100).toFixed(1)+'%)').replace(/"/g,'&quot;'); };
+      var arcs = P.map(function(x){ var len = x.v/TT*C, d = Math.max(len-gap,1);
+        var c = '<circle class="arc" data-tip="'+tipOf(x)+'" cx="100" cy="100" r="'+R+'" fill="none" stroke="'+x.c+'" stroke-width="24" stroke-dasharray="0 '+C+'" stroke-dashoffset="'+(-off)+'" data-d="'+d+'" data-c="'+C+'"></circle>'; off += len; return c; }).join('');
+      var list = P.map(function(x){ var hi = x.hi ? ' hi' : ''; return '<div class="co-i'+hi+'" data-tip="'+tipOf(x)+'"><div class="co-n">'+x.n+'</div><div class="co-v"><i style="background:'+x.dot+'"></i><b>'+(x.v/TT*100).toFixed(1)+'%</b></div><div class="co-c">'+fmt(x.v)+'건</div></div>'; }).join('');
+      el.className = 'co'; el.style.cssText = '';
+      el.innerHTML = '<div class="co-d"><svg viewBox="0 0 200 200" role="img" aria-label="오피스텔로 올린 광고의 건축물대장상 용도"><g transform="rotate(-90 100 100)">'+arcs+'</g></svg><div class="co-t"><span>'오피스텔'로 올린</span><b>'+fmt(TT)+'건</b></div></div><div class="co-l">'+list+'</div>';
+      whenSeen(el, function(){ [].forEach.call(el.querySelectorAll('.arc'), function(a, i){ setTimeout(function(){ a.setAttribute('stroke-dasharray', a.getAttribute('data-d')+' '+a.getAttribute('data-c')); }, i*160); }); });
       el.insertAdjacentHTML('afterend', '<div class="small" style="margin:6px auto 28px">그 밖: 대장 없음 '+fmt(X['대장 없음'])+'건 · 공동주택 '+fmt(X['공동주택'])+'건 · 기타 '+fmt(X['기타'])+'건</div>');
     })();
   })();
