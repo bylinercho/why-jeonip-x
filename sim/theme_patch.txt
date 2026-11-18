@@ -6,7 +6,7 @@
   --page:#172343; --surface-1:rgba(255,255,255,.045);
   --text-primary:#ece7de; --text-secondary:#b8b1a4; --text-muted:#9a9285;
   --gridline:rgba(255,255,255,.10); --baseline:rgba(255,255,255,.22); --border:rgba(255,255,255,.14);
-  --series-1:#D9A05B; --series-2:#ece7de; --series-3:#8d97b8; --series-4:#b9b2a4;
+  --series-1:#c08f50; --series-2:#a9a395; --series-3:#7f8ab0; --series-4:#94846f;
   --critical:#e8a0a0; --ramp-base:#172343; --accent:#D9A05B;
   --serif:'Paperlogy','Pretendard',sans-serif; --sans:'Pretendard',system-ui,sans-serif;
 }
