@@ -1128,7 +1128,7 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="art" data-n="06"><span>CH.6</span><em>올린 사람들</em></div>
     <h2>같은 부동산이<br>반복해서 올린다</h2>
     <div class="body col ol">
-      <p>전입 불가 매물(아파트 제외 9,026건)을 올린 중개사무소를 세어 봤다.<br>매물을 올린 사무소 7,585곳 가운데 <strong>1,339곳</strong>이 한 건 이상 올렸다.<br>그런데 일부에 크게 몰려 있다.</p>
+      <p>전입 불가 매물(아파트 제외 9,026건)을 올린 중개사무소를 세어 봤다.<br>매물을 올린 부동산 7,585곳 가운데 <strong>1,339곳</strong>이 전입 불가 매물을 올렸고,<br>그중 <strong>770곳</strong>은 두 건 이상 올렸다.<br>그런데 일부에 크게 몰려 있다.</p>
     </div>
     <div class="nums">
       <div class="r"><b data-num="ext.agents.ge10" data-suf="곳"></b><p><strong>10건 이상 올린 사무소.</strong> 이들이 올린 전입 불가 매물이 <span data-num="ext.agents.ban_by_ge10"></span>건</p></div>
@@ -1310,21 +1310,153 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="body col ol" style="margin-top:6px">
       <p>이 설명이 광고에 얼마나 드러나는지, 오피스텔 광고 제목에서 '부가세'와 '사업자'라는 말을 찾아봤다.</p>
     </div>
-    <div class="cap" style="margin-top:34px">그림 9. 오피스텔 광고 제목에 '부가세' 또는 '사업자'가 들어간 비율</div>
-    <div class="tv">
-      <div class="tv-x">약 7배</div>
-      <div class="tv-row">
-        <div class="tv-lab"><b>전입 불가 광고</b><small>6,081건 중 611건</small></div>
-        <div class="tv-track"><i class="tv-fill" style="width:100%"></i></div>
-        <div class="tv-num">10.0%</div>
+    <!-- ===== 그림 12: 광고 제목 형광펜 검색 (붙여넣기용) ===== -->
+    <figure class="fig12" aria-label="오피스텔 광고 제목에 '부가세' 또는 '사업자'가 들어간 비율. 전입 불가 광고 10.0%(6,081건 중 611건), 전입 가능 광고 1.4%(39,984건 중 571건)로 약 7배 차이.">
+      <style>
+        .fig12{
+          --f12-bg:rgba(40,47,80,.55);      /* 그림 바탕: 반투명 남색 (지도 무늬가 비침) */
+          --f12-bg-border:rgba(160,170,220,.16);
+          --f12-panel:rgba(24,30,56,.55);
+          --f12-search:rgba(24,30,56,.6);
+          --f12-line:rgba(160,170,220,.10);
+          --f12-border:rgba(160,170,220,.18);
+          --f12-text:#e8eaf5;
+          --f12-sub:#98a0c8;
+          --f12-muted:#7d85ad;
+          --f12-word:#5d6593;
+          --f12-gold:#e0ac62;
+          --f12-gold-text:#e5b574;
+          --f12-lav:#c3caf6;
+          --f12-lav-text:#c9cffa;
+          margin:2.5rem auto;max-width:720px;background:var(--f12-bg);border:1px solid var(--f12-bg-border);border-radius:18px;
+          -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+          padding:24px 24px 20px;color:var(--f12-text);font-family:inherit;box-sizing:border-box
+        }
+        .fig12 *{box-sizing:border-box}
+        .fig12 .f12-cap{text-align:center;font-size:13px;color:var(--f12-sub);margin:0 0 12px}
+        .fig12 .f12-sb{display:flex;align-items:center;gap:10px;background:var(--f12-search);border:1px solid var(--f12-border);border-radius:999px;padding:8px 8px 8px 16px;margin:0 auto 22px;max-width:420px}
+        .fig12 .f12-sb svg{flex:none}
+        .fig12 .f12-q{flex:1;font-size:14px;min-height:20px;color:var(--f12-gold-text)}
+        .fig12 .f12-cur{color:var(--f12-sub)}
+        .fig12 .f12-rp{background:#d4a35f;color:#2a1c05;border:none;padding:6px 14px;border-radius:999px;cursor:pointer;font:inherit;font-size:12px;font-weight:500}
+        .fig12 .f12-lay{display:grid;grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr);align-items:stretch}
+        .fig12 .f12-hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px;min-height:48px;gap:8px}
+        .fig12 .f12-name{font-size:15px;font-weight:600}
+        .fig12 .f12-n{font-size:12px;color:var(--f12-muted);margin-top:3px}
+        .fig12 .f12-cnt{font-size:32px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+        .fig12 .f12-cnt small{font-size:18px}
+        .fig12 .f12-A .f12-cnt{color:var(--f12-gold-text)}
+        .fig12 .f12-B .f12-cnt{color:var(--f12-lav-text)}
+        .fig12 .f12-pg{position:relative;background:var(--f12-panel);border:1px solid var(--f12-border);border-radius:12px;padding:4px 8px;overflow:hidden}
+        .fig12 .f12-rw{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));column-gap:2px;height:26px;align-items:center;border-bottom:1px solid var(--f12-line);position:relative;z-index:1}
+        .fig12 .f12-rw:last-child{border-bottom:none}
+        .fig12 .f12-tt{display:flex;align-items:center;justify-content:center;height:20px;border-radius:4px;font-size:11px;color:var(--f12-word);white-space:nowrap;transition:background .4s}
+        .fig12 .f12-mk{padding:1px 3px;border-radius:3px;color:var(--f12-word);transition:background .3s,color .3s}
+        .fig12 .f12-tt.on .f12-mk{font-weight:600}
+        .fig12 .f12-A .f12-tt.on .f12-mk{background:var(--f12-gold);color:#2a1c05}
+        .fig12 .f12-B .f12-tt.on .f12-mk{background:var(--f12-lav);color:#1e2440}
+        .fig12 .f12-A .f12-tt.on{background:rgba(212,163,95,.10)}
+        .fig12 .f12-B .f12-tt.on{background:rgba(179,187,240,.10)}
+        .fig12 .f12-scan{position:absolute;left:0;right:0;height:26px;top:-28px;background:rgba(212,163,95,.07);border-bottom:2px solid #d4a35f;opacity:0;z-index:0}
+        .fig12 .f12-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;opacity:0;transform:scale(.9);transition:opacity .5s,transform .5s cubic-bezier(.3,1.4,.5,1)}
+        .fig12 .f12-mid i{display:block;width:1px;height:48px;background:var(--f12-border)}
+        .fig12 .f12-badge{background:#d4a35f;color:#2a1c05;font-size:14px;font-weight:600;padding:6px 10px;border-radius:999px;white-space:nowrap}
+        .fig12 .f12-mid.show{opacity:1;transform:none}
+        .fig12 .f12-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--f12-muted)}
+        /* 모바일: 위아래로 쌓고 배지는 가로로 */
+        @media (max-width:600px){
+          .fig12{padding:20px 14px 16px}
+          .fig12 .f12-lay{grid-template-columns:minmax(0,1fr)}
+          .fig12 .f12-mid{flex-direction:row;margin:14px 0}
+          .fig12 .f12-mid i{width:auto;height:1px;flex:1}
+        }
+        @media (prefers-reduced-motion:reduce){
+          .fig12 .f12-mk,.fig12 .f12-tt,.fig12 .f12-mid{transition:none}
+        }
+      </style>
+    
+      <figcaption class="f12-cap">그림 12. 오피스텔 광고 제목에 '부가세' 또는 '사업자'가 들어간 비율</figcaption>
+    
+      <div class="f12-sb" aria-hidden="true">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d4a35f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg>
+        <span class="f12-q"><span data-f12="q"></span><span class="f12-cur" data-f12="cur">|</span></span>
+        <button type="button" class="f12-rp" data-f12="rp">다시 보기</button>
       </div>
-      <div class="tv-row k2">
-        <div class="tv-lab"><b>전입 가능 광고</b><small>39,984건 중 571건</small></div>
-        <div class="tv-track"><i class="tv-fill" style="width:14%"></i></div>
-        <div class="tv-num">1.4%</div>
+    
+      <div class="f12-lay" aria-hidden="true">
+        <div class="f12-A">
+          <div class="f12-hd">
+            <div><div class="f12-name">전입 불가 광고</div><div class="f12-n">6,081건 중 611건</div></div>
+            <div class="f12-cnt"><span data-f12="cA">0.0</span><small>%</small></div>
+          </div>
+          <div class="f12-pg"><div class="f12-scan" data-f12="sA"></div><div data-f12="gA"></div></div>
+        </div>
+        <div class="f12-mid" data-f12="mid"><i></i><div class="f12-badge">약 7배</div><i></i></div>
+        <div class="f12-B">
+          <div class="f12-hd">
+            <div><div class="f12-name">전입 가능 광고</div><div class="f12-n">39,984건 중 571건</div></div>
+            <div class="f12-cnt"><span data-f12="cB">0.0</span><small>%</small></div>
+          </div>
+          <div class="f12-pg"><div class="f12-scan" data-f12="sB"></div><div data-f12="gB"></div></div>
+        </div>
       </div>
-      <div class="tv-n">제목만 본 값이라 본문까지 보면 더 많을 수 있다</div>
-    </div>
+    
+      <div class="f12-foot">
+        <span>실제 비율을 70칸에 옮겨 그렸다. 칸 수는 실제 광고 수가 아니다.</span>
+        <span>제목만 본 값이라 본문까지 보면 더 많을 수 있다</span>
+      </div>
+    
+      <script>
+      (function(){
+        var root=document.currentScript.closest('.fig12');
+        function $(k){return root.querySelector('[data-f12="'+k+'"]');}
+        var seed=9;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280;}
+        var WORDS=['풀옵션','신혼','원룸','입주','기숙사','에어컨','냉장고','세탁기','침대','복층','투룸','월세'];
+        var HA={2:'부가세',12:'사업자',22:'부가세',31:'사업자',45:'부가세',53:'사업자',66:'부가세'};
+        var HB={38:'부가세'};
+        var STEP_A=['1.4','2.9','4.3','5.7','7.1','8.6','10.0'];
+        var Q='부가세 OR 사업자',D=2000,RH=26,T=[];
+    
+        function build(g,H){var cells=[];for(var r=0;r<10;r++){var row=document.createElement('div');row.className='f12-rw';
+          for(var c=0;c<7;c++){var i=r*7+c,t=document.createElement('div');t.className='f12-tt';
+            if(H[i]){var m=document.createElement('span');m.className='f12-mk';m.textContent=H[i];t.appendChild(m);}
+            else{t.textContent=WORDS[Math.floor(rnd()*WORDS.length)];}
+            row.appendChild(t);cells.push(t);}
+          g.appendChild(row);}return cells;}
+        var A=build($('gA'),HA),B=build($('gB'),HB);
+    
+        function clear(){T.forEach(clearTimeout);T=[];
+          A.concat(B).forEach(function(t){t.classList.remove('on');});
+          ['sA','sB'].forEach(function(k){var e=$(k);e.style.transition='none';e.style.top='-28px';e.style.opacity='0';});
+          $('cA').textContent='0.0';$('cB').textContent='0.0';$('q').textContent='';$('mid').classList.remove('show');}
+        function finish(){$('cA').textContent='10.0';$('cB').textContent='1.4';$('mid').classList.add('show');}
+        function showAll(){clear();$('q').textContent=Q;
+          Object.keys(HA).forEach(function(i){A[i].classList.add('on');});
+          Object.keys(HB).forEach(function(i){B[i].classList.add('on');});finish();}
+        function scan(k,d){
+          T.push(setTimeout(function(){var e=$(k);void e.offsetHeight;e.style.opacity='1';e.style.transition='top '+D+'ms linear';e.style.top=(4+9*RH)+'px';},d));
+          T.push(setTimeout(function(){var e=$(k);e.style.transition='opacity .4s';e.style.opacity='0';},d+D+100));}
+        function run(){clear();
+          for(var k=0;k<=Q.length;k++){(function(k){T.push(setTimeout(function(){$('q').textContent=Q.slice(0,k);},k*65));})(k);}
+          var t0=Q.length*65+400;scan('sA',t0);scan('sB',t0);
+          var n=0;
+          Object.keys(HA).forEach(function(i){var r=Math.floor(i/7);T.push(setTimeout(function(){A[i].classList.add('on');$('cA').textContent=STEP_A[n++];},t0+(r+1)/10*D));});
+          Object.keys(HB).forEach(function(i){var r=Math.floor(i/7);T.push(setTimeout(function(){B[i].classList.add('on');$('cB').textContent='1.4';},t0+(r+1)/10*D));});
+          T.push(setTimeout(finish,t0+D+350));}
+    
+        var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var ran=false;
+        function start(){if(ran)return;ran=true;reduce?showAll():setTimeout(run,300);}
+        if('IntersectionObserver' in window){
+          var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){start();io.disconnect();}},{threshold:.4});
+          io.observe($('gA'));
+        }else{showAll();ran=true;}
+        $('rp').addEventListener('click',function(){reduce?showAll():run();});
+        setInterval(function(){var c=$('cur');c.style.opacity=c.style.opacity==='0'?'1':'0';},500);
+      })();
+      </script>
+    </figure>
+    <!-- ===== /그림 12 ===== -->
     <div class="tv-ad">
       <div class="tv-adh">한 광고 제목에 나란히 붙은 말</div>
       <div class="tv-adr">
