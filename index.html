@@ -1457,18 +1457,86 @@ svg:hover .arc:not(:hover){opacity:.4}
       </script>
     </figure>
     <!-- ===== /그림 12 ===== -->
-    <div class="tv-ad">
-      <div class="tv-adh">한 광고 제목에 나란히 붙은 말</div>
-      <div class="tv-adr">
-        <div class="tv-chips"><span>부가세 별도</span><span>일반사업자</span><span>전입X</span></div>
-        <div class="tv-cap">부가세를 따로 받는 것은<br>사업용 임대를 전제한 표현이다</div>
+    <!-- ===== 그림 12-2: 한 광고 제목에 나란히 붙은 말 (붙여넣기용) ===== -->
+    <figure class="fig12b" aria-label="한 광고 제목에 '부가세 별도', '일반사업자', '전입X', '풀옵션 원룸'이 함께 붙어 있다. 부가세를 따로 받는 것은 사업용 임대를 전제한 표현인데, 광고가 내놓은 것은 사람이 사는 집이었다. 그 집에는 전입신고를 할 수 없다.">
+      <style>
+        @font-face{font-family:'Paperlogy';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+        @font-face{font-family:'Paperlogy';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+        .fig12b{
+          --b-bg:transparent;                  /* 바탕 없음: 페이지 배경 위에 테두리만 */
+          --b-bg-border:rgba(200,206,232,.38);
+          --b-bar:transparent;
+          --b-bar-border:transparent;
+          --b-text:#e1e4f4;
+          --b-sub:#98a0c8;
+          --b-gold:#d4a35f;
+          --b-gold-text:#e5b574;
+          --b-lav:#9aa3cc;
+          --b-lav-text:#c9cffa;
+          --b-white:#e8eaf5;
+          margin:2.5rem auto;max-width:720px;box-sizing:border-box;
+          background:var(--b-bg);border:1.5px solid var(--b-bg-border);border-radius:24px;
+          padding:28px 28px 30px;color:var(--b-white);font-family:inherit;text-align:center;letter-spacing:-.01em
+        }
+        .fig12b *{box-sizing:border-box}
+        .fig12b .b-cap{font-size:14px;color:var(--b-sub);margin:0 0 12px}
+        .fig12b .b-bar{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+          background:var(--b-bar);border:1px solid var(--b-bar-border);border-radius:14px;padding:12px 14px}
+        .fig12b .b-chip{display:inline-flex;align-items:center;gap:6px;font-family:'Paperlogy',inherit;font-size:17px;font-weight:700;
+          padding:8px 13px;border-radius:9px;white-space:nowrap;letter-spacing:-.02em;line-height:1.2}
+        .fig12b .b-chip svg{width:16px;height:16px}
+        .fig12b .b-g{background:var(--b-gold);color:#2a1c05}
+        .fig12b .b-l{background:var(--b-lav);color:#1e2440}
+        .fig12b .b-x{background:var(--b-white);color:#1e2440}
+        .fig12b .b-row{display:grid;grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr);align-items:center;margin-top:30px}
+        .fig12b .b-ico{display:block;width:26px;height:26px;margin:0 auto 8px}
+        .fig12b .b-lb{font-family:'Paperlogy',inherit;font-size:17px;font-weight:600;line-height:1.4;margin:0 0 6px;letter-spacing:-.01em}
+        .fig12b .b-tx{font-size:16px;line-height:1.6;color:var(--b-text);max-width:230px;margin:0 auto;word-break:keep-all}
+        .fig12b .b-but{font-family:'Paperlogy',inherit;font-size:17px;font-weight:600;color:var(--b-gold-text)}
+        .fig12b .b-gold{color:var(--b-gold-text)}
+        .fig12b .b-lav{color:var(--b-lav-text)}
+        .fig12b .b-wht{color:var(--b-white)}
+        .fig12b .b-lock{margin-top:30px}
+        /* 모바일: 두 단을 위아래로 쌓고 '그런데'를 사이에 */
+        @media (max-width:600px){
+          .fig12b{padding:22px 16px 24px}
+          .fig12b .b-row{grid-template-columns:minmax(0,1fr);row-gap:14px}
+          .fig12b .b-chip{font-size:15px;padding:7px 11px}
+        }
+      </style>
+    
+      <figcaption class="b-cap">한 광고 제목에 나란히 붙은 말</figcaption>
+    
+      <div class="b-bar" aria-hidden="true">
+        <span class="b-chip b-g">부가세 별도</span>
+        <span class="b-chip b-g">일반사업자</span>
+        <span class="b-chip b-x">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>전입X
+        </span>
+        <span class="b-chip b-l">풀옵션 원룸</span>
       </div>
-      <div class="tv-arrow">↓ 그런데</div>
-      <div class="tv-adr">
-        <div class="tv-chips"><span class="home">풀옵션 원룸</span></div>
-        <div class="tv-cap">광고가 내놓은 것은<br>사람이 사는 집이었다</div>
+    
+      <div class="b-row" aria-hidden="true">
+        <div>
+          <svg class="b-ico b-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/><path d="M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1"/></svg>
+          <p class="b-lb b-gold">부가세 별도 · 일반사업자</p>
+          <p class="b-tx">부가세를 따로 받는 것은 사업용 임대를 전제한 표현이다</p>
+        </div>
+        <div><span class="b-but">그런데</span></div>
+        <div>
+          <svg class="b-ico b-lav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>
+          <p class="b-lb b-lav">풀옵션 원룸</p>
+          <p class="b-tx">광고가 내놓은 것은 사람이 사는 집이었다</p>
+        </div>
       </div>
-    </div>
+    
+      <div class="b-lock" aria-hidden="true">
+        <svg class="b-ico b-wht" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <p class="b-lb b-wht">전입X</p>
+        <p class="b-tx">그 집에는 전입신고를 할 수 없다</p>
+      </div>
+    </figure>
+    <!-- ===== /그림 12-2 ===== -->
     <div class="tv-note"><b>!</b><p>다만 전입을 막았다고 곧 탈세는 아니다. 세금을 정상적으로 내는 임대인도 있을 수 있고, 전입신고와 세금 신고는 별개의 의무다. 취재팀이 확인한 것은 전입을 막는 광고와 세금을 말하는 광고가 겹친다는 사실까지다.</p></div>
     <div class="body col ol">
       <p class="fl">한편 임대소득세도 이 문제와 이어진다. 월세 임대소득은 기준시가 12억원 이하 주택 한 채만 가진 사람이 아니라면 과세 대상이다(소득세법 제12조 제2호 나목). 그런데 국토교통부가 2020년 6월 기준으로 임대료를 파악한 주택은 731만 가구 중 207만 가구(28.3%)에 그쳤다. 국세청은 종합소득세 신고 내역과 주민등록 자료, 주택 시세를 맞춰 보며 탈루를 가려내는데, 신고를 하지 않은 임대인은 납부 세액의 20%를 가산세로 낸다. 전입신고를 막으면 이 교차 검증에 쓰이는 자료 하나가 약해질 수 있다.</p>
