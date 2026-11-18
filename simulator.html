@@ -429,6 +429,10 @@ html.embed .wrap{padding:12px 12px 16px}
 html.embed .disclaimer{margin-top:0}
 .note-banner{display:none!important}
 .opt-row{cursor:help}
+.gauge-marker{cursor:pointer;outline:none}
+.gauge-marker::after{content:"";position:absolute;left:-14px;right:-14px;top:-14px;bottom:-14px}
+.gauge-marker-label{opacity:0;visibility:hidden;transition:opacity .15s;pointer-events:none}
+.gauge-marker:hover .gauge-marker-label,.gauge-marker:focus .gauge-marker-label{opacity:1;visibility:visible}
 </style>
 </head>
 <body>
@@ -486,16 +490,16 @@ html.embed .disclaimer{margin-top:0}
       <div class="split-slider" id="houseSplitTrack"></div>
       <div class="grid cols-4 split-numbers">
         <label class="field">1주택자 매물 비율 (%)
-          <input type="number" id="r1" min="0" max="100" step="0.1" value="40" />
+          <input type="number" id="r1" min="0" max="100" step="0.1" value="25" />
         </label>
         <label class="field">2주택자 매물 비율 (%)
-          <input type="number" id="r2" min="0" max="100" step="0.1" value="30" />
+          <input type="number" id="r2" min="0" max="100" step="0.1" value="25" />
         </label>
         <label class="field">3주택자 매물 비율 (%)
-          <input type="number" id="r3" min="0" max="100" step="0.1" value="20" />
+          <input type="number" id="r3" min="0" max="100" step="0.1" value="25" />
         </label>
         <label class="field">4주택 이상 매물 비율 (%)
-          <input type="number" id="r4" min="0" max="100" step="0.1" value="10" />
+          <input type="number" id="r4" min="0" max="100" step="0.1" value="25" />
         </label>
       </div>
       <label class="opt-row" title="소득세법상 국내 1주택 소유자의 주택 임대소득은 원칙적으로 비과세입니다(기준시가 12억원 초과 주택 등은 예외이며 이 도구는 반영하지 못합니다). 체크를 풀면 1주택 매물도 과세하는 최대 시나리오로 계산합니다."><input type="checkbox" id="excl1" checked /><span>1주택 소유자 월세는 비과세로 제외</span></label>
@@ -507,10 +511,10 @@ html.embed .disclaimer{margin-top:0}
       <div class="split-slider" id="bizSplitTrack"></div>
       <div class="split-numbers">
         <label class="field">등록 임대사업자 비율 (%)
-          <input type="number" id="regRatioNum" min="0" max="100" step="0.1" value="30" />
+          <input type="number" id="regRatioNum" min="0" max="100" step="0.1" value="50" />
         </label>
         <label class="field">미등록 임대사업자 비율 (%)
-          <input type="number" id="unregRatioNum" min="0" max="100" step="0.1" value="70" />
+          <input type="number" id="unregRatioNum" min="0" max="100" step="0.1" value="50" />
         </label>
       </div>
     </section>
@@ -521,10 +525,10 @@ html.embed .disclaimer{margin-top:0}
       <div class="split-slider" id="methodSplitTrack"></div>
       <div class="split-numbers">
         <label class="field">분리과세 비율 (%)
-          <input type="number" id="sepRatio" min="0" max="100" step="0.1" value="60" />
+          <input type="number" id="sepRatio" min="0" max="100" step="0.1" value="50" />
         </label>
         <label class="field">종합과세 비율 (%)
-          <input type="number" id="compRatio" min="0" max="100" step="0.1" value="40" />
+          <input type="number" id="compRatio" min="0" max="100" step="0.1" value="50" />
         </label>
       </div>
 
@@ -551,7 +555,7 @@ html.embed .disclaimer{margin-top:0}
         <p class="chart-hint">1단계 4주택 100%·2단계 미등록 100%·3단계 종합과세 100%(10억원 초과 구간 100%)로 가정했을 때 나오는 세액을 오른쪽 끝(최댓값)에 두고, 지금 설정으로 계산된 위 최종 잠재세수가 그 사이 어디에 있는지 표시합니다.</p>
         <div class="gauge-track" id="gaugeTrack">
           <div class="gauge-fill" id="gaugeFill"></div>
-          <div class="gauge-marker" id="gaugeMarker"><span class="gauge-marker-label" id="gaugeMarkerLabel"></span></div>
+          <div class="gauge-marker" id="gaugeMarker" tabindex="0"><span class="gauge-marker-label" id="gaugeMarkerLabel"></span></div>
         </div>
         <div class="gauge-scale">
           <span>0원</span>
@@ -896,7 +900,7 @@ html.embed .disclaimer{margin-top:0}
   // ---- 1단계: 1~4주택 매물 비율 슬라이더 ----
   var houseSlider = createSplitSlider({
     track: el('houseSplitTrack'),
-    values: [40, 30, 20, 10],
+    values: [25, 25, 25, 25],
     colors: ['var(--series-1)', 'var(--series-2)', 'var(--series-3)', 'var(--series-4)'],
     labels: ['1주택', '2주택', '3주택', '4주택+'],
     numberInputs: houseRatioEls,
@@ -906,7 +910,7 @@ html.embed .disclaimer{margin-top:0}
   // ---- 2단계: 등록/미등록 임대사업자 비율 슬라이더 ----
   var bizSlider = createSplitSlider({
     track: el('bizSplitTrack'),
-    values: [30, 70],
+    values: [50, 50],
     colors: ['var(--series-1)', 'var(--series-2)'],
     labels: ['등록', '미등록'],
     numberInputs: [el('regRatioNum'), el('unregRatioNum')],
@@ -916,7 +920,7 @@ html.embed .disclaimer{margin-top:0}
   // ---- 3단계: 분리과세/종합과세 비율 슬라이더 ----
   var methodSlider = createSplitSlider({
     track: el('methodSplitTrack'),
-    values: [60, 40],
+    values: [50, 50],
     colors: ['var(--series-1)', 'var(--series-2)'],
     labels: ['분리과세', '종합과세'],
     numberInputs: methodRatioEls,

@@ -312,5 +312,22 @@ embed_js = """<script>
 """
 rep("</body>", embed_js + "</body>")
 
+# ---------- 기본값: 임대인 구조 25/25/25/25, 사업자 50/50, 과세방식 50/50 ----------
+for rid, old, new in (('r1','40','25'),('r2','30','25'),('r3','20','25'),('r4','10','25'),
+                      ('regRatioNum','30','50'),('unregRatioNum','70','50'),('sepRatio','60','50'),('compRatio','40','50')):
+    rep('id="%s" min="0" max="100" step="0.1" value="%s" />' % (rid, old), 'id="%s" min="0" max="100" step="0.1" value="%s" />' % (rid, new))
+rep("values: [40, 30, 20, 10],", "values: [25, 25, 25, 25],")
+rep("values: [30, 70],", "values: [50, 50],")
+rep("values: [60, 40],", "values: [50, 50],")
+
+# ---------- 게이지 라벨: 마우스를 올렸을 때만 표시 ----------
+rep('<div class="gauge-marker" id="gaugeMarker">', '<div class="gauge-marker" id="gaugeMarker" tabindex="0">')
+rep("</style>\n</head>", """.gauge-marker{cursor:pointer;outline:none}
+.gauge-marker::after{content:"";position:absolute;left:-14px;right:-14px;top:-14px;bottom:-14px}
+.gauge-marker-label{opacity:0;visibility:hidden;transition:opacity .15s;pointer-events:none}
+.gauge-marker:hover .gauge-marker-label,.gauge-marker:focus .gauge-marker-label{opacity:1;visibility:visible}
+</style>
+</head>""")
+
 (ROOT / "simulator.html").write_text(s, encoding="utf-8", newline="")
 print("written", len(s))
