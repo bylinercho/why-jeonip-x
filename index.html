@@ -308,17 +308,6 @@ footer{margin:60px auto 0;padding:48px 0 100px;border-top:1px solid var(--rule2)
 footer h3{font-size:17px;margin:0 auto 14px}
 footer ul{text-align:left;padding-left:20px}
 footer li{margin-bottom:8px;line-height:1.8}
-.adp{max-width:780px;margin:14px auto 0;text-align:left}
-.adp-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr);gap:18px;align-items:center;margin-bottom:12px}
-.adp-q{font:500 16px/1.45 'Paperlogy',sans-serif;color:#ece7de}
-.adp-q small{display:block;font:400 12px/1.5 var(--sans);color:#9a9285;margin-top:2px}
-.adp-bar{position:relative;height:40px}
-.adp-bar:before{content:"";position:absolute;left:0;top:50%;width:84%;height:22px;margin-top:-11px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
-.adp-fill{position:absolute;left:0;top:50%;height:22px;margin-top:-11px;width:calc(var(--w)*.84);border-radius:999px;box-sizing:border-box;background:rgba(217,160,91,.36);border:1.5px solid #D9A05B;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s}
-.adp-fill:after{content:"";position:absolute;right:6px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:rgba(236,231,222,.55)}
-.adp-v{position:absolute;top:50%;left:calc(var(--w)*.84 + 12px);transform:translateY(-50%);font:600 17px/1 'Paperlogy',sans-serif;color:#D9A05B;white-space:nowrap;opacity:0;transition:opacity .5s .9s}
-.rv.in .adp-fill{transform:scaleX(1)}.rv.in .adp-v{opacity:1}
-@media(max-width:760px){.adp-row{grid-template-columns:1fr;gap:6px}}
 .cl{max-width:960px;margin:22px auto 0;display:flex;flex-direction:column;gap:30px;align-items:center}
 .cl-r{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:14px 44px}
 .cl-i{text-align:center;opacity:0;transform:translateY(10px);transition:opacity .7s,transform .7s}
@@ -1048,21 +1037,17 @@ svg:hover .arc:not(:hover){opacity:.4}
     <div class="s91"><b>91.4%</b><span>전입 불가 매물이 보증금 1,000만원 이하다.<br>보증금이 적은 세입자일수록 이 조건을 만나기 쉽다</span></div>
 
     <h3>전입을 포기하면 정말 저렴할까</h3>
-    <div class="body col ol">
-      <p>앞서 본 이서준 씨는 전입신고를 포기하는 대가로 월세를 한 달 5만원 깎았다.<br>광고 문구를 하나씩 읽어 보면 같은 값이 거꾸로 적혀 있다.<br>전입신고를 하려면 월세를 더 내라는 것이다.</p>
+    <div class="body col">
+      <p>맨 앞의 계약서 B는 월세가 10만원 쌌다. 실제 매물도 그런지, 같은 시·군·구에서 면적이 비슷한 매물끼리 월세를 비교했다. 결과는 반대였다.</p>
     </div>
-    <div class="cap">그림 8. 광고에 적힌 '전입하려면 더 내는 돈' (한 달 월세)</div>
-    <div class="adp">
-      <div class="adp-row"><div class="adp-q">“전입신고 가능(2만원추가)”<small>3건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:20%"></div><span class="adp-v" style="--w:20%">+2만원</span></div></div>
-      <div class="adp-row"><div class="adp-q">“전입시 55,000원추가”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:55%"></div><span class="adp-v" style="--w:55%">+5.5만원</span></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고시 월세 10% 추가”<small>1건 · 월세 65만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:65%"></div><span class="adp-v" style="--w:65%">+6.5만원</span></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고 시 월세 7만원 상향”<small>1건</small></div><div class="adp-bar"><div class="adp-fill" style="--w:70%"></div><span class="adp-v" style="--w:70%">+7만원</span></div></div>
-      <div class="adp-row"><div class="adp-q">“전입신고시 월세 5%인상”<small>1건 · 월세 160만원 기준 환산</small></div><div class="adp-bar"><div class="adp-fill" style="--w:80%"></div><span class="adp-v" style="--w:80%">+8만원</span></div></div>
-      <div class="adp-row"><div class="adp-q">“전입시 10만원추가비용”<small>8건 · 같은 매물이 반복 게시됨</small></div><div class="adp-bar"><div class="adp-fill" style="--w:100%"></div><span class="adp-v" style="--w:100%">+10만원</span></div></div>
+    <div class="nums" style="margin:20px auto 12px;justify-content:center;text-align:center">
+      <div class="r" style="flex:none;max-width:420px;padding:0"><b>+<span data-num="ext.rent.0.diff_med"></span>만원</b><p><strong>월세 차이(중간값).</strong> 전입 불가 매물 <span data-num="ext.rent.0.ban_n"></span>건을 같은 동네·비슷한 면적 매물의 중간 월세와 비교</p></div>
     </div>
-    <div class="body col ol" style="margin-top:22px">
-      <p>전입을 하려면 한 달에 <mark>2만원에서 10만원</mark>을 더 내라는 광고가 25건이었고, 그중 15건이 금액을 적었다.<br>반대로 전입을 포기하면 깎아 준다는 광고는 19건이지만<br><strong>월세를 얼마나 깎는지 적은 광고는 한 건도 없었다.</strong><br>이 중 18건은 "주변 시세 대비 보증금 0원, 저렴한 월세"라는 같은 문구를 반복한 광고였다.<br>전입을 포기해서 아끼는 돈은 한 달에 몇만원이고, 그 대가로 보증금을 지킬 근거를 내놓는 셈이다.</p>
-      <p class="small">광고 건수는 매물 수 기준이며 같은 문구가 여러 매물에 반복된 경우를 포함한다</p>
+    <div class="cap">그림 8. 전입 불가 매물의 월세는 같은 동네 비슷한 매물보다 얼마나 비싼가</div>
+    <div class="grp" id="rentdiff" style="grid-template-columns:repeat(7,1fr)"></div><div class="grpx" id="rentx" style="grid-template-columns:repeat(7,1fr)"></div>
+    <div class="body col" style="margin-top:18px">
+      <p>대장상 주택만 따로 봐도 월세가 8만원 높았다(878건). <strong>전입을 포기한 대가로 싸게 사는 구조가 아니었다.</strong> 깎아 준다고 밝힌 광고는 19건뿐이다.</p>
+      <p class="small">비교 기준: 같은 시·군·구, 같은 면적대(20㎡ 미만, 20~30, 30~40, 40~60, 60㎡ 이상)에서 일반 매물이 20건 이상인 경우만 비교함. 건물 연식, 옵션, 단기 임대 여부는 맞추지 못함. 전입 불가 매물에 신축·풀옵션이 많다면 그 영향이 섞여 있음</p>
     </div>
   </div>
 </section>
